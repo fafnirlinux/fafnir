@@ -5,6 +5,7 @@ if [[ ! -d nya ]]; then
 fi
 
 if [[ ! -d nya ]]; then
+	echo "couldn't clone nya"
 	exit 1
 fi
 
@@ -29,7 +30,12 @@ if [[ ! -d src ]]; then
 fi
 
 if [[ ! -d src ]]; then
+	echo "couldn't clone packages"
 	exit 1
+fi
+
+if [[ ! -d toolchain ]]; then
+	./scripts/toolchain.sh
 fi
 
 ./pkg $1 $2
