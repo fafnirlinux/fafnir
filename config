@@ -1,0 +1,2 @@
+rootfs=%pwd/rootfs
+src=%pwd/src
