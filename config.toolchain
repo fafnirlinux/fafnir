@@ -1,0 +1,6 @@
+rootfs=%pwd/toolchain
+src=%pwd/src_toolchain
+pkgdir=%pwd/pkg_toolchain
+stuff_dir=%pwd/stuff_toolchain
+
+no-package=yes
