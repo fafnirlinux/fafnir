@@ -1,3 +1,7 @@
 #!/bin/sh
 
-./nya build musl --config config.toolchain
+build() {
+	./nya build $1 --config config.toolchain
+}
+
+build musl
