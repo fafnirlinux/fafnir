@@ -4,7 +4,7 @@
 
 build() {
 	grep -q $1 built && return
-	./nya build $1 --config config.toolchain && echo "${1}\n" >> built
+	./nya build $1 --config config.toolchain && echo $1 >> built && echo "" >> built
 }
 
 build openssl
