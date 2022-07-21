@@ -1,0 +1,17 @@
+ver=1.1.1
+
+[deps]
+cairo
+wayland-protocols
+
+[srcs]
+https://github.com/swaywm/swaybg/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+meson setup %name-%ver build \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true
+meson compile -C build
+DESTDIR=%dest meson install -C build

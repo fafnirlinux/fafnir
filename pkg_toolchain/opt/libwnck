@@ -1,0 +1,16 @@
+ver=2.31.0
+
+[deps]
+gtk
+gobject-introspection
+intltool
+
+[srcs]
+https://download.gnome.org/sources/%name/2.31/%name-%ver.tar.xz
+
+[build]
+export LINGUAS=' '
+%conf
+%make
+%inst
+rm -r %dest/share/gtk-doc

@@ -1,0 +1,19 @@
+ver=0.25
+
+[deps]
+p5-data-optlist
+p5-module-implementation
+p5-module-runtime
+p5-namespace-clean
+p5-package-stash
+p5-try-tiny
+
+[srcs]
+https://cpan.metacpan.org/authors/id/E/ET/ETHER/Class-Load-%ver.tar.gz
+
+[build]
+cd Class-Load-%ver
+PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

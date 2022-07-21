@@ -1,0 +1,27 @@
+ver=2.35.2
+
+[deps]
+zlib
+flex
+
+[srcs]
+http://ftpmirror.gnu.org/gnu/%name/%name-%ver.tar.xz
+
+[build]
+sed -i '/^SUBDIRS/s/doc//' %name-%ver/bfd/Makefile.in
+sed -i '/^SUBDIRS/s/doc//' %name-%ver/binutils/Makefile.in
+mkdir build
+cd build
+.%conf \
+	 --enable-shared \
+	 --disable-nls \
+	 --enable-ld=default \
+	 --enable-gold=yes \
+	 --enable-plugins \
+	 --enable-install-libiberty \
+	 --disable-werror \
+	 --with-system-zlib
+%make tooldir=%prefix
+make tooldir=%prefix DESTDIR=%dest install
+rm -r %dest/share/info
+sed -i "s|-L%files[^ ]* ||g" %dest/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.la

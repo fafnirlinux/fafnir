@@ -1,0 +1,24 @@
+ver=0.4.38
+
+[deps]
+babl
+gexiv2
+json-glib
+librsvg
+poppler-glib
+graphviz
+
+[srcs]
+https://download.gimp.org/pub/%name/0.4/%name-%ver.tar.xz
+
+[build]
+prt-get isinst ffmpeg && export PKG_CONFIG_PATH='/usr/lib/ffmpeg4/pkgconfig'
+prt-get isinst vala || PKGMK_GEGL+=' -D vapigen=disabled'
+meson setup build %name-%ver %destMK_GEGL \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build
+rm -r %dest/share/locale

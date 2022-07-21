@@ -1,0 +1,13 @@
+ver=0.12
+
+[deps]
+xorg-libxt
+xorg-xcb-util
+
+[srcs]
+http://www.freedesktop.org/software/%name/releases/%name-%ver.tar.gz
+
+[build]
+%conf --prefix=%prefix
+%make
+%inst

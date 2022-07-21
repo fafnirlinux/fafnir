@@ -1,0 +1,15 @@
+ver=0.4.8
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://pypi.io/packages/source/p/pyasn1/pyasn1-%ver.tar.gz
+
+[build]
+cd pyasn1-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 -O1 \
+	 --skip-build

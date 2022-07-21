@@ -1,0 +1,13 @@
+ver=0.0.2
+
+[deps]
+pango-compat
+
+[srcs]
+https://download.gnome.org/sources/%name/${version:0:3}/%name-%ver.tar.xz
+
+[build]
+PKG_CONFIG_PATH+="/usr/lib/pango-compat/pkgconfig" \
+%conf
+%make
+%inst

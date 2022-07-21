@@ -1,0 +1,29 @@
+ver=4.5
+
+[deps]
+ncurses
+readline
+
+[srcs]
+https://github.com/jarun/nnn/releases/download/v%ver/%name-v%ver.tar.gz
+
+[build]
+sed -i 's/install: all/install:/' Makefile
+prt-get isinst icons-in-terminal && PKGMK_NNN+=' O_ICONS=1'
+make %destMK_NNN
+make DESTDIR=%dest PREFIX= install
+make DESTDIR=%dest PREFIX= install-desktop
+mkdir %dest/share/nnn
+pushd misc
+for i in $(find . -type d | xargs) ; do
+	 cp -r $i %dest/share/nnn;
+done
+popd
+mv plugins %dest/share/nnn
+prt-get isinst zsh && install -Dm644 %dest/share/nnn/zsh/_nnn \
+%dest/share/zsh/site-functions/_nnn
+prt-get isinst bash-completion && install -Dm644 %dest/share/nnn/bash/nnn-completion.bash \
+%dest/share/bash-completion/completions/nnn
+find %dest \(\
+	 -iname '*README.md*' -o \
+	 -iname '*contributing*' \) -delete

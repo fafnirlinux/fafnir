@@ -1,0 +1,25 @@
+ver=121
+
+[deps]
+dbus
+duktape
+gobject-introspection
+intltool
+util-linux
+
+[srcs]
+https://freedesktop.org/software/polkit/releases/%name-%ver.tar.gz
+
+[build]
+prt-get isinst mozjs78 && PKGMK_POLKIT+=' -D js_engine=mozjs'
+meson setup %name-v.%ver build %destMK_POLKIT \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true
+meson compile -C build
+DESTDIR=%dest meson install -C build
+chmod 4775 %dest/bin/pkexec
+chmod 4755 %dest/lib/polkit-1/polkit-agent-helper-1
+install -m 0644 %files/polkit-1 %dest/etc/pam.d
+rm -r %dest/share/locale

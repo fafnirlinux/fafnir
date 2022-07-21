@@ -1,0 +1,14 @@
+ver=2.3.2.post1
+
+[deps]
+python3-build
+python3-hatchling
+python3-installer
+
+[srcs]
+https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-%ver.tar.gz
+
+[build]
+cd $_name-%ver
+/usr/bin/python3 -m build --wheel --skip-dependency-check --no-isolation
+/usr/bin/python3 -m installer --compile-bytecode 2 --destdir=%dest dist/*.whl

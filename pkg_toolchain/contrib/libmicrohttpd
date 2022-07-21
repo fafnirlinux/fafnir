@@ -1,0 +1,11 @@
+ver=0.9.75
+
+[srcs]
+https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --disable-static
+%make
+%inst
+rm -rf %dest/share/info

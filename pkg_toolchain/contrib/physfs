@@ -1,0 +1,20 @@
+ver=3.0.2
+
+[deps]
+cmake
+readline
+
+[srcs]
+https://icculus.org/%name/downloads/%name-%ver.tar.bz2
+
+[build]
+[[ -e /usr/bin/ninja ]] && PKGMK_PHYSFS+=' -G Ninja'
+cmake -S %name-%ver -B build %destMK_PHYSFS \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D PHYSFS_BUILD_TEST=OFF \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build

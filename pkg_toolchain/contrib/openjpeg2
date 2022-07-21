@@ -1,0 +1,18 @@
+ver=2.5.0
+
+[deps]
+lcms2
+libpng
+
+[srcs]
+https://github.com/uclouvain/openjpeg/archive/v%ver/openjpeg-%ver.tar.gz
+
+[build]
+cmake -S openjpeg-%ver -B build %destMK_OJPG2 \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -Wno-dev
+make -C build
+make DESTDIR=%dest -C build install

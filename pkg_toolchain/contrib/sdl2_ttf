@@ -1,0 +1,14 @@
+ver=2.20.0
+
+[deps]
+freetype
+libsdl2
+
+[srcs]
+https://github.com/libsdl-org/SDL_ttf/releases/download/release-%ver/SDL2_ttf-%ver.tar.gz
+
+[build]
+cd SDL2_ttf-%ver
+%conf
+%make
+%inst

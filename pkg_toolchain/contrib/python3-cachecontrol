@@ -1,0 +1,15 @@
+ver=0.12.11
+
+[deps]
+python3-msgpack
+python3-requests
+
+[srcs]
+https://github.com/ionrock/cachecontrol/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd cachecontrol-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 --skip-build

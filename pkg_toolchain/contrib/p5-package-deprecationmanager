@@ -1,0 +1,19 @@
+ver=0.17
+
+[deps]
+p5-module-implementation
+p5-namespace-autoclean
+p5-package-stash
+p5-params-util
+p5-sub-install
+p5-sub-name
+
+[srcs]
+https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/Package-DeprecationManager-%ver.tar.gz
+
+[build]
+cd Package-DeprecationManager-%ver
+perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

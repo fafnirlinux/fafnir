@@ -1,0 +1,16 @@
+ver=1.1.4
+
+[deps]
+gtkmm3
+smartmontools
+xmessage
+
+[srcs]
+https://github.com/ashaduri/gsmartcontrol/releases/download/v%ver/gsmartcontrol-%ver.tar.bz2
+
+[build]
+CXXFLAGS+=' -std=c++11' \
+%conf
+%make
+%inst
+rm -r %dest/share/doc

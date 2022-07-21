@@ -1,0 +1,9 @@
+ver=2.11
+
+[srcs]
+https://releases.pagure.org/%name/%name-%ver.tar.bz2
+
+[build]
+%conf
+%make
+%inst

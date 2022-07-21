@@ -1,0 +1,25 @@
+ver=1.14.0
+
+[deps]
+expat
+
+[srcs]
+https://dbus.freedesktop.org/releases/dbus/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --with-dbus-daemondir=/sbin \
+	 --localstatedir=/var \
+	 --sysconfdir=/etc \
+	 --libexecdir=/lib/dbus \
+	 --with-dbus-user=messagebus \
+	 --with-init-scripts=none \
+	 --with-system-pid-file=/var/run/%name/%name.pid
+%make
+%inst
+install -D -m 0755 %files/rc.dbus %dest/etc/rc.d/dbus
+install -D -m 0755 %files/30-dbus.launch \
+%dest/etc/X11/xinit/xinitrc.d/30-dbus.launch.sh
+rm -r %dest/share/doc
+%make
+rm -rf %dest/share/xml

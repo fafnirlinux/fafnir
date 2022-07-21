@@ -1,0 +1,19 @@
+ver=5.3.4
+
+[deps]
+ghostscript
+
+[srcs]
+http://downloads.sourceforge.net/project/gimp-print/%name-5.3/%ver/%name-%ver.tar.xz
+
+[build]
+CONFIG_SHELL=/bin/bash \
+%conf \
+	 --disable-nls \
+	 --disable-samples \
+	 --disable-libgutenprintui2 \
+	 --without-gimp2
+%make
+%inst
+rm -r %dest/share/gutenprint/doc
+rm -r %dest/share/locale

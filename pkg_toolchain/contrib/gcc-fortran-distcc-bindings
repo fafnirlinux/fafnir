@@ -1,0 +1,13 @@
+ver=1
+
+[deps]
+gcc-fortran
+distcc
+
+[build]
+install -d %dest/lib/distcc
+ln -s ../../bin/distcc %dest/lib/distcc/f77
+ln -s ../../bin/distcc %dest/lib/distcc/f90
+ln -s ../../bin/distcc %dest/lib/distcc/f95
+ln -s ../../bin/distcc %dest/lib/distcc/gfortran
+}

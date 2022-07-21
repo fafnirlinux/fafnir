@@ -1,0 +1,21 @@
+ver=3.1.5
+
+[deps]
+cmake
+imath
+zlib
+
+[srcs]
+https://github.com/AcademySoftwareFoundation/openexr/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cmake -S%name-%ver -Bbuild \
+	 -DCMAKE_INSTALL_PREFIX= \
+	 -DCMAKE_INSTALL_LIBDIR=/lib \
+	 -DCMAKE_BUILD_TYPE=Release \
+	 -DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -DCMAKE_CXX_FLAGS_RELEASE="$CFLAGS" \
+	 -Wno-dev
+cmake --build build -v
+DESTDIR=%dest cmake --install build
+rm -r %dest/share

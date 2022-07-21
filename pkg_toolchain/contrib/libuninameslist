@@ -1,0 +1,11 @@
+ver=20220701
+
+[srcs]
+https://github.com/fontforge/%name/releases/download/%ver/%name-dist-%ver.tar.gz
+
+[build]
+autoreconf -i
+automake --foreign -Wall
+%conf
+%make
+%inst

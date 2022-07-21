@@ -1,0 +1,16 @@
+ver=0.29
+
+[deps]
+p5-b-hooks-endofscope
+p5-namespace-clean
+p5-sub-identify
+
+[srcs]
+https://cpan.metacpan.org/authors/id/E/ET/ETHER/namespace-autoclean-%ver.tar.gz
+
+[build]
+cd namespace-autoclean-%ver
+perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

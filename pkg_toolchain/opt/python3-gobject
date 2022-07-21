@@ -1,0 +1,15 @@
+ver=3.42.1
+
+[deps]
+gobject-introspection
+python3-cairo
+
+[srcs]
+https://ftp.gnome.org/pub/GNOME/sources/pygobject/${version::4}/pygobject-%ver.tar.xz
+
+[build]
+meson pygobject-%ver build --prefix /usr -D python=/bin/python3
+ninja -C build -j %threads
+DESTDIR=%dest meson install -C build
+/usr/bin/python3 -m compileall -d /usr/lib %dest/lib
+/usr/bin/python3 -O -m compileall -d /usr/lib %dest/lib

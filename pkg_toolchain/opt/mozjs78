@@ -1,0 +1,28 @@
+ver=78.15.0
+
+[deps]
+autoconf-2.13
+readline
+zlib
+nspr
+python3
+rust
+
+[srcs]
+https://archive.mozilla.org/pub/firefox/releases/%veresr/source/firefox-%veresr.source.tar.xz
+
+[build]
+cd firefox-%ver
+mkdir obj ; cd obj
+../js/src/configure \
+	 --disable-jemalloc \
+	 --disable-debug-symbols \
+	 --disable-optimize \
+	 --enable-readline \
+	 --with-intl-api \
+	 --with-system-nspr \
+	 --with-system-zlib
+%make
+%inst
+rm %dest/lib/libjs_static.ajs
+chmod -x %dest/lib/pkgconfig/*

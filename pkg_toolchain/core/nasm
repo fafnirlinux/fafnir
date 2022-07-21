@@ -1,0 +1,9 @@
+ver=2.15.05
+
+[srcs]
+https://www.nasm.us/pub/nasm/releasebuilds/%ver/%name-%ver.tar.xz
+
+[build]
+%conf
+%make
+%inst

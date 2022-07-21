@@ -1,0 +1,29 @@
+ver=8.332.08.1
+
+[deps]
+util-linux
+gtk
+alsa-lib
+
+[srcs]
+https://corretto.aws/downloads/resources/%ver/amazon-corretto-%ver-linux-x64.tar.gz
+
+[build]
+cd amazon-corretto-%ver-linux-x64
+rm {.,jre}/{ASSEMBLY_EXCEPTION,LICENSE,THIRD_PARTY_README}
+chmod -R o-w,g-w .
+install -d %dest/{bin,lib/jdk,share/man}
+mv man %dest/share/
+mv bare CMLFS contrib convert_all.sh convert.sh core cports jhalfs KSLinux opt out pkg2 qwf_files qwf.html stuff2 xfce xorg %dest/lib/jdk/
+ln -s jdk %dest/lib/java
+ln -s ../lib/jdk/bin/java %dest/bin/java
+ln -s ../lib/jdk/bin/javac %dest/bin/javac
+ln -s ../lib/jdk/bin/javah %dest/bin/javah
+ln -s ../lib/jdk/bin/javap %dest/bin/javap
+ln -s ../lib/jdk/bin/jar %dest/bin/jar
+ln -s ../lib/jdk/bin/keytool %dest/bin/keytool
+install -d %dest/etc/revdep.d
+printf '%s
+%s
+%s
+' /usr/lib/jdk/{lib/amd64,jre/lib/amd64{,/server}} > %dest/etc/revdep.d/jdk8-bin

@@ -1,0 +1,24 @@
+ver=2.7.6
+
+[deps]
+attr
+bzip2
+curl
+lzo
+xz
+zlib
+zstd
+libgcrypt
+
+[srcs]
+http://downloads.sourceforge.net/project/dar/dar/%ver/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --disable-nls \
+	 --enable-mode=64 \
+	 --disable-gpgme-linking \
+	 --disable-build-html
+make V=0
+%inst
+rm -r %dest/share/dar

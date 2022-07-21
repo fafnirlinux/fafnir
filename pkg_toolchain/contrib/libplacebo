@@ -1,0 +1,25 @@
+ver=4.192.1
+
+[deps]
+ffmpeg
+glfw3
+lcms2
+libepoxy
+shaderc
+vulkan-loader
+
+[srcs]
+https://code.videolan.org/videolan/libplacebo/-/archive/v%ver/%name-v%ver.tar.gz
+
+[build]
+meson setup build %name-v%ver \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D vulkan=enabled \
+	 -D glslang=enabled \
+	 -D shaderc=enabled \
+	 -D lcms=enabled
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build

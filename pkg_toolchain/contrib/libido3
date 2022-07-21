@@ -1,0 +1,19 @@
+ver=16.10
+
+[deps]
+gtk3
+vala
+gnome-common
+gtk-doc
+
+[srcs]
+http://unrealize.co.uk/source/libido3-16.10.tar.gz
+
+[build]
+sed -e 's/--enable-gtk-doc//g' -i autogen.sh
+sed -i -e 's/ -Werror//' src/Makefile.am
+./autogen.sh
+%conf \
+	 --enable-ubuntu-private-api=no
+%make
+%inst

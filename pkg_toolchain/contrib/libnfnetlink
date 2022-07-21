@@ -1,0 +1,9 @@
+ver=1.0.2
+
+[srcs]
+https://www.netfilter.org/projects/%name/files/%name-%ver.tar.bz2
+
+[build]
+%conf
+%make
+%inst

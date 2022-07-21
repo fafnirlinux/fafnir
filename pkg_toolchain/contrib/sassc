@@ -1,0 +1,13 @@
+ver=3.6.2
+
+[deps]
+libsass
+
+[srcs]
+https://github.com/sass/%name/archive/%ver/%name-%ver.tar.gz
+
+[build]
+autoreconf -fi
+%conf
+%make
+%inst

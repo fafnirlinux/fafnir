@@ -1,0 +1,14 @@
+ver=6.14
+
+[deps]
+p5-http-message
+
+[srcs]
+https://cpan.metacpan.org/authors/id/O/OA/OALDERS/HTTP-Daemon-%ver.tar.gz
+
+[build]
+cd HTTP-Daemon-%ver
+perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

@@ -1,0 +1,12 @@
+ver=1.3-20220526
+
+[deps]
+ncurses
+
+[srcs]
+https://invisible-mirror.net/archives/%name/%name-%ver.tgz
+
+[build]
+%conf --with-ncursesw
+%make
+%inst

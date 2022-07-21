@@ -1,0 +1,12 @@
+ver=1.29.0
+
+[deps]
+certbot
+python3-dnspython
+
+[srcs]
+https://pypi.io/packages/source/c/certbot-dns-rfc2136/certbot-dns-rfc2136-%ver.tar.gz
+
+[build]
+/usr/bin/python3 -m build --wheel --no-isolation
+/usr/bin/python3 -m install --destdir=%dest dist/*.whl

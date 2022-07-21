@@ -1,0 +1,17 @@
+ver=0.1.0.post0
+
+[deps]
+python3-tzdata
+pytz-deprecation-shim
+
+[srcs]
+https://files.pythonhosted.org/packages/source/p/pytz_deprecation_shim/pytz_deprecation_shim-%ver.tar.gz
+
+[build]
+cd pytz_deprecation_shim-%ver
+/usr/bin/python3 -m build --wheel \
+	 --skip-dependency-check \
+	 --no-isolation
+/usr/bin/python3 -m install \
+	 --optimize=1 \
+	 --destdir=%dest dist/*.whl

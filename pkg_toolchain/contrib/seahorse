@@ -1,0 +1,31 @@
+ver=42.0
+
+[deps]
+gcr
+gnome-keyring
+gtk3
+libhandy
+libpwquality
+libsecret
+libsoup
+xorg-libxinerama
+gpgme
+
+[srcs]
+https://gitlab.gnome.org/GNOME/seahorse/-/archive/%ver/seahorse-%ver.tar.bz2
+
+[build]
+prt-get isinst avahi || PKGMK_SEAHORSE+=' -D key-sharing=false'
+prt-get isinst gpgme || PKGMK_SEAHORSE+=' -D pgp-support=false -D check-compatible-gpg=false'
+prt-get isinst openldap || PKGMK_SEAHORSE+=' -D ldap-support=false -D hkp-support=false'
+meson setup %name-%ver build %destMK_SEAHORSE \
+	 --libexecdir=/lib/%name \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 --auto-features disabled \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D help=false
+meson compile -C build
+DESTDIR=%dest meson install -C build
+rm -r %dest/share/locale

@@ -1,0 +1,23 @@
+ver=2.3
+
+[deps]
+readline
+
+[srcs]
+http://ftpmirror.gnu.org/gnu/inetutils/inetutils-%ver.tar.gz
+
+[build]
+%conf \
+	 --libexecdir=/sbin \
+	 --localstatedir=/var \
+	 --sysconfdir=/etc \
+	 --disable-{servers,clients} \
+	 --enable-{hostname,ifconfig,inetd,ftp,telnet,traceroute}
+%make
+%inst
+install -d %dest/{bin,sbin,etc/rc.d}
+mv %dest/bin/hostname %dest/bin
+mv %dest/bin/ifconfig %dest/sbin
+install -m 644 %files/inetd.conf %dest/etc
+install -m 755 %files/inetd %dest/etc/rc.d
+rm -r %dest/share/info

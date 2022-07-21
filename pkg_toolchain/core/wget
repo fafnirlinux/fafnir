@@ -1,0 +1,21 @@
+ver=1.21.3
+
+[deps]
+libpcre
+openssl
+util-linux
+zlib
+
+[srcs]
+http://ftp.gnu.org/gnu/%name/%name-%ver.tar.lz
+
+[build]
+%conf \
+	 --sysconfdir=/etc \
+	 --disable-debug \
+	 --disable-nls \
+	 --with-ssl=openssl
+%make
+%inst
+install -D -m 644 %files/wgetrc %dest/etc/wgetrc
+rm -r %dest/share/info

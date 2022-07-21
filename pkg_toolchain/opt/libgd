@@ -1,0 +1,13 @@
+ver=2.3.3
+
+[deps]
+xorg-libxpm
+libjpeg-turbo
+freetype
+
+[srcs]
+https://github.com/libgd/libgd/releases/download/gd-%ver/%name-%ver.tar.xz
+
+[build]
+%conf
+%inst

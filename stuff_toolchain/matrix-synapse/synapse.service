@@ -1,0 +1,50 @@
+#!/bin/sh
+#
+# /etc/rc.d/synapse: start/stop synapse daemon
+#
+
+SUDO=/usr/bin/sudo
+PID=/var/run/homeserver.pid
+
+case $1 in
+  start)
+    # sanity checks
+    if [ ! -e /etc/synapse/homeserver.yaml ]; then
+      echo "Please read README.md from this port and create a homeserver.yaml file first"
+      exit 1
+    fi
+
+    # 
+    if [ "$(stat -c '%a' /var/run)" != "777" ]; then
+      echo "rundir needs to be world writeable for synapse to be able to write to it"
+      exit 1
+    fi
+
+    $SUDO -u synapse /usr/bin/synctl start /etc/synapse/homeserver.yaml
+    ;;
+  stop)
+    /usr/bin/synctl stop /etc/synapse/homeserver.yaml
+    ;;
+  restart)
+    $0 stop
+    $0 start
+    ;;
+  status)
+    if [ -e $PID ]
+    then
+      if [ -d "/proc/$(cat $PID)" ]
+      then
+        echo "synapse server is running with pid $(cat $PID)"
+      else
+      echo "pidfile $PID exists, but synapse server is not running"
+      fi
+    else
+      echo "synapse server is not running"
+    fi
+    ;;
+  *)
+    echo "usage: $0 [start|stop|restart|status]"
+    ;;
+esac
+
+# End of file

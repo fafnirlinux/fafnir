@@ -1,0 +1,13 @@
+ver=2.1.2
+
+[deps]
+libpcre2
+
+[srcs]
+https://github.com/adrianlopezroche/fdupes/releases/download/v%ver/%name-%ver.tar.gz
+
+[build]
+autoreconf -vfi
+%conf
+%make
+%inst

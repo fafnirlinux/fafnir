@@ -1,0 +1,15 @@
+ver=6.10.0
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://github.com/getsentry/raven-python/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cd raven-python-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 -O1 \
+	 --skip-build

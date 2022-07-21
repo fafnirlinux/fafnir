@@ -1,0 +1,16 @@
+ver=5.11
+
+[srcs]
+https://www.cpan.org/modules/by-module/URI/URI-%ver.tar.gz
+
+[build]
+cd URI-%ver
+perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest -type f \( \
+	 -name '.packlist' -or \
+	 -name '*.bs' -or \
+	 -name 'autosplit.ix' -or \
+	 -name 'perllocal.pod' \) -delete
+find %dest -depth -empty -exec rm -rf {} \;

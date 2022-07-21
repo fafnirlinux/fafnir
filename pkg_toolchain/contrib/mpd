@@ -1,0 +1,64 @@
+ver=0.23.8
+
+[deps]
+boost
+fmt
+libpcre2
+meson
+ninja
+
+[srcs]
+https://www.musicpd.org/download/mpd/${version:0:4}/%name-%ver.tar.xzmpd
+
+[build]
+prt-get isinst alsa-lib && PKGMK_MPD+=' -D alsa=enabled'
+prt-get isinst audiofile && PKGMK_MPD+=' -D audiofile=enabled'
+prt-get isinst chromaprint && PKGMK_MPD+=' -D chromaprint=enabled'
+prt-get isinst dbus && PKGMK_MPD+=' -D dbus=enabled'
+prt-get isinst faad2 && PKGMK_MPD+=' -D faad=enabled'
+prt-get isinst ffmpeg && PKGMK_MPD+=' -D ffmpeg=enabled'
+prt-get isinst flac && PKGMK_MPD+=' -D flac=enabled'
+prt-get isinst fluidsynth && PKGMK_MPD+=' -D fluidsynth=enabled'
+prt-get isinst icu && PKGMK_MPD+=' -D icu=enabled'
+prt-get isinst jack && PKGMK_MPD+=' -D jack=enabled'
+prt-get isinst lame && PKGMK_MPD+=' -D lame=enabled'
+prt-get isinst libcdio-paranoia && PKGMK_MPD+=' -D cdio_paranoia=enabled'
+prt-get isinst libid3tag && PKGMK_MPD+=' -D id3tag=enabled'
+prt-get isinst libisofs && PKGMK_MPD+=' -D iso9660=enabled'
+prt-get isinst libmad && PKGMK_MPD+=' -D mad=enabled'
+prt-get isinst libmkikmod && PKGMK_MPD+=' -D mikmod=enabled'
+prt-get isinst libmodplug && PKGMK_MPD+=' -D modplug=enabled'
+prt-get isinst libsamplerate && PKGMK_MPD+=' -D libsamplerate=enabled'
+prt-get isinst libsndfile && PKGMK_MPD+=' -D sndfile=enabled'
+prt-get isinst libsoxr && PKGMK_MPD+=' -D soxr=enabled'
+prt-get isinst liburing && PKGMK_MPD+=' -D io_uring=enabled'
+prt-get isinst libvorbis && PKGMK_MPD+=' -D vorbis=enabled'
+prt-get isinst mpg123 && PKGMK_MPD+=' -D mpg123=enabled'
+prt-get isinst opus && PKGMK_MPD+=' -D opus=enabled'
+prt-get isinst pipewire && PKGMK_MPD+=' -D pipewire=enabled'
+prt-get isinst pulseaudio && PKGMK_MPD+=' -D pulse=enabled'
+prt-get isinst samba && PKGMK_MPD+=' -D smbclient=enabled'
+prt-get isinst twolame && PKGMK_MPD+=' -D twolame=enabled'
+prt-get isinst wavpack && PKGMK_MPD+=' -D wavpack=enabled'
+prt-get isinst yajl && PKGMK_MPD+=' -D yajl=enabled'
+prt-get isinst zziplib && PKGMK_MPD+=' -D zzip=enabled'
+meson setup %name-%ver build %destMK_MPD \
+	 --sysconfdir=/etc/mpd \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 --auto-features disabled \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D curl=enabled \
+	 -D bzip2=enabled \
+	 -D iconv=enabled \
+	 -D ipv6=enabled \
+	 -D pcre=enabled \
+	 -D sqlite=enabled \
+	 -D html_manual=false
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build
+install -Dm 0644 %files/%name-%ver/doc/mpdconf.example %dest/etc/mpd/mpd.conf
+install -D %files/mpd %dest/etc/rc.d/mpd
+rm -r %dest/share/doc
+}

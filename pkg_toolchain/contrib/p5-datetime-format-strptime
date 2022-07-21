@@ -1,0 +1,18 @@
+ver=1.79
+
+[deps]
+p5-datetime
+p5-datetime-locale
+p5-datetime-timezone
+p5-package-deprecationmanager
+p5-params-validate
+
+[srcs]
+https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/DateTime-Format-Strptime-%ver.tar.gz
+
+[build]
+cd DateTime-Format-Strptime-%ver
+perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

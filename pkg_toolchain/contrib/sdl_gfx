@@ -1,0 +1,19 @@
+ver=2.0.26
+
+[deps]
+libsdl
+
+[srcs]
+https://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-%ver.tar.gz
+
+[build]
+cd SDL_gfx-%ver
+sed -i -e 's/-O //' configure.in
+mv configure.in configure.ac
+autoreconf -fvi
+%conf
+%make
+%inst
+sed \
+'s|^#include <SDL.h>|#include <SDL/SDL.h>|' \
+	 -i %dest/include/SDL/SDL_gfxPrimitives.h

@@ -1,0 +1,25 @@
+ver=6.12.0.182
+
+[deps]
+cmake
+ninja
+
+[srcs]
+https://download.mono-project.com/sources/%name/preview/%name-%ver.tar.xz
+
+[build]
+[[ -e /usr/lib/ccache ]] && PATH="$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
+CFLAGS+=" -ffat-lto-objects" \
+%conf \
+	 --mandir=/share/man \
+	 --enable-ninja \
+	 --with-mcs-docs=no \
+	 --disable-crash-reporting \
+	 --disable-nls
+sed -e 's/python/python3/g' -i mono/mini/Makefile*
+%make
+%inst
+rm -fr %dest/share/locale
+find %dest \( -iname "*README*" \
+	 -o -iname "*la" \)\
+	 -delete

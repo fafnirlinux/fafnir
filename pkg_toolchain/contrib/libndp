@@ -1,0 +1,10 @@
+ver=1.8
+
+[srcs]
+http://libndp.org/files/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --disable-static
+%make
+%inst

@@ -1,0 +1,13 @@
+ver=4.5.1
+
+[deps]
+gzip
+lzo
+xz
+
+[srcs]
+https://github.com/plougher/%name/archive/%ver/%name-%ver.tar.gz
+
+[build]
+make GZIP_SUPPORT=1 LZO_SUPPORT=1 XZ_SUPPORT=1 EXTRA_CFLAGS="-fcommon"
+make install INSTALL_PREFIX= INSTALL_DIR=%dest/sbin INSTALL_MANPAGES_DIR=%dest/usr/share/man/man1

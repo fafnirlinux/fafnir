@@ -1,0 +1,14 @@
+ver=1.3.0
+
+[deps]
+qt6-base
+qt6-svg
+qt6-tools
+
+[srcs]
+https://gottcode.org/%name/%name-%ver-src.tar.bz2
+
+[build]
+qmake-qt6 PREFIX=
+%make
+make INSTALL_ROOT=%dest install

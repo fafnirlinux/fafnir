@@ -1,0 +1,28 @@
+ver=3.5.2
+
+[deps]
+libevent
+pciutils
+qtkeychain
+
+[srcs]
+https://github.com/nextcloud/desktop/archive/v%ver/%name-%ver-$release.tar.gz
+
+[build]
+prt-get isinst librsvg qtwebengine && \
+PKGMK_NCC+=' -D SVG_CONVERTER=/bin/rsvg-convert' || \
+PKGMK_NCC+=' -D BUILD_GUI=OFF'
+cmake -S desktop-%ver -B build -G Ninja %destMK_NCC \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_INSTALL_LIBDIR=lib \
+	 -D CMAKE_INSTALL_SYSCONFDIR=/etc/nextcloud \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D APPLICATION_HELP_URL="https://crux.nu/bugs/" \
+	 -D BUILD_SHELL_INTEGRATION_DOLPHIN=OFF \
+	 -D BUILD_SHELL_INTEGRATION_NAUTILUS=OFF \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build
+rm -rf %dest/share/nextcloud

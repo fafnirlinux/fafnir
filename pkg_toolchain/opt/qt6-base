@@ -1,0 +1,48 @@
+ver=6.3.1
+
+[deps]
+brotli
+cups
+double-conversion
+gst-plugins-base
+libb2
+libinput
+libxkbcommon
+shared-mime-info
+vulkan-headers
+xorg-libxi
+xorg-xcb-util-cursor
+xorg-xcb-util-keysyms
+xorg-xcb-util-wm
+
+[srcs]
+https://download.qt.io/official_releases/qt/6.3/%ver/submodules/qtbase-everywhere-src-%ver.tar.xz
+
+[build]
+prt-get isinst ninja && PKGMK_QT6+=' -G Ninja'
+prt-get isinst ccache && PKGMK_QT6+=' -D QT_USE_CCACHE=ON' && PATH="$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
+cmake -S qtbase-everywhere-src-%ver -B build %destMK_QT6 \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D INSTALL_BINDIR=lib/qt6/bin \
+	 -D INSTALL_PUBLICBINDIR=usr/bin \
+	 -D INSTALL_LIBEXECDIR=lib/qt6 \
+	 -D INSTALL_DOCDIR=share/doc/qt6 \
+	 -D INSTALL_ARCHDATADIR=lib/qt6 \
+	 -D INSTALL_DATADIR=share/qt6 \
+	 -D INSTALL_INCLUDEDIR=include/qt6 \
+	 -D INSTALL_MKSPECSDIR=lib/qt6/mkspecs \
+	 -D INSTALL_EXAMPLESDIR=share/doc/qt6/examples \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D QT_DISABLE_RPATH=TRUE \
+	 -D QT_FEATURE_openssl_linked=ON \
+	 -D QT_FEATURE_system_sqlite=ON \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build
+rm -r %dest/share/doc
+install -d %dest/bin
+for file in %dest/lib/qt6/bin/*; do
+	 ln -s ../lib/qt6/bin/$(basename $file) %dest/bin/$(basename $file)-qt6
+done

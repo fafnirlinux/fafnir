@@ -1,0 +1,20 @@
+ver=1.6.6
+
+[deps]
+go
+btrfs-progs
+git
+libseccomp
+
+[srcs]
+http://jaeger.morpheus.net/linux/crux/files/%name-%ver.tar.xz
+
+[build]
+export GO111MODULE=auto
+mkdir -p src/github.com/%name
+cd src/github.com/%name
+ln -s %files/%name-%ver %name
+export GOPATH=%files
+make GIT_COMMIT=10c12954828e7c7c9b6e0ea9b0c02b01407d3ae1
+install -d -m 0755 %dest/bin
+install -m 0755 bin/* %dest/bin/

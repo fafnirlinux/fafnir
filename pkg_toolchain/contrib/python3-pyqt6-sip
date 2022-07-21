@@ -1,0 +1,14 @@
+ver=13.4.0
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://pypi.python.org/packages/source/P/PyQt6-sip/PyQt6_sip-%ver.tar.gz
+
+[build]
+cd PyQt6_sip-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 --skip-build

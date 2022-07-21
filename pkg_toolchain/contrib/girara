@@ -1,0 +1,25 @@
+ver=0.3.7
+
+[deps]
+gtk3
+libnotify
+meson
+ninja
+
+[srcs]
+https://git.pwmt.org/pwmt/%name/-/archive/%ver/%name-%ver.tar.bz2
+
+[build]
+prt-get isinst json-c && PKGMK_GIRARA+=' -D json=enabled' || PKGMK_GIRARA+=' -D json=disabled'
+prt-get isinst libnotify && PKGMK_GIRARA+=' -D notify=enabled' || PKGMK_GIRARA+=' -D notify=disabled'
+meson setup %name-%ver build %destMK_GIRARA \
+	 --sysconfdir=/etc \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D docs=disabled \
+	 -D tests=disabled
+meson compile -C build
+DESTDIR=%dest meson install -C build
+rm -rf %dest/share/locale

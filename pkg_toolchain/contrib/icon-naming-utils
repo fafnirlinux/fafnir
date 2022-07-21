@@ -1,0 +1,14 @@
+ver=0.8.90
+
+[deps]
+p5-xml-simple
+
+[srcs]
+http://tango.freedesktop.org/releases/%name-%ver.tar.bz2
+
+[build]
+%conf \
+	 --libexecdir=/lib/%name \
+	 --disable-nls
+%make
+%inst

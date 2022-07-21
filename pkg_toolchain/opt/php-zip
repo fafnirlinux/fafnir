@@ -1,0 +1,16 @@
+ver=8.1.8
+
+[deps]
+libzip
+
+[srcs]
+https://www.php.net/distributions/php-%ver.tar.xz
+
+[build]
+cd php-%ver
+%conf --disable-all --with-zip=shared,/usr
+make build-modules
+install -d %dest/{etc/php/conf.d,usr/lib/php/extensions}
+install -m 755 modules/zip.so %dest/lib/php/extensions/
+printf 'extension=%s
+' zip.so > %dest/etc/php/conf.d/zip.ini

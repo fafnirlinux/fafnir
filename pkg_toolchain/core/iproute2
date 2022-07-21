@@ -1,0 +1,19 @@
+ver=5.18.0
+
+[deps]
+db
+iptables
+libcap
+elfutils
+
+[srcs]
+https://www.kernel.org/pub/linux/utils/net/%name/%name-%ver.tar.xz
+
+[build]
+%conf
+%make CCOPTS="$CFLAGS"
+%inst
+install -D -m 0755 %files/lo.iproute2 %dest/etc/rc.d/lo
+install -D -m 0755 %files/net.iproute2 %dest/etc/rc.d/net
+install -d %dest/bin
+ln -s /sbin/ip %dest/bin/ip

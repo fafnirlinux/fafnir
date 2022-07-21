@@ -1,0 +1,14 @@
+ver=2.9.14
+
+[deps]
+zlib
+xz
+
+[srcs]
+https://download.gnome.org/sources/libxml2/${version:0:3}/%name-%ver.tar.xz
+
+[build]
+%conf --without-python
+%make
+%inst
+rm -r %dest/share/{doc,gtk-doc}

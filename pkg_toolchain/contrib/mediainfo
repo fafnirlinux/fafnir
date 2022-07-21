@@ -1,0 +1,14 @@
+ver=22.06
+
+[deps]
+libmediainfo
+
+[srcs]
+https://mediaarea.net/download/source/mediainfo/%ver/mediainfo_%ver.tar.xz
+
+[build]
+cd MediaInfo/Project/GNU/CLI
+./autogen.sh
+%conf
+%make
+make DESTDIR=%dest install

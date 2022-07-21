@@ -1,0 +1,19 @@
+ver=3.11.0
+
+[deps]
+meson
+ninja
+
+[srcs]
+https://github.com/libfuse/libfuse/releases/download/fuse-%ver/fuse-%ver.tar.xz
+
+[build]
+meson setup build fuse-%ver \
+	 --sysconfdir=/etc \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build
+rm -r %dest/{dev,etc,lib}

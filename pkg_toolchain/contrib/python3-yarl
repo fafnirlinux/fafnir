@@ -1,0 +1,21 @@
+ver=1.8.0
+
+[deps]
+python3-idna
+python3-multidict
+python3-typing_extensions
+
+[srcs]
+https://github.com/aio-libs/yarl/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd yarl-%ver
+sed -e 's| .install-cython ||g' \
+'s|python|python3|g' -i Makefile
+PYTHON="/usr/bin/python3" \
+make cythonize
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 -O1 \
+	 --root=%dest \
+	 --skip-build

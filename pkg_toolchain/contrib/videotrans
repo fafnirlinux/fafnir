@@ -1,0 +1,16 @@
+ver=1.6.1
+
+[deps]
+dvdauthor
+imagemagick
+mjpegtools
+mplayer
+ffmpeg
+
+[srcs]
+http://downloads.sourceforge.net/project/%name/%name/%ver/%name-%ver.tar.bz2
+
+[build]
+%conf \
+%make
+%inst

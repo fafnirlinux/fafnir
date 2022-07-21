@@ -1,0 +1,12 @@
+ver=0.8.0
+
+[deps]
+s-cdda
+
+[srcs]
+https://ftp.sdaoden.eu/%name-%ver.tar.gz
+
+[build]
+cd %name-%ver
+make install DESTDIR=%dest PREFIX=
+}

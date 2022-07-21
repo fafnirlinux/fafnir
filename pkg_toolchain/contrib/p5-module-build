@@ -1,0 +1,18 @@
+ver=0.4231
+
+[deps]
+perl
+
+[srcs]
+https://cpan.metacpan.org/authors/id/L/LE/LEONT/Module-Build-%ver.tar.gz
+
+[build]
+cd Module-Build-%ver
+yes n|perl Makefile.PL
+make OPTIMIZE="$CFLAGS"
+%inst
+find %dest \
+	 -name .packlist -or \
+	 -name '*.bs' -or \
+	 -name perllocal.pod | xargs rm
+find %dest -depth -empty -exec rm -rf {} \;

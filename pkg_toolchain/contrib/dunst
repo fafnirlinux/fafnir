@@ -1,0 +1,18 @@
+ver=1.9.0
+
+[deps]
+dbus
+gdk-pixbuf
+pango
+xorg-libxinerama
+xorg-libxrandr
+xorg-libxscrnsaver
+libnotify
+
+[srcs]
+https://github.com/dunst-project/%name/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+export WAYLAND=0
+%make
+make PREFIX= SYSCONFDIR=/etc DESTDIR=%dest install

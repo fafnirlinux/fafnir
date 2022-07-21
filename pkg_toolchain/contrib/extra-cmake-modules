@@ -1,0 +1,14 @@
+ver=5.96.0
+
+[deps]
+cmake
+
+[srcs]
+https://github.com/KDE/%name/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cmake -S%name-%ver -Bbuild \
+	 -DCMAKE_INSTALL_PREFIX= \
+	 -DBUILD_TESTING=OFF
+cmake --build build -v
+DESTDIR=%dest cmake --install build

@@ -1,0 +1,17 @@
+ver=3.4.1
+
+[deps]
+xorg-libxcursor
+xorg-libxft
+xorg-xcb-util-keysyms
+xorg-xcb-util-wm
+xorg-libxrandr
+
+[srcs]
+https://github.com/conformal/spectrwm/archive/SPECTRWM_${version//./_}.tar.gz
+
+[build]
+make PREFIX=
+install -d %dest/{bin,share/man/man1}
+install spectrwm %dest/bin
+install ../spectrwm.1 %dest/share/man/man1

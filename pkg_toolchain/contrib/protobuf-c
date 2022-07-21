@@ -1,0 +1,12 @@
+ver=1.4.0
+
+[deps]
+protobuf
+
+[srcs]
+https://github.com/protobuf-c/protobuf-c/releases/download/v%ver/%name-%ver.tar.gz
+
+[build]
+%conf
+%make
+%inst

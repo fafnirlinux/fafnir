@@ -1,0 +1,13 @@
+ver=3.3a
+
+[deps]
+ncurses
+libevent
+
+[srcs]
+https://github.com/tmux/tmux/releases/download/${version%-*}/%name-%ver.tar.gz
+
+[build]
+%conf
+%make
+%inst

@@ -1,0 +1,17 @@
+ver=0.1.1
+
+[deps]
+cmake
+
+[srcs]
+https://github.com/skystrife/cpptoml/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+[[ -e /usr/bin/ninja ]] && PKGMK_CPPTOML+=' -G Ninja'
+cmake -S %name-%ver -B build %destMK_CPPTOML \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build

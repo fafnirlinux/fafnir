@@ -1,0 +1,16 @@
+ver=6.2
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://www.mercurial-scm.org/release/mercurial-%ver.tar.gz
+
+[build]
+rm -r i18n
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --root=%dest \
+	 --skip-build
+install -d %dest/share/man/man{1,5}
+install -m 0644 doc/*.1 %dest/share/man/man1
+install -m 0644 doc/*.5 %dest/share/man/man5

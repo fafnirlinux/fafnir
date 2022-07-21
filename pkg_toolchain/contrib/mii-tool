@@ -1,0 +1,9 @@
+ver=1.65.0
+
+[srcs]
+https://repo.or.cz/w/oss-qm-packages.git/snapshot/METUX.mii-tool-%ver.0.tar.gz
+
+[build]
+cd oss-qm-packages-METUX.mii-tool-%ver.*
+%make
+%inst

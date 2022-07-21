@@ -1,0 +1,14 @@
+ver=4.95.0
+
+[deps]
+libtirpc
+
+[srcs]
+https://github.com/lsof-org/lsof/archive/%ver/%name-%ver.tar.gz
+
+[build]
+./Configure -n linux
+make CC="cc $CFLAGS"
+install -d %dest/{sbin,share/man/man8}
+install -m 755 lsof %dest/sbin
+soelim Lsof.8 > %dest/share/man/man8/lsof.8

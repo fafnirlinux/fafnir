@@ -1,0 +1,12 @@
+ver=1.1
+
+[deps]
+python3-pytz
+
+[srcs]
+https://pypi.python.org/packages/source/p/pyRFC3339/pyRFC3339-%ver.tar.gz
+
+[build]
+cd pyRFC3339-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --root=%dest/ --optimize=1

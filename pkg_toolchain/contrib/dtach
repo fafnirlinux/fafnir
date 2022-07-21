@@ -1,0 +1,12 @@
+ver=0.9
+
+[srcs]
+https://github.com/crigler/%name/archive/${gitver}/%name-%ver.tar.gz
+
+[build]
+cd %name-${gitver}
+%conf
+%make
+install -D -m 755 %name %dest/usr/bin/%name
+install -D -m 644 %name.1 %dest/usr/share/man/man1/%name.1
+}

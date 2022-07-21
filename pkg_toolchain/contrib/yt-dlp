@@ -1,0 +1,17 @@
+ver=2022.06.29
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://github.com/%name/%name/releases/download/
+
+[build]
+cd %name #-%ver
+install -D %name %dest/usr/bin/%name
+install -D -m 0644 %name.1 %dest/usr/share/man/man1/%name.1
+if prt-get isinst bash-completion > /dev/null 2>&1; then
+install -D completions/bash/yt-dlp \
+%dest/usr/share/bash-completion/completions/%name
+fi
+}

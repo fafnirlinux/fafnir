@@ -1,0 +1,22 @@
+ver=1.8.40
+
+[deps]
+gcr
+iso-codes
+networkmanager
+
+[srcs]
+https://gitlab.gnome.org/GNOME/libnma/-/archive/%ver/libnma-%ver.tar.bz2
+
+[build]
+prt-get isinst vala || PKGMK_LIBNMA+=' -D vapi=false'
+meson setup %name-%ver build %destMK_LIBNMA \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D mobile_broadband_provider_info=false \
+	 -D gtk_doc=false
+meson compile -C build
+DESTDIR=%dest meson install -C build
+rm -r %dest/share/locale

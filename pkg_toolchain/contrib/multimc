@@ -1,0 +1,34 @@
+ver=0.6.13
+
+[deps]
+openjdk11-jdk
+qt5
+
+[srcs]
+https://github.com/MultiMC/MultiMC5/archive/%ver/MultiMC5-%ver.tar.gz
+
+[build]
+cd MultiMC5-%ver
+rmdir libraries/libnbtplusplus
+rmdir libraries/quazip
+ln -sfT %files/libnbtplusplus-multimc-0.6.1/ libraries/libnbtplusplus
+ln -sfT %files/quazip-multimc-3/ libraries/quazip
+export JAVA_HOME="/usr/lib/java/openjdk11-jdk/"
+mkdir -p build
+cd build
+cmake .. \
+	 -DCMAKE_BUILD_TYPE=Release \
+	 -DMultiMC_UPDATER=OFF \
+	 -DCMAKE_INSTALL_PREFIX="/usr" \
+	 -DMultiMC_LAYOUT=lin-system \
+	 -DMultiMC_NOTIFICATION_URL:STRING=http://files.multimc.org/notifications.json
+%make
+%inst
+install -D %files/MultiMC5-%ver/launcher/resources/multimc/scalable/multimc.svg \
+%dest/share/pixmaps/multimc.svg
+install -D %files/MultiMC5-%ver/launcher/package/linux/multimc.desktop \
+%dest/share/applications/multimc.desktop
+install -D %files/MultiMC5-%ver/build/libMultiMC_quazip.so \
+%dest/lib/libMultiMC_quazip.so
+install -D %files/MultiMC5-%ver/build/libMultiMC_nbt++.so \
+%dest/lib/libMultiMC_nbt++.so

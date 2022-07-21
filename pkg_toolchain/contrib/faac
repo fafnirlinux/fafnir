@@ -1,0 +1,10 @@
+ver=1.30
+
+[srcs]
+https://github.com/knik0/faac/archive/${version/./_}/%name-${version/./_}.tar.gz
+
+[build]
+./bootstrap
+%conf
+%make
+%inst

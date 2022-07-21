@@ -1,0 +1,9 @@
+ver=1.4.3
+
+[srcs]
+https://github.com/thkukuk/%name/releases/download/v%ver/%name-%ver.tar.xz
+
+[build]
+%conf
+%make
+%inst

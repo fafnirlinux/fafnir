@@ -1,0 +1,24 @@
+ver=2.10.2
+
+[deps]
+zlib
+gdbm
+libpipeline
+
+[srcs]
+https://download.savannah.gnu.org/releases/%name/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --sysconfdir=/etc \
+	 --libexecdir=/lib/%name \
+	 --disable-setuid \
+	 --disable-cache-owner \
+	 --disable-nls \
+	 --with-systemdtmpfilesdir=no \
+	 --with-systemdsystemunitdir=no
+%make
+%inst
+rm -r %dest/share/doc
+install -d %dest/var/cache/man
+install -D -o root -g root -m 0755 %files/mandb.cron %dest/etc/cron/daily/mandb

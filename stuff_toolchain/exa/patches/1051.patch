@@ -1,0 +1,22 @@
+From 6c848831b214bd7fd7b5fc886ecd9c44f20d9250 Mon Sep 17 00:00:00 2001
+From: CT-66 <css.com@protonmail.com>
+Date: Sun, 3 Apr 2022 04:54:13 +0530
+Subject: [PATCH] changed default folder icon
+
+---
+ src/output/icons.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/output/icons.rs b/src/output/icons.rs
+index a2bc1ada..af216512 100644
+--- a/src/output/icons.rs
++++ b/src/output/icons.rs
+@@ -100,7 +100,7 @@ pub fn icon_for_file(file: &File<'_>) -> char {
+             "bin"           => '\u{e5fc}', // 
+             ".git"          => '\u{f1d3}', // 
+             ".idea"         => '\u{e7b5}', // 
+-            _               => '\u{f115}'  // 
++            _               => '\u{f413}'  // 
+         }
+     }
+     else if let Some(icon) = extensions.icon_file(file) { icon }

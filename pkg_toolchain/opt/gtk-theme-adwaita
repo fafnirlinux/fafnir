@@ -1,0 +1,19 @@
+ver=3.20
+
+[deps]
+gtk3
+intltool
+librsvg
+
+[srcs]
+http://ftp.gnome.org/pub/gnome/sources/gnome-themes-standard/${version:0:4}/gnome-themes-standard-%ver.tar.xz
+
+[build]
+cd gnome-themes-standard-%ver
+prt-get isinst gtk || PKGMK_THEME_ADWAITA+=' --disable-gtk2-engine'
+sed -i "s/HighContrast//" themes/Makefile.in
+%conf %destMK_THEME_ADWAITA \
+	 --disable-glibtest \
+	 --disable-nls
+%make
+%inst

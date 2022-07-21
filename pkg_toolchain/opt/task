@@ -1,0 +1,21 @@
+ver=2.6.2
+
+[deps]
+util-linux
+cmake
+
+[srcs]
+https://github.com/GothenburgBitFactory/taskwarrior/releases/download/v%ver/%name-%ver.tar.gz
+
+[build]
+cmake -S %name-%ver -B build \
+	 -D CMAKE_BUILD_TYPE=release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D TASK_DOCDIR=share/task \
+	 -D ENABLE_SYNC=OFF
+cmake --build build -j %threads
+DESTDIR=%dest cmake --install build
+prt-get isinst zsh || rm -r %dest/share/zsh
+rm %dest/share/task/{AUTHORS,COPYING,ChangeLog,NEWS,README.md,INSTALL,LICENSE}
+rm %dest/share/task/scripts/{add-ons,vim,hooks}/README

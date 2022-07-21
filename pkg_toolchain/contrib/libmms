@@ -1,0 +1,12 @@
+ver=0.6.4
+
+[deps]
+glib
+
+[srcs]
+http://downloads.sourceforge.net/project/%name/%name/%ver/%name-%ver.tar.gz
+
+[build]
+%conf
+%make
+%inst

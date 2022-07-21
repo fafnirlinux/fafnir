@@ -1,0 +1,20 @@
+ver=1.3.3.1
+
+[deps]
+cmake
+ncurses
+pulseaudio
+
+[srcs]
+https://github.com/fulhax/ncpamixer/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cmake -S %name-%ver/src -B build -G Ninja \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build
+install -Dm644 %files/%name.1 %dest/share/man/man1/%name.1

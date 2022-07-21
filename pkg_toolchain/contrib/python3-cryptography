@@ -1,0 +1,16 @@
+ver=37.0.4
+
+[deps]
+python3-cffi
+python3-setuptools-rust
+
+[srcs]
+https://pypi.python.org/packages/source/c/cryptography/cryptography-%ver.tar.gz
+
+[build]
+prt-get isinst sccache && export RUSTC_WRAPPER=/bin/sccache
+mkdir "%destMK_SOURCE_DIR/rust" || true
+export CARGO_HOME="%destMK_SOURCE_DIR/rust"
+cd ${name#*-}-%ver
+/usr/bin/python3 -m build --wheel --skip-dependency-check --no-isolation
+/usr/bin/python3 -m installer --compile-bytecode 2 --destdir=%dest dist/*.whl

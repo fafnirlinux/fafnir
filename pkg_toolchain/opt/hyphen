@@ -1,0 +1,21 @@
+ver=2.8.8
+
+[srcs]
+https://downloads.sourceforge.net/hunspell/%name-%ver.tar.gz
+
+[build]
+%conf
+%make
+%inst
+pushd %dest/share/hyphen/
+en_US_aliases="en_AG en_AU en_BS en_BW en_BZ en_CA en_DK en_GB en_GH en_HK en_IE en_IN en_JM en_NA en_NZ en_PH en_SG en_TT en_ZA en_ZW"
+for lang in $en_US_aliases; do
+	 ln -s hyph_en_US.dic hyph_$lang.dic
+done
+popd
+install -d -m 0755 %dest/share/myspell/dicts
+pushd %dest/share/myspell/dicts
+for file in %dest/share/hyphen/*; do
+	 ln -sv /usr/share/hyphen/$(basename $file) .
+done
+popd

@@ -1,0 +1,16 @@
+ver=1.7.1
+
+[srcs]
+https://mirrors.edge.kernel.org/pub/linux/utils/net/bridge-utils/%name-%ver.tar.xz
+
+[build]
+sed -i 's/ ; done/ || exit 1 &/g' Makefile.in
+autoconf
+%conf
+sed -i 's|\(#include <sys/socket.h>\)|\1
+#include <netinet/in.h>|1' \
+libbridge/libbridge.h
+sed -i -e 's|linux/if.h|net/if.h|1' -e '/if_bridge.h/d' libbridge/libbridge.h
+sed -i '/KERNEL_HEADERS=/d' libbridge/Makefile
+%make
+%inst

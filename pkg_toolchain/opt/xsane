@@ -1,0 +1,24 @@
+ver=0.999
+
+[deps]
+gimp,
+sane
+
+[srcs]
+https://fossies.org/linux/misc/%name-%ver.tar.gz
+
+[build]
+
+sed -i -e 's/png_ptr->jmpbuf/png_jmpbuf(png_ptr)/' src/xsane-save.c
+
+%conf \
+	 --mandir=/share/man \
+	 --disable-nls \
+	 --enable-gtk2 \
+	 --enable-gimp2
+%make
+%inst
+rm -r %dest/{sbin,share/sane/xsane/doc}
+rm %dest/share/sane/xsane/xsane-gpl.txt
+install -d %dest/lib/gimp/2.0/plug-ins
+ln -s /usr/bin/xsane %dest/lib/gimp/2.0/plug-ins

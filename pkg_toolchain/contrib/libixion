@@ -1,0 +1,17 @@
+ver=0.17.0
+
+[deps]
+mdds
+boost
+spdlog
+
+[srcs]
+https://kohei.us/files/ixion/src/%name-%ver.tar.xz
+
+[build]
+[[ -e /usr/lib/libcuda.so ]] && PKGMK_LIBIXION+=' --enable-cuda'
+CFLAGS="-O2 -fPIC" \
+CXXFLAGS="-O2 -fPIC" \
+%conf %destMK_LIBIXION
+%make
+%inst

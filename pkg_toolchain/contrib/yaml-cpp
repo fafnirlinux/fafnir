@@ -1,0 +1,36 @@
+ver=0.7.0
+
+[deps]
+cmake
+
+[srcs]
+https://github.com/jbeder/yaml-cpp/archive/yaml-cpp-%ver/%name-%ver.tar.gz
+
+[build]
+sed -e 's|%%PREFIX%%|/usr|' -i %files/patch-yaml-cpp-config.cmake.in
+patch -Np0 -d %name-%name-%ver -i %files/patch-yaml-cpp-config.cmake.in
+prt-get isinst ninja && PKGMK_YAMLCPP+=' -G Ninja'
+cmake -S %name-%name-%ver -B build %destMK_YAMLCPP \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_INSTALL_LIBDIR=lib \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D BUILD_SHARED_LIBS=ON \
+	 -D YAML_BUILD_SHARED_LIBS=ON \
+	 -D YAML_CPP_BUILD_TESTS=OFF \
+	 -D YAML_CPP_BUILD_TOOLS=OFF \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build
+cmake -S %name-%name-%ver -B build-static %destMK_YAMLCPP \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_INSTALL_LIBDIR=lib \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D BUILD_SHARED_LIBS=OFF \
+	 -D YAML_BUILD_SHARED_LIBS=OFF \
+	 -D YAML_CPP_BUILD_TESTS=OFF \
+	 -D YAML_CPP_BUILD_TOOLS=OFF \
+	 -Wno-dev
+cmake --build build-static
+DESTDIR=%dest cmake --install build-static

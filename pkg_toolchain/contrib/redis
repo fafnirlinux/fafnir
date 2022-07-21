@@ -1,0 +1,13 @@
+ver=7.0.3
+
+[srcs]
+https://download.redis.io/releases/%name-%ver.tar.gzredis.conf
+
+[build]
+%make
+make PREFIX=%dest/ install
+install -D -m 755 %files/redis.rc %dest/etc/rc.d/redis
+install -D -m 644 -o redis %files/redis.conf %dest/etc/redis.conf
+install -d -m 755 -o redis %dest/var/lib/redis
+install -d -m 755 %dest/var/log
+install -m 640 -o redis -g redis /dev/null %dest/var/log/redis.log

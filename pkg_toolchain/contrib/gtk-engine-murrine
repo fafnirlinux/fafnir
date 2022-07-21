@@ -1,0 +1,15 @@
+ver=0.98.2
+
+[deps]
+gtk
+
+[srcs]
+http://ftp.gnome.org/pub/GNOME/sources/murrine/${version::4}/murrine-%ver.tar.xz
+
+[build]
+cd murrine-%ver
+%conf \
+	 --enable-animation \
+	 --enable-animationrtl
+%make
+%inst

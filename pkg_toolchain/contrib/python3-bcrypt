@@ -1,0 +1,13 @@
+ver=3.2.2
+
+[deps]
+python3-six
+python3-cffi
+
+[srcs]
+https://pypi.python.org/packages/source/b/bcrypt/bcrypt-%ver.tar.gz
+
+[build]
+cd bcrypt-%ver
+python3 setup.py build
+python3 setup.py install --root=%dest

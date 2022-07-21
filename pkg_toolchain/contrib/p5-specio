@@ -1,0 +1,16 @@
+ver=0.48
+
+[deps]
+p5-devel-stacktrace
+p5-mro-compat
+p5-role-tiny
+
+[srcs]
+https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/Specio-%ver.tar.gz
+
+[build]
+cd Specio-%ver
+PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

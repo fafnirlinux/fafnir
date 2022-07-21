@@ -1,0 +1,18 @@
+ver=928
+
+[deps]
+gtk3
+openjdk11-jdk
+openjdk16-jdk
+xorg-xrandr
+
+[srcs]
+https://launcher.mojang.com/download/linux/x86_64/minecraft-launcher_%ver.tar.gz
+
+[build]
+install -Dm644 %files/minecraft-launcher.svg \
+%dest/share/icons/hicolor/symbolic/apps/minecraft-launcher.svg
+install -Dm644 %files/minecraft-launcher.desktop \
+%dest/share/applications/minecraft-launcher.desktop
+install -Dm755 %files/minecraft-launcher/minecraft-launcher \
+%dest/bin/minecraft-launcher

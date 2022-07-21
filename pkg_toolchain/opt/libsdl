@@ -1,0 +1,16 @@
+ver=1.2.15
+
+[deps]
+alsa-lib
+glu
+
+[srcs]
+https://www.libsdl.org/release/SDL-%ver.tar.gz
+
+[build]
+cd SDL-%ver
+%conf \
+	 --enable-alsa \
+	 --disable-rpath
+%make
+%inst

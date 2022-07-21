@@ -1,0 +1,22 @@
+ver=2.5.1
+
+[deps]
+tevent
+tdb
+popt
+cmocka
+python3
+
+[srcs]
+https://www.samba.org/ftp/%name/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --with-modulesdir=/lib \
+	 --bundled-libraries=NONE \
+	 --without-ldb-lmdb
+%make
+%inst
+install -d %dest/share/man/man{1,3}
+install -m 0644 %files/ldb[!-]*.1 %dest/share/man/man1
+install -m 0644 %files/ldb.3 %dest/share/man/man3

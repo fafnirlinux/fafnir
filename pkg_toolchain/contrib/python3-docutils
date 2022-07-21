@@ -1,0 +1,15 @@
+ver=0.19
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://downloads.sourceforge.net/docutils/docutils-%ver.tar.gz
+
+[build]
+cd docutils-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 --skip-build
+find %dest -iname "*README*" -delete

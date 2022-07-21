@@ -1,0 +1,19 @@
+ver=1.34.1
+
+[deps]
+xorg-libsm
+xorg-libxft
+
+[srcs]
+https://ftp.gnome.org/pub/gnome/sources/pango/1.34/pango-%ver.tar.xz
+
+[build]
+cd pango-%ver
+%conf \
+	 --includedir='/usr/include/pango-compat' \
+	 --libdir='/usr/lib/pango-compat' \
+	 --disable-introspection
+%make
+%inst
+rm -r %dest/share/{gtk-doc,man}
+rm %dest/bin/pango-view

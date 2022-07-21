@@ -1,0 +1,18 @@
+ver=2.1.0
+
+[deps]
+nmap
+rust
+
+[srcs]
+https://github.com/brandonskerritt/RustScan/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cd RustScan-%ver
+prt-get isinst sccache && export RUSTC_WRAPPER=/bin/sccache
+mkdir "%destMK_SOURCE_DIR/rust" || true
+export CARGO_HOME="%destMK_SOURCE_DIR/rust"
+cargo update
+cargo fetch
+cargo build --release --locked
+install -Dt %dest/bin target/release/rustscan

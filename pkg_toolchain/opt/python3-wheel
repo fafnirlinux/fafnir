@@ -1,0 +1,15 @@
+ver=0.37.1
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://files.pythonhosted.org/packages/source/w/wheel/${name#*-}-%ver.tar.gz
+
+[build]
+cd ${name#*-}-%ver
+export PYTHONHASHSEED=0
+rm -r src/wheel/vendored
+sed -i 's/from .vendored.packaging import tags/from packaging import tags/' src/wheel/bdist_wheel.py
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix --root=%dest --optimize=1 --skip-build

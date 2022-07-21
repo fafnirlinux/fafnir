@@ -1,0 +1,12 @@
+ver=0.4.0
+
+[deps]
+python3-setuptools-scm
+
+[srcs]
+https://files.pythonhosted.org/packages/source/m/moreorless/moreorless-%ver.tar.gz
+
+[build]
+cd moreorless-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --root=%dest --optimize=1 --skip-build

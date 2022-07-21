@@ -1,0 +1,16 @@
+ver=0.009
+
+[deps]
+p5-test-exception
+
+[srcs]
+https://cpan.metacpan.org/authors/id/L/LE/LEONT/PerlIO-utf8_strict-%ver.tar.gz
+
+[build]
+cd PerlIO-utf8_strict-%ver
+unset PERL5LIB PERL_MM_OPT PERL_MB_OPT PERL_LOCAL_LIB_ROOT
+export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps
+perl Makefile.PL
+%make
+make install INSTALLDIRS=vendor DESTDIR=%dest install
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

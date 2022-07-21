@@ -1,0 +1,21 @@
+ver=372
+
+[deps]
+util-linux
+xorg-font-alias
+xorg-font-misc-misc
+xorg-libxaw
+
+[srcs]
+https://invisible-mirror.net/archives/%name/%name-%ver.tgz
+
+[build]
+%conf \
+	 --with-app-defaults=/share/X11/app-defaults/ \
+	 --disable-nls \
+	 --enable-256-color \
+	 --enable-wide-chars
+%make
+%inst
+install -d %dest/share/applications
+install -m 0644 xterm.desktop %dest/share/applications

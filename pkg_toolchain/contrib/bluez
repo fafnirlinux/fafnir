@@ -1,0 +1,25 @@
+ver=5.64
+
+[deps]
+alsa-lib
+dbus
+glib
+
+[srcs]
+https://mirrors.edge.kernel.org/pub/linux/bluetooth/bluez-%ver.tar.xz
+
+[build]
+prt-get isinst cups && PKGMK_BLUEZ+=' --enable-cups' || PKGMK_BLUEZ+=' --disable-cups'
+prt-get isinst docutils || PKGMK_BLUEZ+=' --disable-manpages'
+prt-get isinst libical && PKGMK_BLUEZ+=' --enable-obex' || PKGMK_BLUEZ+=' --disable-obex'
+%conf %destMK_BLUEZ \
+	 --sysconfdir=/etc \
+	 --localstatedir=/var \
+	 --libexecdir=/lib \
+	 --enable-{a2dp,experimental,library,midi,tools} \
+	 --disable-systemd
+%make
+%inst
+install -D -m 0644 src/main.conf %dest/etc/bluetooth/main.conf
+install -D -m 0755 %files/bluetoothd %dest/etc/rc.d/bluetoothd
+prt-get isinst libical && install -D -m 0755 tools/obexctl %dest/lib/bluetooth/obexctl || true

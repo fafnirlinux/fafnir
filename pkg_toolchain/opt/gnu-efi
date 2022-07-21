@@ -1,0 +1,8 @@
+ver=3.0.14
+
+[srcs]
+https://download.sourceforge.net/%name/%name-%ver.tar.bz2
+
+[build]
+%make
+make INSTALLROOT=%dest PREFIX= install

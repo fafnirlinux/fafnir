@@ -1,0 +1,16 @@
+ver=0.8.0
+
+[deps]
+python3-pip
+
+[srcs]
+https://pypi.io/packages/source/j/jeepney/jeepney-%ver.tar.gz
+
+[build]
+cd jeepney-%ver
+if prt-get isinst python3-flit; then
+/usr/bin/python3 -m flit build --format wheel
+/usr/bin/pip3 install --isolate --root=%dest --ignore-installed --no-deps dist/*.whl
+else
+/usr/bin/pip3 install --isolate --root=%dest --ignore-installed --no-deps jeepney
+fi

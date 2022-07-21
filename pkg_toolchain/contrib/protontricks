@@ -1,0 +1,14 @@
+ver=1.9.0
+
+[deps]
+python3-setuptools-scm
+python3-importlib_metadata
+python3-vdf
+winetricks
+
+[srcs]
+https://files.pythonhosted.org/packages/source/${name:0:1}/%name/%name-%ver.tar.gz
+
+[build]
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --root=%dest --optimize=1 --skip-build

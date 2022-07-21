@@ -1,0 +1,16 @@
+ver=1.6.2
+
+[deps]
+python3-frozendict
+python3-simplejson
+
+[srcs]
+https://github.com/matrix-org/python-canonicaljson/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd python-canonicaljson-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 -O1 \
+	 --skip-build

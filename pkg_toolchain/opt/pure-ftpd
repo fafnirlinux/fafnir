@@ -1,0 +1,24 @@
+ver=1.0.51
+
+[deps]
+openssl
+
+[srcs]
+https://download.pureftpd.org/%name/releases/%name-%ver.tar.bz2
+
+[build]
+%conf \
+	 --with-certfile=/etc/ssl/certs/pure-ftpd.pem \
+	 --with-everything \
+	 --with-tls \
+	 --with-pam
+%make
+%inst
+install -d %dest/etc/ssl/certs
+touch %dest/etc/ssl/certs/pure-ftpd.pem
+chmod 0600 %dest/etc/ssl/certs/pure-ftpd.pem
+install -D -m 755 %files/pure-ftpd.rc %dest/etc/rc.d/pure-ftpd
+install -D -m 644 %files/pure-ftpd.pam %dest/etc/pam.d/pure-ftpd
+install -m 644 pam/ftpusers %dest/etc/
+install -m 644 pure-ftpd.conf %dest/etc/
+rm -r %dest/share/doc

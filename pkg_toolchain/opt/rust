@@ -1,0 +1,96 @@
+ver=1.62.0
+
+[deps]
+compiler-rt
+
+[srcs]
+https://static.rust-lang.org/dist/%namec-%ver-src.tar.xz
+
+[build]
+_check_version
+cd "%namec-%ver-src"
+cat <<- EOF > %files/config.toml
+changelog-seen = 2
+[llvm]
+ninja = true
+link-shared = true
+@POLLY@
+@CCACHE@
+[install]
+prefix = "/usr"
+[rust]
+codegen-units-std = 1
+debuginfo-level-std = 2
+codegen-tests = false
+description = "CRUX"
+channel = "stable"
+parallel-compiler = true
+rpath = false
+optimize = true
+@LLD@
+[build]
+target = ["x86_64-unknown-linux-gnu", "i686-unknown-linux-gnu"]
+tools = ["cargo", "clippy", "rustfmt", "analysis", "src", "rust-demangler"]
+docs = false
+extended = true
+sanitizers = true
+profiler = true
+vendor = true
+python = "/usr/bin/python3"
+@CARGO@
+@RUST@
+@RUSTFMT@
+[target.x86_64-unknown-linux-gnu]
+llvm-config = "/usr/bin/llvm-config"
+llvm-filecheck = "/usr/bin/FileCheck"
+EOF
+if [ -e '/usr/bin/rustc' ]; then
+if [[ -z "$(/usr/bin/ldd /usr/bin/rustc | egrep '.*libLLVM.*.so => not found')" && \
+	 -z "$(/usr/bin/ldd /usr/bin/cargo | egrep 'libgit2.so.* => not found')" ]]; then
+sed -e 's|@CARGO@|cargo = "/usr/bin/cargo"|' \
+'s|@RUST@|rustc = "/usr/bin/rustc"|' \
+'s|@RUSTFMT@|rustfmt = "/usr/bin/rustfmt"|' \
+	 -i %files/config.toml
+else
+sed -e 's|@CARGO@||' -e 's|@RUST@||' -e 's|@RUSTFMT@||' -i %files/config.toml
+printf "[031mShared library missing, not using system rust to bootstrap.[0m
+"
+fi
+else
+sed -e 's|@CARGO@||' -e 's|@RUST@||' -e 's|@RUSTFMT@||' -i %files/config.toml
+fi
+if [ -e '/usr/bin/ccache' ]; then
+sed -e 's|@CCACHE@|ccache = "/usr/bin/ccache"|' -i %files/config.toml
+PATH=$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')
+else
+sed -e 's|@CCACHE@||' -i %files/config.toml
+fi
+prt-get isinst lld && sed -e 's|@LLD@|use-lld = true|' -i %files/config.toml || sed -e 's|@LLD@||' -i %files/config.toml
+prt-get isinst polly && sed -e 's|@POLLY@|polly = true|' -i %files/config.toml || sed -e 's|@POLLY@||' -i %files/config.toml
+cat %files/config.toml
+mkdir "%destMK_SOURCE_DIR/rust" || true
+export CARGO_HOME="%destMK_SOURCE_DIR/rust"
+if [ -e '/usr/bin/sccache' ]; then
+export RUSTC_WRAPPER='/usr/bin/sccache'
+export SCCACHE_IDLE_TIMEOUT='1500'
+fi
+export RUSTFLAGS+=' -A dead_code'
+export LIBGIT2_NO_PKG_CONFIG=1
+export RUST_BACKTRACE=full
+/usr/bin/python3 ./x.py build --config=%files/config.toml -j %threads
+DESTDIR=%dest /usr/bin/python3 ./x.py --config=%files/config.toml install
+[ -e '/usr/bin/zsh' ] || rm -r %dest/share/zsh
+rm -r %dest/share/doc
+rm -r %dest/etc
+rm %dest/lib/rustlib/{components,manifest-rustc,rust-installer-version,uninstall.sh}
+local file lib
+while read -rd '' file; do
+lib="${file%.json}.rlib"
+lib="${lib/\/analysis\///lib/}"
+if [[ ! -e $lib ]]; then
+echo "missing '$lib'"
+rm -v "$file"
+fi
+done < <(find "%dest/lib/rustlib" -path '*/analysis/*.json' -print0)
+install -d %dest/etc/revdep.d
+echo "/usr/lib/rustlib/i686-unknown-linux-gnu/lib" > %dest/etc/revdep.d/%name

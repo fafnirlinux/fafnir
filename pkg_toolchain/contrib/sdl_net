@@ -1,0 +1,14 @@
+ver=1.2.8
+
+[deps]
+libsdl
+
+[srcs]
+https://www.libsdl.org/projects/SDL_net/release/SDL_net-%ver.tar.gz
+
+[build]
+cd SDL_net-%ver
+%conf
+%make
+%inst
+}

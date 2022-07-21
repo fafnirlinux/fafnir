@@ -1,0 +1,28 @@
+ver=1.3.8
+
+[deps]
+alsa-lib
+libjpeg-turbo
+mesa
+util-linux
+xorg-libxft
+xorg-libxinerama
+
+[srcs]
+https://fltk.org/pub/%name/${version%-*}/%name-%ver-source.tar.bz2
+
+[build]
+[[ -e /usr/bin/ninja ]] && PKGMK_FLTK+=' -G Ninja'
+cmake -S %name-%ver -B build %destMK_FLTK \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D FLTK_LIBDIR=/lib \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D OPTION_CREATE_LINKS=ON \
+	 -D OPTION_BUILD_SHARED_LIBS=ON \
+	 -D OpenGL_GL_PREFERENCE=GLVND \
+	 -D OPTION_BUILD_HTML_DOCUMENTATION=OFF \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build

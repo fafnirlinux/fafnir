@@ -1,0 +1,21 @@
+ver=1.0.3
+
+[deps]
+flac
+libmikmod
+libmodplug
+libvorbis
+physfs
+smpeg
+speex
+
+[srcs]
+http://icculus.org/SDL_sound/downloads/SDL_sound-%ver.tar.gz
+
+[build]
+cd SDL_sound-%ver
+CFLAGS+=" -I/usr/include/smpeg -Wno-error=deprecated-declarations"
+CXXFLAGS+=" -I/usr/include/smpeg -Wno-error=deprecated-declarations"
+%conf
+%make
+%inst

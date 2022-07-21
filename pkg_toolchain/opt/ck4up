@@ -1,0 +1,10 @@
+ver=1.4
+
+[deps]
+ruby
+
+[srcs]
+http://jue.li/crux/%name/%name-%ver.tar.gz
+
+[build]
+make MANDIR=/share/man/man1 DESTDIR=%dest install

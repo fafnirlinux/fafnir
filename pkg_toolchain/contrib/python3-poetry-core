@@ -1,0 +1,18 @@
+ver=1.0.8
+
+[deps]
+python3-installer
+python3-jsonschema
+python3-lark-parser
+python3-tomlkit
+
+[srcs]
+https://github.com/python-poetry/poetry-core/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cd poetry-core-%ver
+sed -i '/^__version__/!d' poetry/core/__init__.py
+rm -r poetry/core/_vendor
+rm poetry/__init__.py
+/usr/bin/python3 -m build --wheel --skip-dependency-check --no-isolation
+/usr/bin/python3 -m installer --compile-bytecode 2 --destdir=%dest dist/*.whl

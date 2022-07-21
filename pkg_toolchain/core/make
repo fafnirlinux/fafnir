@@ -1,0 +1,10 @@
+ver=4.3
+
+[srcs]
+http://ftpmirror.gnu.org/gnu/%name/%name-%ver.tar.lz
+
+[build]
+%conf --disable-nls
+%make
+%inst
+rm -r %dest/share/info

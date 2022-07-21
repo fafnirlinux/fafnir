@@ -1,0 +1,20 @@
+ver=1.5.1
+
+[deps]
+cmake
+ffmpeg
+ninja
+
+[srcs]
+https://github.com/acoustid/chromaprint/releases/download/v%ver/%name-%ver.tar.gz
+
+[build]
+cmake -S %name-%ver -B build -G Ninja \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=RELEASE \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D BUILD_TESTS=OFF \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build

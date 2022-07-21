@@ -1,0 +1,15 @@
+ver=0.8.2
+
+[deps]
+rust
+
+[srcs]
+https://github.com/ajeetdsouza/zoxide/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+prt-get isinst sccache && export RUSTC_WRAPPER=/bin/sccache
+[[ ! -e %destMK_SOURCE_DIR/rust ]] && mkdir %destMK_SOURCE_DIR/rust
+cargo build --release --manifest-path %name-%ver/Cargo.toml
+prt-get isinst bash-completion && install -vDm644 %name-%ver/contrib/completions/zoxide.bash %dest/share/bash-completion/completions/zoxide
+prt-get isinst zsh && install -vDm644 -t %dest/share/zsh/site-functions %name-%ver/contrib/completions/_zoxide
+install -Dt %dest/bin %name-%ver/target/release/%name

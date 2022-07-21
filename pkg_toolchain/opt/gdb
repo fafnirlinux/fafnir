@@ -1,0 +1,39 @@
+ver=12.1
+
+[deps]
+expat
+libmpfr
+readline
+texinfo
+xz
+zlib
+
+[srcs]
+https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
+
+[build]
+sed '/^SUBDIRS/s/doc//' -i gdb/Makefile.in
+mkdir build && cd build
+.%conf \
+	 --with-pkgversion="$(crux | awk '{ print $1 " " $3 }')" \
+	 --with-bugurl="https://crux.nu/bugs" \
+	 --with-system-{readline,zlib} \
+	 --with-python=/bin/python3 \
+	 --enable-tui \
+	 --enable-64-bit-bfd \
+	 --without-zlib \
+	 --disable-readline \
+	 --disable-werror \
+	 --disable-nls
+%make
+%inst
+export PYTHONHASHSEED=0
+/usr/bin/python3 -m compileall -d /usr/share/gdb/python %dest/share/gdb/python
+/usr/bin/python3 -O -m compileall -d /usr/share/gdb/python %dest/share/gdb/python
+install -d %dest/share/man/man{1,5}
+install -m 0644 ../gdb/doc/*.1 %dest/share/man/man1
+install -m 0644 ../gdb/doc/*.5 %dest/share/man/man5
+rm -r %dest/{include,share/info}
+find %dest \( -name '*.la' -o \
+	 -name '*.a' \) \
+	 -type f -delete

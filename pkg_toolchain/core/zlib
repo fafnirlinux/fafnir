@@ -1,0 +1,11 @@
+ver=1.2.12
+
+[srcs]
+http://www.zlib.net/%name-%ver.tar.gz
+
+[build]
+%conf --sharedlibdir=/lib
+%make
+%inst
+ln -sf ../lib/libz.so.%ver %dest/lib/libz.so
+rm %dest/lib/libz.so

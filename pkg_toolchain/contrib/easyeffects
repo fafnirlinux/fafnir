@@ -1,0 +1,32 @@
+ver=6.2.4
+
+[deps]
+appstream-glib
+fmt
+gtk4
+intel-tbb
+libadwaita
+libbs2b
+libebur128
+lilv
+nlohmann-json
+pipewire
+rnnoise
+rubberband
+speexdsp
+zita-convolver
+libsigc++
+
+[srcs]
+https://github.com/wwmm/easyeffects/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+meson setup easyeffects-%ver build \
+	 --sysconfdir=/etc \
+	 --buildtype plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true
+meson compile -C build
+DESTDIR=%dest meson install -C build
+rm -fr %dest/share/{locale,help}

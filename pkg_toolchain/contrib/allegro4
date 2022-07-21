@@ -1,0 +1,27 @@
+ver=4.4.3.1
+
+[deps]
+alsa-lib
+glu
+libidn
+libpng
+libvorbis
+xorg-libxcursor
+xorg-libxpm
+xorg-libxxf86dga
+
+[srcs]
+https://github.com/liballeg/allegro5/releases/download/%ver/allegro-%ver.tar.gz
+
+[build]
+cmake -S allegro-%ver -B build -G Ninja \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D WANT_DOCS_HTML=OFF \
+	 -Wno-dev
+cmake --build build -j %threads
+DESTDIR=%dest cmake --install build
+install -Dm644 allegro-%ver/misc/allegro.m4 \
+%dest/share/aclocal/allegro.m4

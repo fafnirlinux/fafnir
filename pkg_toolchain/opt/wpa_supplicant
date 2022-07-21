@@ -1,0 +1,30 @@
+ver=2.10
+
+[deps]
+openssl
+readline
+libnl
+dbus
+
+[srcs]
+https://w1.fi/releases/%name-%ver.tar.gz
+
+[build]
+cp defconfig .config
+echo "CONFIG_READLINE=y
+CONFIG_LIBNL32=y
+CONFIG_CTRL_IFACE_DBUS_NEW=y
+CFLAGS+=-I/usr/include/libnl3" >> .config
+make BINDIR=/sbin LIBDIR=/lib
+install -d %dest/{usr/sbin,usr/share/man/man{8,5},etc}
+install -m 0755 wpa_{cli,passphrase,supplicant} %dest/sbin
+install -m 0644 doc/docbook/wpa_{background,cli,passphrase,supplicant}.8 %dest/share/man/man8
+install -m 0644 doc/docbook/wpa_supplicant.conf.5 %dest/share/man/man5
+echo -e "ctrl_interface=/var/run/wpa_supplicant
+" > %dest/etc/wpa_supplicant.conf
+chmod 0600 %dest/etc/wpa_supplicant.conf
+install -D -m 0755 %files/wlan %dest/etc/rc.d/wlan
+install -m 0755 %files/wpa_supplicant %dest/etc/rc.d
+install -d %dest/{usr/share/dbus-1/system-services,etc/dbus-1/system.d}
+install -m 0644 dbus/fi.w1.wpa_supplicant1.service %dest/share/dbus-1/system-services/
+install -m 0644 dbus/dbus-wpa_supplicant.conf %dest/etc/dbus-1/system.d/wpa_supplicant.conf

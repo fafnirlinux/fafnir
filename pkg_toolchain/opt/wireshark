@@ -1,0 +1,31 @@
+ver=3.6.6
+
+[deps]
+c-ares
+hicolor-icon-theme
+libgcrypt
+libpcap
+qt5
+
+[srcs]
+https://www.wireshark.org/download/src/%name-%ver.tar.xz
+
+[build]
+prt-get isinst ccache && PKGMK_WIRESHARK+=' -D ENABLE_CCACHE=ON' && \
+PATH="$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
+prt-get isinst clang lld && \
+export CC='clang' && \
+export CXX='clang++' && \
+export AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib && \
+export LDFLAGS+=' -fuse-ld=lld -flto=thin'
+prt-get isinst clang lld && PKGMK_WIRESHARK+=' -D ENABLE_LTO=ON '
+cmake -S %name-%ver -B build -G Ninja %destMK_WIRESHARK \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_INSTALL_LIBDIR=lib
+cmake --build build
+DESTDIR=%dest cmake --install build
+chown root:wireshark %dest/bin/dumpcap
+chmod u+s %dest/bin/dumpcap

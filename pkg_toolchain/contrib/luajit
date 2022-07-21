@@ -1,0 +1,10 @@
+ver=2.0.5
+
+[srcs]
+https://luajit.org/download/LuaJIT-%ver.tar.gz
+
+[build]
+cd LuaJIT-%ver
+make PREFIX= CFLAGS+=' -fPIC' amalg
+make PREFIX= DESTDIR=%dest install
+ln -s luajit-2.0 %dest/include/luajit

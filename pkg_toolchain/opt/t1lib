@@ -1,0 +1,19 @@
+ver=5.1.2
+
+[deps]
+xorg-libxaw
+
+[srcs]
+http://www.ibiblio.org/pub/Linux/libs/graphics/%name-%ver.tar.gz
+
+[build]
+patch -p1 -i %files/lib-cleanup.diff
+patch -p1 -i %files/format-security.diff
+patch -p1 -i %files/CVE-2011-0764.diff
+%conf \
+	 --disable-nls
+make without_doc
+make prefix=%dest install
+rm -r %dest/share/t1lib/doc
+cd %dest/lib
+chmod a+x libt1.la libt1.so.%ver libt1x.la

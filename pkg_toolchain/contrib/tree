@@ -1,0 +1,10 @@
+ver=2.0.2
+
+[srcs]
+http://mama.indstate.edu/users/ice/%name/src/%name-%ver.tgz
+
+[build]
+sed "s|CFLAGS=|CFLAGS=$CFLAGS |" -i Makefile
+%make
+install -D -m 0755 %name %dest/bin/%name
+install -D -m 0644 doc/%name.1 %dest/share/man/man1/%name.1

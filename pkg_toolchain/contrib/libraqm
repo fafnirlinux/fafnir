@@ -1,0 +1,18 @@
+ver=0.9.0
+
+[deps]
+fribidi
+harfbuzz
+
+[srcs]
+https://github.com/HOST-Oman/libraqm/releases/download/v%ver/raqm-%ver.tar.xz
+
+[build]
+meson setup raqm-%ver build \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D docs=false
+meson compile -C build
+DESTDIR=%dest meson install -C build

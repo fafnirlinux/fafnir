@@ -1,0 +1,14 @@
+ver=2.64.5
+
+[deps]
+gtk
+libsigc++2
+
+[srcs]
+https://ftp.gnome.org/pub/GNOME/sources/%name/2.64/%name-%ver.tar.xz
+
+[build]
+meson setup build %name-%ver \
+	 --buildtype=plain
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build

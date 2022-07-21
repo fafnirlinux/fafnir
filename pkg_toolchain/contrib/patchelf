@@ -1,0 +1,11 @@
+ver=0.15.0
+
+[srcs]
+https://github.com/Nixos/%name/archive/%ver/%name-%ver.tar.gz
+
+[build]
+./bootstrap.sh
+%conf
+%make
+%inst
+rm -r %dest/share/doc

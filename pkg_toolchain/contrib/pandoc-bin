@@ -1,0 +1,17 @@
+ver=2.18
+
+[deps]
+cmark
+
+[srcs]
+https://github.com/jgm/pandoc/releases/download/%ver/pandoc-%ver-linux-amd64.tar.gz
+
+[build]
+cd pandoc-%ver
+mkdir -p %dest/share/pandoc
+cp -R bin share %dest
+cp -R data %dest/share/pandoc
+find %dest -iname '*README*' -delete
+find %dest/share/pandoc/data/translations \(\
+	 -not -type d \
+	 -not -name en.yaml \) -exec rm '{}' \+

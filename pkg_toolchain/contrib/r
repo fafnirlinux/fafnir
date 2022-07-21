@@ -1,0 +1,68 @@
+ver=4.2.1
+
+[deps]
+libpcre2
+openblas
+zstd
+
+[srcs]
+https://cran.r-project.org/src/base/R-${version::1}/R-%ver.tar.gz
+
+[build]
+cd R-%ver
+prt-get isinst tk && PKGMK_R+=" --with-x=yes" || PKGMK_R+=" --with-x=no"
+prt-get isinst lapack && PKGMK_R+=" --with-lapack LAPACK_LIBS=$(pkg-config --libs lapack)"
+[[ -e $(whereis javac) ]] && PKGMK_R+=" --enable-java" || PKGMK_R+=" --disable-java"
+sed -i 's|$(rsharedir)/texmf|${datarootdir}/texmf|' share/Makefile.in
+unset R_HOME
+export CFLAGS+=' -fPIC'
+export CPPFLAGS+=' -fPIC'
+export FCFLAGS+=' -fPIC'
+%conf %destMK_R \
+	 --libdir=/lib \
+	 --sysconfdir=/etc/R \
+	 --datarootdir=/share \
+rsharedir=/share/R/ \
+rincludedir=/include/R/ \
+F77=gfortran \
+LIBnn=lib \
+BLAS_LIBS=$(pkg-config --libs blas) \
+PKG_CONFIG=/bin/pkg-config \
+	 --with-blas \
+	 --enable-BLAS-shlib \
+	 --enable-R-shlib \
+	 --enable-byte-compiled-packages \
+	 --disable-nls
+%make
+pushd src/nmath/standalone
+make shared
+popd
+%inst
+pushd src/nmath/standalone
+%inst
+sed -i "s|%dest ||" "%dest/bin/R"
+rm %dest/lib/R/bin/R
+cd %dest/lib/R/bin
+ln -s ../../../bin/R
+install -Dm644 %files/r.desktop \
+%dest/share/applications/r.desktop
+install -Dm644 %files/r.png \
+%dest/share/pixmaps/r.png
+install -Dm644 %files/R.conf \
+%dest/etc/ld.so.conf.d/R.conf
+install -d %dest/etc/R
+cd %dest/lib/R/etc
+for i in *; do
+	 mv -f $i %dest/etc/R
+	 ln -s /etc/R/$i $i
+done
+find %dest \(\
+	 -iname '*README*' -o \
+	 -iname '*COPYING*' -o \
+	 -iname '*AUTHORS*' -o \
+	 -iname '*THANKS*' -o \
+	 -iname '*NEWS*' -o \
+	 -iname '*LICENSE*' -o \
+	 -iname '*CHANGELOG*' -o \
+	 -iname '*LC_MESSAGES*' \
+\) -exec rm -r '{}' \+ || true

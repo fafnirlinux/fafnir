@@ -1,0 +1,11 @@
+ver=20031028
+
+[deps]
+bash-completion
+
+[srcs]
+crux_completions
+
+[build]
+install -D -m 755 crux_completions \
+%dest/etc/bash_completion.d/crux

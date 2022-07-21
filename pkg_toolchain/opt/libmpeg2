@@ -1,0 +1,15 @@
+ver=0.5.1
+
+[deps]
+libsdl
+
+[srcs]
+https://libmpeg2.sourceforge.io/files/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --with-gnu-ld \
+	 --enable-shared \
+	 --disable-nls
+%make
+%inst

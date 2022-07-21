@@ -1,0 +1,10 @@
+ver=3.0
+
+[srcs]
+https://github.com/skvadrik/re2c/archive/%ver/%name-%ver.tar.gz
+
+[build]
+./autogen.sh
+%conf
+%make
+%inst

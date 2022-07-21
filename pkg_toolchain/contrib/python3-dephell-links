@@ -1,0 +1,16 @@
+ver=0.1.5
+
+[deps]
+python3-attrs
+
+[srcs]
+https://files.pythonhosted.org/packages/source/d/dephell_links/dephell_links-%ver.tar.gz
+
+[build]
+cd dephell_links-%ver
+find . -name \*.pyc -delete
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 -O1 \
+	 --skip-build

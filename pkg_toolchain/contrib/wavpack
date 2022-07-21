@@ -1,0 +1,10 @@
+ver=5.5.0
+
+[srcs]
+https://github.com/dbry/WavPack/releases/download/%ver/%name-%ver.tar.xz
+
+[build]
+%conf
+%make
+%inst
+rm -r %dest/share/doc

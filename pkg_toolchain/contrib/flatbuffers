@@ -1,0 +1,22 @@
+ver=2.0.6
+
+[deps]
+cmake
+python3-setuptools
+
+[srcs]
+https://github.com/google/flatbuffers/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+prt-get isinst ninja && PKGMK_FLATBUFFERS+=' -G Ninja'
+cmake -S %name-%ver -B build %destMK_FLATBUFFERS \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_INSTALL_LIBDIR=lib \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D FLATBUFFERS_BUILD_FLATLIB=OFF \
+	 -D FLATBUFFERS_BUILD_SHAREDLIB=ON \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build

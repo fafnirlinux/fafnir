@@ -1,0 +1,23 @@
+ver=2.2.1
+
+[deps]
+libdv
+libjpeg-turbo
+libpng
+
+[srcs]
+https://downloads.sourceforge.net/project/mjpeg/%name/%ver/%name-%ver.tar.gz
+
+[build]
+sed -i -e '/ARCHFLAGS=/s:=.*:=:' configure
+export CFLAGS+=' -fPIC'
+export CXXFLAGS+=' -fPIC'
+export LDFLAGS+=' -fPIC'
+%conf \
+	 --enable-largefile \
+	 --enable-simd-accel \
+	 --disable-dependency-tracking \
+	 --disable-assert
+%make
+%inst
+rm -r %dest/share/info

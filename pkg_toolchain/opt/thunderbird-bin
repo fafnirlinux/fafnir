@@ -1,0 +1,23 @@
+ver=102.0.2
+
+[deps]
+gtk3
+dbus-glib
+
+[srcs]
+https://ftp.mozilla.org/pub/thunderbird/releases/%ver/linux-x86_64/en-US/thunderbird-%ver.tar.bz2
+
+[build]
+cd thunderbird
+install -d %dest/{lib,bin}
+mv %files/thunderbird %dest/lib/thunderbird
+ln -s /usr/lib/thunderbird/thunderbird %dest/bin/thunderbird
+install -d %dest/lib/thunderbird/distribution
+install -m644 %files/policies.json %dest/lib/thunderbird/distribution/
+install -d %dest/etc/revdep.d
+echo "/usr/lib/thunderbird" > %dest/etc/revdep.d/thunderbird-bin
+install -m 0755 -d %dest/share/pixmaps
+ln -s /usr/lib/thunderbird/chrome/icons/default/default32.png \
+%dest/share/pixmaps/thunderbird.png
+install -m 0644 -D %files/thunderbird.desktop \
+%dest/share/applications/thunderbird.desktop

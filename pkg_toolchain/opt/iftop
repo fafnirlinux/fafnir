@@ -1,0 +1,13 @@
+ver=1.0pre4
+
+[deps]
+libpcap,
+ncurses
+
+[srcs]
+http://www.ex-parrot.com/~pdw/iftop/download/%name-%ver.tar.gz
+
+[build]
+%conf
+make CFLAGS+=" -fcommon" iftop
+%inst

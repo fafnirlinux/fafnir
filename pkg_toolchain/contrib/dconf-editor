@@ -1,0 +1,22 @@
+ver=3.38.3
+
+[deps]
+dconf
+gtk3
+meson
+vala
+
+[srcs]
+https://gitlab.gnome.org/GNOME/dconf-editor/-/archive/%ver/dconf-editor-%ver.tar.bz2
+
+[build]
+ls /usr/share/vala/vapi/dconf.vapi || (printf '[1;31m%-6s[m
+' "%name needs dconf build with vala bindings, install vala, rebuild dconf, then install %name" ; exit 1)
+meson setup %name-%ver build \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true
+meson compile -C build
+DESTDIR=%dest meson install -C build
+rm -r %dest/share/locale

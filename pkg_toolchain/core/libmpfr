@@ -1,0 +1,14 @@
+ver=4.1.0
+
+[deps]
+libgmp
+
+[srcs]
+https://www.mpfr.org/mpfr-${version%-*}/mpfr-${version%-*}.tar.xz
+
+[build]
+cd mpfr-${version%-*}
+%conf
+%make
+%inst
+rm -r %dest/share

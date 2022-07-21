@@ -1,0 +1,14 @@
+ver=3.96
+
+[deps]
+ucl
+zlib
+
+[srcs]
+https://github.com/upx/upx/releases/download/v%ver/%name-%ver-src.tar.xz
+
+[build]
+sed -i 's/bool warn = true/bool warn = false/' src/main.cpp
+make UPX_LZMA_VERSION=0x465 UPX_LZMADIR=%files all
+install -m 0644 -D doc/upx.1 %dest/share/man/man1/upx.1
+install -m 0755 -D src/upx.out %dest/bin/upx

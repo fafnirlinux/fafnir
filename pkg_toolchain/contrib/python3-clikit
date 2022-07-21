@@ -1,0 +1,19 @@
+ver=0.6.2
+
+[deps]
+python3-crashtest
+python3-pastel
+python3-pylev
+python3-typing_extensions
+
+[srcs]
+https://github.com/sdispater/clikit/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cd clikit-%ver
+if prt-get isinst python3-poetry; then
+/usr/bin/python3 -m build --wheel --skip-dependency-check --no-isolation
+/usr/bin/python3 -m installer --compile-bytecode 2 --destdir=%dest dist/*.whl
+else
+/usr/bin/pip3 install --isolate --root=%dest --ignore-installed --no-deps clikit
+fi

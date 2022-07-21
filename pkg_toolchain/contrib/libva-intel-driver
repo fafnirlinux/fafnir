@@ -1,0 +1,17 @@
+ver=2.4.1
+
+[deps]
+glu
+ffmpeg
+libva
+meson
+ninja
+
+[srcs]
+https://github.com/intel/intel-vaapi-driver/releases/download/%ver/intel-vaapi-driver-%ver.tar.bz2
+
+[build]
+meson intel-vaapi-driver-%ver build \
+	 --buildtype=plain
+ninja -C build
+DESTDIR=%dest ninja -C build install

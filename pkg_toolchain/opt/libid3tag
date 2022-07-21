@@ -1,0 +1,20 @@
+ver=0.16.2
+
+[deps]
+zlib
+cmake
+
+[srcs]
+https://github.com/tenacityteam/libid3tag/archive/%ver/%name-%ver.tar.gz
+
+[build]
+prt-get isinst ninja && PKGMK_LIBID3TAG+=' -G Ninja'
+cmake -S %name-%ver -B build %destMK_LIBID3TAG \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_INSTALL_LIBDIR=lib \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build

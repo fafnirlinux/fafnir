@@ -1,0 +1,30 @@
+ver=7.0.0
+
+[deps]
+libusb
+linux-pam
+util-linux
+glib
+ninja
+libsdl2
+libxkbcommon
+xorg-libpixman
+
+[srcs]
+https://download.qemu.org/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --sysconfdir=/etc \
+	 --disable-docs \
+	 --libexecdir=/lib/qemu \
+	 --disable-gtk \
+	 --localstatedir=/var \
+	 --python=/bin/python3 \
+	 --target-list=x86_64-linux-user,i386-linux-user,i386-softmmu,x86_64-softmmu
+%make
+%inst
+cp -r %files/man %dest/share
+install -d %dest/etc/udev/rules.d/
+echo 'KERNEL=="kvm", NAME="kvm", OWNER="root", GROUP="kvm", MODE="0660"' > \
+%dest/etc/udev/rules.d/60-kvm.rules

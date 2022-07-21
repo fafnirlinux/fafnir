@@ -1,0 +1,22 @@
+ver=0.9.0
+
+[deps]
+gpgme
+libxkbcommon
+rust
+
+[srcs]
+https://github.com/orhun/gpg-tui/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+prt-get isinst sccache && export RUSTC_WRAPPER=/bin/sccache
+mkdir "%destMK_SOURCE_DIR/rust" || true
+export CARGO_HOME="%destMK_SOURCE_DIR/rust"
+cargo update --manifest-path %name-%ver/Cargo.toml
+cargo build --release --locked --manifest-path %name-%ver/Cargo.toml
+mkdir %files/completions
+OUT_DIR=%files/completions/ cargo run --bin gpg-tui-completions --manifest-path %name-%ver/Cargo.toml
+install -Dt %dest/bin %name-%ver/target/release/%name
+prt-get isinst bash-completion && install -Dm 644 %files/completions/%name.bash -t %dest/share/bash-completion/completions/%name || true
+prt-get isinst zsh && install -Dm 644 completions/_%name -t %dest/share/zsh/site-functions || true
+install -Dm 644 %name-%ver/man/%name.1 -t %dest/share/man/man1

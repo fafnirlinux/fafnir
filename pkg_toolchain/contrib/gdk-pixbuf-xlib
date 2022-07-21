@@ -1,0 +1,14 @@
+ver=2.40.2
+
+[deps]
+gdk-pixbuf
+xorg-libx11
+
+[srcs]
+https://download.gnome.org/sources/%name/${version:0:4}/%name-%ver.tar.xz
+
+[build]
+meson setup build %name-%ver --prefix=%prefix \
+	 --buildtype=plain
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build

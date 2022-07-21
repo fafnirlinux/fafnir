@@ -1,0 +1,27 @@
+ver=1.7
+
+[deps]
+basu
+json-c
+pango
+wlroots
+xorg-libevdev
+
+[srcs]
+https://github.com/swaywm/sway/archive/%ver/%name-%ver.tar.gz
+
+[build]
+prt-get isinst bash-completion || PKGMK_SWAY+=' -D bash-completions=false'
+prt-get isinst zsh || PKGMK_SWAY+=' -D zsh-completions=false'
+prt-get isinst xorg-xwayland && PKGMK_SWAY+=' -D xwayland=enabled' || PKGMK_SWAY+=' -D xwayland=disabled'
+meson setup %name-%ver build %destMK_SWAY \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D tray=enabled \
+	 -D sd-bus-provider=basu \
+	 -D fish-completions=false \
+	 -D werror=false
+meson compile -C build
+DESTDIR=%dest meson install -C build

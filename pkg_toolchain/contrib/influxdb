@@ -1,0 +1,24 @@
+ver=2.3.0
+
+[deps]
+clang
+go
+git
+protobuf
+rust
+yarn
+
+[srcs]
+https://github.com/influxdata/influxdb/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+mkdir -p build
+export CGO_CPPFLAGS="${CPPFLAGS}"
+export CGO_CFLAGS="${CFLAGS}"
+export CGO_CXXFLAGS="${CXXFLAGS}"
+export CGO_LDFLAGS="${LDFLAGS}"
+export GOFLAGS="-trimpath -mod=readonly -modcacherw -buildmode=pie"
+export LDFLAGS="-linkmode external"
+PATH="$(go env GOPATH)/bin:$PATH" make -j1 VERSION=%ver
+install -Dm755 bin/linux/influxd -t %dest/bin
+install -Dm 755 %files/influxdb.service %dest/etc/rc.d/influxdb

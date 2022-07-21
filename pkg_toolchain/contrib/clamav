@@ -1,0 +1,36 @@
+ver=0.105.0
+
+[deps]
+bzip2
+libgmp
+curl
+cmake
+libxml2
+libpcre2
+json-c
+rust
+
+[srcs]
+http://www.clamav.net/downloads/production/%name-%ver.tar.gz
+
+[build]
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release \
+	 -DCMAKE_INSTALL_PREFIX= \
+	 -DCMAKE_INSTALL_LIBDIR=/lib \
+	 -DAPP_CONFIG_DIRECTORY=/etc \
+	 -DENABLE_MILTER=OFF \
+	 -DENABLE_TESTS=OFF \
+../%name-%ver
+cmake .
+%inst
+mkdir -p %dest/var/run/%name %dest/var/log/%name
+chown -R %name:%name %dest/var/run/%name %dest/var/log/%name
+install -o root -g root -m 0644 %files/{clamd,freshclam}.conf \
+%dest/etc/
+install -d %dest/etc/rc.d
+install -o root -g root -m 0755 %files/{clamd,freshclam} \
+%dest/etc/rc.d/
+install -o clamav -g clamav -m 0775 -d %dest/share/clamav
+rm -r %dest/share/doc %dest/etc/*.sample

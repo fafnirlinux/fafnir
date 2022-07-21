@@ -1,0 +1,11 @@
+ver=1.4.3
+
+[srcs]
+https://download.videolan.org/pub/%name/%ver/%name-%ver.tar.bz2
+
+[build]
+%conf
+%make
+%inst
+rm -rf %dest/share/doc
+rmdir %dest/share

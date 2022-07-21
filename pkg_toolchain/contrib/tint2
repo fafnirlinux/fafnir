@@ -1,0 +1,25 @@
+ver=17.0.2
+
+[deps]
+imlib2
+librsvg
+startup-notification
+xorg-libxcomposite
+xorg-libxdamage
+xorg-libxinerama
+xorg-libxrandr
+
+[srcs]
+https://gitlab.com/o9000/%name/-/archive/v%ver/%name-v%ver.tar.bz2
+
+[build]
+cmake -S %name-v%ver -B build -G Ninja \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D ENABLE_TINT2CONF=OFF \
+	 -Wno-dev
+cmake --build build -j %threads
+DESTDIR=%dest cmake --install build
+rm -r %dest/{etc,usr/share/doc}

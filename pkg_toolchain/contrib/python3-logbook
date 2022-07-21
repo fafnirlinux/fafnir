@@ -1,0 +1,16 @@
+ver=1.5.3
+
+[deps]
+python3-cython
+python3-six
+
+[srcs]
+https://github.com/mitsuhiko/logbook/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cd logbook-%ver
+/usr/bin/cython3 logbook/_speedups.pyx
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 --skip-build

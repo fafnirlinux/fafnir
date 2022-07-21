@@ -1,0 +1,19 @@
+ver=3.78
+
+[deps]
+p5-html-tagset
+
+[srcs]
+https://www.cpan.org/modules/by-module/HTML/HTML-Parser-%ver.tar.gz
+
+[build]
+cd HTML-Parser-%ver
+perl Makefile.PL INSTALLDIRS=vendor
+make OPTIMIZE="$CFLAGS"
+%inst
+find %dest -type f \( \
+	 -name '.packlist' -or \
+	 -name '*.bs' -or \
+	 -name 'autosplit.ix' -or \
+	 -name 'perllocal.pod' \) -delete
+find %dest -depth -empty -exec rm -r {} \;

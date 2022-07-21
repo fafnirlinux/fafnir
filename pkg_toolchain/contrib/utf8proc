@@ -1,0 +1,12 @@
+ver=2.7.0
+
+[srcs]
+https://github.com/JuliaStrings/utf8proc/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+%make
+make prefix= DESTDIR=%dest install
+cp %dest/lib/pkgconfig/{lib,}utf8proc.pc
+sed -i 's,^\(Name: \)lib\(utf8proc\),\1\2,' \
+%dest/lib/pkgconfig/utf8proc.pc
+rm %dest/lib/libutf8proc.a

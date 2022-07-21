@@ -1,0 +1,14 @@
+ver=1.4.7
+
+[deps]
+python3
+
+[srcs]
+https://www.samba.org/ftp/%name/%name-%ver.tar.gz
+
+[build]
+%conf
+%make
+%inst
+install -d %dest/share/man/man8
+install -m 0644 %files/*.8 %dest/share/man/man8

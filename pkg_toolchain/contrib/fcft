@@ -1,0 +1,24 @@
+ver=3.1.2
+
+[deps]
+fontconfig
+scdoc
+tllist
+utf8proc
+wayland-protocols
+xorg-libpixman
+
+[srcs]
+https://codeberg.org/dnkl/fcft/archive/%ver.tar.gz
+
+[build]
+prt-get isinst harfbuzz && PKGMK_FCFT+=' -D grapheme-shaping=enabled -D run-shaping=enabled'
+meson setup %name build %destMK_FCFT \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D test-text-shaping=true
+meson compile -C build
+DESTDIR=%dest meson install -C build
+rm -r %dest/share/doc

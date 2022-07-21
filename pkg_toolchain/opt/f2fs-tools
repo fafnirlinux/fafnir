@@ -1,0 +1,11 @@
+ver=1.15.0
+
+[srcs]
+https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git/snapshot/%name-%ver.tar.gz
+
+[build]
+autoreconf -fi
+%conf \
+	 --sbindir=/sbin
+%make
+%inst

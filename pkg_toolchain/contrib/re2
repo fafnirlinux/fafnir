@@ -1,0 +1,8 @@
+ver=2022-06-01
+
+[srcs]
+https://github.com/google/re2/archive/%ver/%name-%ver.tar.gz
+
+[build]
+%make
+make prefix= DESTDIR=%dest install

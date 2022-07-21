@@ -1,0 +1,14 @@
+ver=590
+
+[deps]
+ncurses
+libpcre
+
+[srcs]
+http://www.greenwoodsoftware.com/less/%name-%ver.tar.gz
+
+[build]
+%conf --with-regex=pcre
+%make
+%inst
+install -m 755 -D %files/filter %dest/lib/less/filter

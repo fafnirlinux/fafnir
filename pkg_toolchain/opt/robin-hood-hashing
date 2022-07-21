@@ -1,0 +1,15 @@
+ver=3.11.5
+
+[deps]
+cmake
+
+[srcs]
+https://github.com/martinus/robin-hood-hashing/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cmake -S %name-%ver -B build \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_INSTALL_LIBDIR=lib \
+	 -D RH_STANDALONE_PROJECT=OFF \
+cmake --build build
+DESTDIR=%dest cmake --install build

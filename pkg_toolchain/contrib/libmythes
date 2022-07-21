@@ -1,0 +1,13 @@
+ver=1.2.4
+
+[deps]
+hunspell
+
+[srcs]
+https://downloads.sourceforge.net/project/hunspell/MyThes/%ver/${name/lib/}-%ver.tar.gz
+
+[build]
+cd mythes-%ver
+%conf
+%make
+%inst

@@ -1,0 +1,12 @@
+ver=5.1
+
+[deps]
+xorg-libxinerama
+xorg-libxft
+
+[srcs]
+http://dl.suckless.org/tools/%name-%ver.tar.gz
+
+[build]
+sed "/^CFLAGS/s/-Os/$CFLAGS/" -i config.mk
+make DESTDIR=%dest PREFIX= install

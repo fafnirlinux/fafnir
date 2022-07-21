@@ -1,0 +1,10 @@
+ver=3.22.6.0
+
+[srcs]
+https://github.com/inotify-tools/inotify-tools/archive/%ver/%name-%ver.tar.gz
+
+[build]
+./autogen.sh
+%conf
+%make
+%inst

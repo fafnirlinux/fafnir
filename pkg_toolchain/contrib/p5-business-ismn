@@ -1,0 +1,20 @@
+ver=1.202
+
+[deps]
+p5-tie-cycle
+
+[srcs]
+https://cpan.metacpan.org/authors/id/B/BD/BDFOY/Business-ISMN-%ver.tar.gz
+
+[build]
+cd Business-ISMN-%ver
+unset PERL5LIB PERL_MM_OPT PERL_MB_OPT PERL_LOCAL_LIB_ROOT
+export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps
+perl Makefile.PL
+%make
+make install INSTALLDIRS=vendor DESTDIR=%dest
+%inst
+find %dest -name .packlist -o \
+	 -name perllocal.pod -o \
+	 -name README -o \
+	 -name '*.bs' | xargs rm

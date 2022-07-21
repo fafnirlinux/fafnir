@@ -1,0 +1,21 @@
+ver=5.15.6
+
+[deps]
+python3-pyqt5
+qtwebengine
+
+[srcs]
+https://pypi.python.org/packages/source/P/PyQtWebEngine/PyQtWebEngine-%ver.tar.gz
+
+[build]
+cd PyQtWebEngine-%ver
+export PATH="/usr/lib/qt5/bin/:${PATH}"
+sip-build \
+	 --no-make \
+	 --api-dir /usr/share/qt/qsci/api/python/
+cd build
+%make
+make INSTALL_ROOT=%dest install -j1
+find %dest \
+	 -iname "*INSTALLER*" \
+	 -delete

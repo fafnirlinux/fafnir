@@ -1,0 +1,26 @@
+ver=495.46
+
+[deps]
+brotli
+gtk3
+xorg-libxcomposite
+xorg-libxcursor
+xorg-libxinerama
+
+[srcs]
+https://github.com/NVIDIA/nvidia-settings/archive/%ver/%name-%ver.tar.gz
+
+[build]
+export PREFIX=
+export NV_USE_BUNDLED_LIBJANSSON=0
+export OUTPUTDIR=out
+%make
+make -C src/libXNVCtrl
+%inst
+rm %dest/lib/libnvidia-gtk2.so.%ver
+rm %dest/bin/nvidia-settings %dest/share/man/man1/nvidia-settings.1.gz
+find %dest -type d -empty -delete
+cd src/libXNVCtrl
+install -Dm 644 -t %dest/include/NVCtrl ./*.h
+install -d %dest/lib
+cp -Pr -t %dest/lib out/libXNVCtrl.*

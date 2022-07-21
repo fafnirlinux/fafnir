@@ -1,0 +1,11 @@
+ver=20210417
+
+[srcs]
+start-stop-daemon.cstart-stop-daemon.podcrux-patch.diffmakefile
+
+[build]
+patch -p1 -i crux-patch.diff
+%make
+install -d %dest/{sbin,usr/share/man/man8}
+install -m 755 %name %dest/sbin/
+install -m 644 %name.8 %dest/share/man/man8/

@@ -1,0 +1,8 @@
+
+README for ristretto
+
+
+POST-INSTALL
+
+To update your icon cache remember to run
+$ gtk-update-icon-cache -f -t /usr/share/icons/hicolor

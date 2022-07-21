@@ -1,0 +1,12 @@
+ver=22.0.0
+
+[deps]
+python3-cryptography
+
+[srcs]
+https://files.pythonhosted.org/packages/source/p/pyOpenSSL/pyOpenSSL-%ver.tar.gz
+
+[build]
+cd pyOpenSSL-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --root=%dest --optimize=1

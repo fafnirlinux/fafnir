@@ -1,0 +1,16 @@
+ver=0.29
+
+[srcs]
+http://search.cpan.org/CPAN/authors/id/U/UM/UMEMOTO/Socket6-%ver.tar.gz
+
+[build]
+cd Socket6-%ver
+perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest -type f \( \
+	 -name '.packlist' -or \
+	 -name '*.bs' -or \
+	 -name 'autosplit.ix' -or \
+	 -name 'perllocal.pod' \) -delete
+find %dest -depth -empty -exec rm -rf {} \;

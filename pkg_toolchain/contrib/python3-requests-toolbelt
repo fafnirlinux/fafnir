@@ -1,0 +1,15 @@
+ver=0.9.1
+
+[deps]
+python3-requests
+
+[srcs]
+https://github.com/requests/toolbelt/archive/%ver/toolbelt-%ver.tar.gz
+
+[build]
+cd toolbelt-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install \
+	 --root=%dest \
+	 --optimize=1 \
+	 --skip-build

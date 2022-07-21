@@ -1,0 +1,14 @@
+ver=1.2.2
+
+[deps]
+alsa-lib
+
+[srcs]
+https://github.com/xiph/libao/archive/%ver/%name-%ver.tar.gz
+
+[build]
+./autogen.sh
+%conf
+%make
+%inst
+rm -r %dest/share/doc

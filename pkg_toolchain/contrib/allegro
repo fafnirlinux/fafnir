@@ -1,0 +1,27 @@
+ver=5.2.8.0
+
+[deps]
+flac
+glu
+gtk
+libtheora
+libwebp
+openal
+opus
+physfs
+xorg-libxi
+xorg-libxpm
+
+[srcs]
+https://github.com/liballeg/allegro5/releases/download/%ver/%name-%ver.tar.gz
+
+[build]
+cmake -S %name-%ver -B build -G Ninja \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D WANT_DOCS_HTML=OFF \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build

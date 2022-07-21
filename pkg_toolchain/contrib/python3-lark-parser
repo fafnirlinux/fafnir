@@ -1,0 +1,17 @@
+ver=0.12.0
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://github.com/lark-parser/lark/archive/%ver/%name-%ver.tar.gz
+
+[build]
+rmdir lark-%ver/tests/test_nearley/nearley
+ln -s nearely-$_nearley_commit lark-%ver/tests/test_nearley/nearley
+cd lark-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 --skip-build \
+	 -O1

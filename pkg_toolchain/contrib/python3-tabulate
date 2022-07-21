@@ -1,0 +1,23 @@
+ver=0.8.10
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://files.pythonhosted.org/packages/source/t/tabulate/tabulate-%ver.tar.gz
+
+[build]
+cd tabulate-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 --skip-build \
+	 -O1
+find %dest \(\
+	 -iname '*PKG-INFO*' -o \
+	 -iname '*SOURCES*' -o \
+	 -iname '*dependency_links.txt' -o \
+	 -iname '*entry_points.txt*' -o \
+	 -iname '*requires.txt*' -o \
+	 -iname '*top_level.txt*' \
+\) -exec rm -r '{}' \+ || true

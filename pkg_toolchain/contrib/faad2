@@ -1,0 +1,10 @@
+ver=2.10.0
+
+[srcs]
+https://github.com/knik0/%name/archive/${version//./_}/%name_${version//./_}.tar.gz
+
+[build]
+./bootstrap
+%conf
+%make
+%inst

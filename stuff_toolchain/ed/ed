@@ -1,0 +1,10 @@
+ver=1.18
+
+[srcs]
+https://ftpmirror.gnu.org/gnu/%name/%name-%ver.tar.lz
+
+[build]
+#sed "/^CFLAGS/s/-O2/$CFLAGS/" -i configure
+%conf --exec-prefix=/
+%make
+make DESTDIR=%dest install-bin install-man

@@ -1,0 +1,21 @@
+ver=2.11
+
+[deps]
+asciidoc
+ffmpeg
+fuse
+lame
+libchardet
+libcue
+libgmp
+libpcre
+util-linux
+w3m
+
+[srcs]
+https://github.com/nschlia/ffmpegfs/releases/download/v%ver/ffmpegfs-%ver.tar.gz
+
+[build]
+CONFIG_SHELL=/bin/bash %conf
+%make
+%inst

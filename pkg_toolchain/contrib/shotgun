@@ -1,0 +1,18 @@
+ver=2.2.1
+
+[deps]
+git
+rust
+xorg-libx11
+xorg-libxrandr
+
+[srcs]
+#source=(https://github.com/neXromancers/shotgun/archive/v%ver/%name-%ver.tar.gz) source=(https://github.com/neXromancers/shotgun/archive/$_commit/%name-$_commit.tar.gz
+
+[build]
+prt-get isinst sccache && export RUSTC_WRAPPER=/bin/sccache
+mkdir "%destMK_SOURCE_DIR/rust" || true
+export CARGO_HOME="%destMK_SOURCE_DIR/rust"
+cargo update --manifest-path %name-$_commit/Cargo.toml
+cargo build --release --locked --manifest-path %name-$_commit/Cargo.toml
+install -Dt %dest/bin %name-$_commit/target/release/shotgun

@@ -1,0 +1,18 @@
+ver=1.1.6
+
+[deps]
+gtk
+xorg-libxdamage
+
+[srcs]
+http://download.gnome.org/sources/%name/1.1/%name-%ver.tar.bz2
+
+[build]
+%conf \
+	 --disable-dbus \
+	 --disable-debug \
+	 --disable-gtk-doc \
+	 --with-x
+make CFLAGS+=" -Wno-error -Wno-deprecated-declarations"
+%inst
+rm -r %dest/share/gtk-doc

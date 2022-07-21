@@ -1,0 +1,14 @@
+ver=6.01
+
+[deps]
+p5-http-message
+
+[srcs]
+https://cpan.metacpan.org/authors/id/G/GA/GAAS/HTTP-Negotiate-%ver.tar.gz
+
+[build]
+cd HTTP-Negotiate-%ver
+perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

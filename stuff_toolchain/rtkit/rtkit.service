@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# /etc/rc.d/rtkit: start/stop rtkit
+#
+
+SSD=/sbin/start-stop-daemon
+PROG=/usr/lib/rtkit/rtkit-daemon
+OPTS=""
+# these don't seem work
+RUNDIR=/var/run
+PID=$RUNDIR/rtkit.pid
+
+case $1 in
+  start)
+    $SSD --start --pidfile=$PID --exec $PROG -b -- $OPTS ;;
+  stop)
+    kill $(pidof $PROG) ;;
+  restart)
+    $0 stop
+    $0 start ;;
+  status)
+    $SSD --status --exec $PROG
+    case $? in
+      0) echo "$PROG is running with pid $(pidof $PROG)" ;;
+      1) echo "$PROG is not running but the pid file $PID exists" ;;
+      3) echo "$PROG is not running" ;;
+      4) echo "Unable to determine the program status" ;;
+    esac ;;
+  *)
+    echo "usage: $0 [start|stop|restart|status]" ;;
+esac

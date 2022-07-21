@@ -1,0 +1,12 @@
+ver=3.7.0
+
+[srcs]
+https://github.com/thom311/libnl/releases/download/libnl${version//./_}/%name-%ver.tar.gz
+
+[build]
+YACC="bison -y -Wnone" \
+%conf \
+	 --sysconfdir=/etc \
+	 --disable-cli
+%make
+%inst

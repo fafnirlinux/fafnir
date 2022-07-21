@@ -1,0 +1,11 @@
+ver=0.0.7
+
+[srcs]
+https://download.videolan.org/pub/videolan/%name/%ver/%name-%ver.tar.bz2
+
+[build]
+./bootstrap
+%conf --disable-static
+%make
+%inst
+rm -f %dest/lib/libdts.a

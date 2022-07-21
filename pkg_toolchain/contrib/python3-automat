@@ -1,0 +1,16 @@
+ver=20.2.0
+
+[deps]
+python3-attrs
+python3-m2r
+python3-setuptools-scm
+
+[srcs]
+https://files.pythonhosted.org/packages/source/${_name:8:1}/${_name#*-}/${_name#*-}-%ver.tar.gz
+
+[build]
+cd ${_name#*-}-%ver
+export SETUPTOOLS_SCM_PRETEND_VERSION=%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix --root=%dest --optimize=1
+mv %dest/bin/automat-visualize{,3}

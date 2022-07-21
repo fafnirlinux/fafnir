@@ -1,0 +1,11 @@
+ver=3.0.4
+
+[deps]
+ruby
+
+[srcs]
+https://cache.ruby-lang.org/pub/ruby/3.0/ruby-%ver.tar.xz
+
+[build]
+cd ruby-%ver
+rdoc --encoding=UTF-8 --all --ri --op %dest/share/ri/3.0/system .

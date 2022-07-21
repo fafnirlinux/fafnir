@@ -1,0 +1,11 @@
+ver=1.29
+
+[srcs]
+https://deb.debian.org/debian/pool/main/f/%name/%name_%ver.orig.tar.gz
+
+[build]
+sed -i '/^SUBDIRS/d' doc/Makefile.am
+./bootstrap
+%conf
+%make
+%inst

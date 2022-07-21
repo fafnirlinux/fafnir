@@ -1,0 +1,16 @@
+ver=4.49.1
+
+[deps]
+python3
+
+[srcs]
+http://downloads.sourceforge.net/terminus-font/terminus-font-%ver.tar.gz
+
+[build]
+cd terminus-font-%ver
+chmod +x configure
+%conf \
+	 --psfdir=/share/kbd/consolefonts
+make psf
+make DESTDIR=%dest install-psf
+rm %dest/share/kbd/consolefonts/ter-[^v]*

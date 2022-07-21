@@ -1,0 +1,38 @@
+#!/bin/sh
+#@ /etc/rc.d/postfix: start/stop postfix daemon
+
+PROG=/usr/sbin/postfix
+OPTS=
+
+case "${1}" in
+check)
+   exec ${PROG} ${OPTS} check
+   ;;
+start)
+   exec ${PROG} ${OPTS} start
+   ;;
+stop)
+   exec ${PROG} ${OPTS} stop
+   ;;
+restart)
+   "${0}" stop
+   exec "${0}" start
+   ;;
+reload)
+   exec ${PROG} ${OPTS} reload
+   ;;
+abort)
+   exec ${PROG} ${OPTS} abort
+   ;;
+flush)
+   exec ${PROG} ${OPTS} flush
+   ;;
+status)
+   exec ${PROG} ${OPTS} status
+   ;;
+*)
+   echo "usage: ${0} check|start|stop|restart|reload|abort|flush|status"
+   ;;
+esac
+
+# s-sh-mode

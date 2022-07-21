@@ -1,0 +1,21 @@
+ver=1.9.11p3
+
+[deps]
+zlib
+linux-pam
+
+[srcs]
+https://www.sudo.ws/dist/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --libexecdir=/lib \
+	 --with-logfac=auth \
+	 --with-vardir=/var/lib/sudo \
+	 --with-rundir=/var/run/sudo \
+	 --with-sendmail=/sbin/sendmail \
+	 --disable-nls
+%make
+%inst
+install -D -m 0644 %files/%name.pam %dest/etc/pam.d/%name
+rm -r %dest/share/doc

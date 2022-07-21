@@ -1,0 +1,24 @@
+ver=1.3.38
+
+[deps]
+brotli
+freetype
+jasper
+lcms2
+libwebp
+
+[srcs]
+https://downloads.sourceforge.net/project/%name/%name/%ver/GraphicsMagick-%ver.tar.xz
+
+[build]
+cd GraphicsMagick-%ver
+%conf \
+	 --enable-shared \
+	 --with-modules \
+	 --with-perl \
+	 --with-gs-font-dir='/usr/share/fonts/X11/Type1' \
+	 --with-quantum-depth=16 \
+	 --with-threads
+%make
+%inst
+rm -r %dest/share/doc %dest/share/GraphicsMagick-%ver

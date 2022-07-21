@@ -1,0 +1,31 @@
+ver=3.10.1
+
+[deps]
+cmake
+gcc-fortran
+python3
+openblas
+
+[srcs]
+https://github.com/Reference-LAPACK/lapack/archive/v%ver/%name-%ver-$release.tar.gz
+
+[build]
+export CFLAGS+=' -fPIC'
+prt-get isinst ninja && PKGMK_LAPACK+=' -G Ninja'
+cmake -S %name-%ver -B build %destMK_LAPACK \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_INSTALL_LIBDIR=lib \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS -fPIC" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS -fPIC" \
+	 -D CMAKE_Fortran_FLAGS="$CFLAGS -fPIC" \
+	 -D CMAKE_Fortran_COMPILER=gfortran \
+	 -D CMAKE_SKIP_RPATH=YES \
+	 -D USE_OPTIMIZED_BLAS=ON \
+	 -D CBLAS=OFF \
+	 -D LAPACKE_WITH_TMG=ON \
+	 -D BUILD_SHARED_LIBS=ON \
+	 -D BUILD_DEPRECATED=ON \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build

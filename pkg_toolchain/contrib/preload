@@ -1,0 +1,20 @@
+ver=0.6.4
+
+[deps]
+glib
+help2man
+
+[srcs]
+http://downloads.sourceforge.net/project/%name/%name/%ver/%name-%ver.tar.gz
+
+[build]
+autoreconf -i
+%conf \
+	 --sysconfdir=/etc \
+	 --localstatedir=/var
+make -j 1
+%inst
+rm -r %dest/etc/{rc.d,logrotate.d,sysconfig}
+rm -r %dest/share/doc
+chmod 0600 %dest/var/cache/preload/preload.state
+install -m 0755 -D %files/rc.preload %dest/etc/rc.d/preload

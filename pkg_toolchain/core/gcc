@@ -1,0 +1,41 @@
+ver=10.4.0
+
+[deps]
+zlib
+libmpc
+zstd
+
+[srcs]
+ftp://gcc.gnu.org/pub/gcc/releases/gcc-%ver/%name-%ver.tar.xz
+
+[build]
+mkdir build
+cd build
+.%conf \
+	 --libexecdir=/lib \
+	 --enable-languages=c,c++,objc \
+	 --enable-threads=posix \
+	 --enable-__cxa_atexit \
+	 --enable-clocale=gnu \
+	 --enable-shared \
+	 --disable-nls \
+	 --with-x=no \
+	 --with-system-zlib \
+	 --enable-multilib \
+	 --enable-default-pie \
+	 --enable-default-ssp
+make bootstrap
+make -j1 DESTDIR=%dest install
+install -d %dest/lib
+ln -sf ../usr/bin/cpp %dest/lib/cpp
+ln -sf gcc %dest/bin/cc
+ln -sf g++ %dest/bin/c++
+mv %dest/lib/gcc/*/%ver/include-fixed/{limits.h,syslimits.h} %dest/lib/gcc/*/%ver/include/
+rm -r %dest/share/{info,%name-%ver}
+rm -r %dest/bin/*-linux-gnu-*
+rm -r %dest/lib/gcc/*/%ver/{install-tools,include-fixed}
+for D in lib{,32}; do
+	 install -d -m 0755 %dest/share/gdb/auto-load/usr/${D}
+	 mv %dest/${D}/libstdc++.so.*-gdb.py %dest/share/gdb/auto-load/usr/${D}
+done
+sed -i "s|-L%files[^ ]* ||g" %dest/lib{,32}/{libstdc++.la,libsupc++.la}

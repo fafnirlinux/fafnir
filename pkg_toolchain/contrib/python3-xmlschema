@@ -1,0 +1,16 @@
+ver=1.11.3
+
+[deps]
+python3-elementpath
+python3-pip
+
+[srcs]
+https://github.com/sissaschool/xmlschema/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd xmlschema-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 -O1 \
+	 --skip-build

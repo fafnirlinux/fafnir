@@ -1,0 +1,9 @@
+ver=1.2.1
+
+[srcs]
+https://github.com/icons8/line-awesome/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+find ${name/ttf-}-%ver \
+	 -iname "*.ttf" \
+	 -execdir install -Dm644 {} %dest/share/fonts/TTF/line-awesome/{} \;

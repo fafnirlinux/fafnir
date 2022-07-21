@@ -1,0 +1,24 @@
+ver=0.3.20
+
+[deps]
+e2fsprogs
+ntfs-3g
+
+[srcs]
+https://github.com/Thomas-Tsai/partclone/archive/%ver/%name-%ver.tar.gz
+
+[build]
+./autogen
+%conf \
+	 --enable-extfs \
+	 --enable-fat \
+	 --enable-hfsp \
+	 --enable-btrfs \
+	 --enable-ncursesw \
+	 --enable-ntfs \
+	 --enable-exfat \
+	 --enable-f2fs \
+	 --enable-minix
+%make
+%inst
+rm -r %dest/share/locale

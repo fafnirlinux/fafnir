@@ -1,0 +1,39 @@
+ver=27.2.4
+
+[deps]
+fdk-aac
+ffmpeg
+jansson
+libgmp
+mbedtls
+pulseaudio
+qt5
+x264
+
+[srcs]
+https://github.com/obsproject/%name/archive/%ver/%name-%ver.tar.gz
+
+[build]
+prt-get isinst wayland-protocols && PKGMK_OBS+=' -D ENABLE_WAYLAND=ON' || PKGMK_OBS+=' -D ENABLE_WAYLAND=OFF'
+prt-get isinst pipewire || PKGMK_OBS+=' -D ENABLE_PIPEWIRE=OFF'
+export QT_QPA_PLATFORMTHEME="qt5ct"
+cmake -S %name-%ver -B build -G Ninja %destMK_OBS \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_INSTALL_LIBDIR=lib \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D OBS_VERSION_OVERRIDE="%ver" \
+	 -D UNIX_STRUCTURE=ON \
+	 -D BUILD_VST=OFF \
+	 -D BUILD_BROWSER=OFF \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build
+find %dest -type d -exec chmod g-w '{}' \;
+rm %dest/share/obs/obs-studio/authors/AUTHORS
+find %dest/share/obs \
+	 -iname '*ini' \
+! -iname 'en-*.ini' \
+! -iname 'locale.ini' \
+	 -exec rm '{}' \+

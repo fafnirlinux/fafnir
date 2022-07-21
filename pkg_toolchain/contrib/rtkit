@@ -1,0 +1,23 @@
+ver=0.13
+
+[deps]
+dbus
+meson
+ninja
+
+[srcs]
+https://github.com/heftig/rtkit/releases/download/v%ver/%name-%ver.tar.xz
+
+[build]
+mv %files/org.freedesktop.RealtimeKit1.conf %name-%ver/org.freedesktop.RealtimeKit1.conf
+meson setup %name-%ver build \
+	 --libexecdir=/lib/%name \
+	 --buildtype=plain \
+	 -D libsystemd=disabled \
+	 -D installed_tests=false
+meson compile -C build
+DESTDIR=%dest meson install -C build
+install -Dm755 %files/rtkit.service %dest/etc/rc.d/rtkit
+install -Dm755 %files/rtkit.rules %dest/etc/polkit-1/rules.d/60-rtkit.rules
+rm -r %dest/lib/systemd
+rm -r %dest/share/dbus-1/system-services

@@ -1,0 +1,14 @@
+ver=5.3.0
+
+[srcs]
+https://github.com/%name/%name/releases/download/%ver/%name-%ver.tar.bz2
+
+[build]
+export CFLAGS+=' -O3'
+prt-get isinst clang lld && LDFLAGS+=' -fuse-ld=lld -flto=thin'
+prt-get isinst clang && export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib || \
+export CC=gcc CXX=g++
+%conf
+%make
+%inst
+rm -r %dest/share/doc

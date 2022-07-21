@@ -1,0 +1,15 @@
+ver=0.63.0
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://github.com/mesonbuild/meson/releases/download/%ver/%name-%ver.tar.gz
+
+[build]
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install \
+install -d %dest/share/vim/vimfiles
+cp -rt %dest/share/vim/vimfiles data/syntax-highlighting/vim/*/
+install -m 0644 -Dt %dest/share/bash-completion/completions data/shell-completions/bash/*
+install -m 0644 -Dt %dest/share/zsh/site-functions data/shell-completions/zsh/*

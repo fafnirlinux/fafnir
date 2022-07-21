@@ -1,0 +1,9 @@
+ver=0.16.21
+
+[srcs]
+https://mirror.netcologne.de/gentoo/distfiles/%name-%ver.tar.gz
+
+[build]
+make -j1 CFLAGS="$CFLAGS -D_POSIX_SOURCE" PREFIX=
+install -d %dest/{bin,share/man/man1}
+make PREFIX=%dest MANDIR=%dest/share/man/man1 install

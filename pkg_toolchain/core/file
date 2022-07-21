@@ -1,0 +1,16 @@
+ver=5.42
+
+[deps]
+zlib
+
+[srcs]
+ftp://ftp.astron.com/pub/file/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --enable-fsect-man5 \
+	 --enable-static \
+	 --disable-libseccomp
+%make
+%inst
+rmdir %dest/share/man/man4

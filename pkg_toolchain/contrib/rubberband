@@ -1,0 +1,31 @@
+ver=3.0.0
+
+[deps]
+fftw
+libsamplerate
+meson
+ninja
+vamp-plugin-sdk
+
+[srcs]
+https://github.com/breakfastquay/%name/archive/v%ver/%name-v%ver.tar.gz
+
+[build]
+if [ -e '/usr/lib/java' ]; then
+[ -n "${JAVA_HOME}" ] || export JAVA_HOME="/usr/lib/java/openjdk8"
+if prt-get isinst openjdk8; then
+local java_major="$($JAVA_HOME/bin/java -version 2>&1 | awk '/openjdk/ {split($3,java,"."); print java[2]}')"
+PKGMK_RUBBERBAND+=" -D extra_include_dirs=/lib/java/openjdk${java_major}/include,/usr/lib/java/openjdk${java_major}/include/linux"
+export PATH="/usr/lib/java/openjdk${java_major}/bin:$PATH"
+else
+local java_major="$($JAVA_HOME/bin/java -version 2>&1 | awk '/OpenJDK 64-Bit/ {split($6,java,"."); print java[1]}')"
+PKGMK_RUBBERBAND+=" -D extra_include_dirs=/lib/java/openjdk${java_major}-jdk/include,/usr/lib/java/openjdk${java_major}-jdk/include/linux"
+export PATH="/usr/lib/java/openjdk${java_major}-jdk/bin:$PATH"
+fi
+fi
+meson setup build %name-%ver ${PKGMK_RUBBERBAND} \
+	 --buildtype=plain \
+	 -D fft=fftw \
+	 -D resampler=libsamplerate
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build

@@ -1,0 +1,23 @@
+ver=4.6.0
+
+[deps]
+openssl
+
+[srcs]
+http://www.nlnetlabs.nl/downloads/nsd/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --sysconfdir=/etc \
+	 --localstatedir=/var \
+	 --with-dbfile=/var/lib/nsd/nsd.db \
+	 --with-pidfile=/var/run/nsd/nsd.pid \
+	 --with-xfrdir=/var/run/nsd \
+	 --without-libevent \
+	 --with-user=nsd
+make all nsd-mem
+%inst
+install -m 0755 nsd-mem %dest/sbin
+install -d %dest/etc/rc.d
+ln -s /usr/sbin/nsd-control %dest/etc/rc.d/nsd
+chown nsd %dest/var/{lib,run}/nsd

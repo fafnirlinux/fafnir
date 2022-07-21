@@ -1,0 +1,12 @@
+ver=20220401
+
+[srcs]
+https://repo.or.cz/tinycc.git/snapshot/${gitver}.tar.gz
+
+[build]
+cd tinycc-*
+%conf
+sed -i -E 's/^TCCDOCS.*$/TCCDOCS = tcc.1/' Makefile
+make MAKEFLAGS="${MAKEFLAGS}" &&
+make DESTDIR=%dest install
+}

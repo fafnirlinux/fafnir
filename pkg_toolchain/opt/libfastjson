@@ -1,0 +1,10 @@
+ver=0.99.9
+
+[srcs]
+https://github.com/rsyslog/%name/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+NOCONFIGURE=1 ./autogen.sh
+%conf
+%make
+%inst

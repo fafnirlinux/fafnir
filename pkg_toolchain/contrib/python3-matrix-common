@@ -1,0 +1,13 @@
+ver=1.2.1
+
+[deps]
+python3-build
+python3-installer
+
+[srcs]
+https://pypi.org/packages/source/m/matrix_common/matrix_common-%ver.tar.gz
+
+[build]
+cd matrix_common-%ver
+/usr/bin/python3 -m build --wheel --skip-dependency-check --no-isolation
+/usr/bin/python3 -m installer --compile-bytecode 2 --destdir=%dest dist/*.whl

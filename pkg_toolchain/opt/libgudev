@@ -1,0 +1,13 @@
+ver=237
+
+[deps]
+gobject-introspection
+
+[srcs]
+https://download.gnome.org/sources/%name/%ver/%name-%ver.tar.xz
+
+[build]
+meson build %name-%ver \
+	 --buildtype=plain
+ninja -C build -j %threads
+DESTDIR=%dest ninja -C build install

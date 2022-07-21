@@ -1,0 +1,20 @@
+ver=1.29
+
+[deps]
+readline
+dbus
+
+[srcs]
+https://www.kernel.org/pub/linux/network/wireless/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --libexecdir=/sbin \
+	 --localstatedir=/var \
+	 --sysconfdir=/etc \
+	 --disable-systemd-service
+%make
+%inst
+install -d -m 0700 %dest/var/lib/iwd
+install -d -m 0700 %dest/etc/iwd
+install -D -m 0755 %files/iwd %dest/etc/rc.d/iwd

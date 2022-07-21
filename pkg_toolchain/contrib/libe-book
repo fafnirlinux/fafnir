@@ -1,0 +1,16 @@
+ver=0.1.3
+
+[deps]
+liblangtag
+librevenge
+icu
+
+[srcs]
+https://sourceforge.net/projects/${name//-/}/files//%name-%ver/%name-%ver.tar.xz
+
+[build]
+[ $(pkginfo -i | awk '/^icu / {split($2,a,"."); print a[1]}') -ge 68 ] && \
+%conf \
+	 --without-docs
+%make
+%inst

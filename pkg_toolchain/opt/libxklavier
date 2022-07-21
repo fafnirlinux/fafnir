@@ -1,0 +1,18 @@
+ver=5.4
+
+[deps]
+xorg-libx11
+iso-codes
+gobject-introspection
+libxml2
+
+[srcs]
+https://people.freedesktop.org/~svu/%name-%ver.tar.bz2
+
+[build]
+sed -i -e '/^SUBDIRS/s/ doc//' Makefile.in
+%conf \
+	 --disable-static \
+	 --disable-nls
+%make
+%inst

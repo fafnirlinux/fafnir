@@ -1,0 +1,14 @@
+ver=10.40
+
+[srcs]
+https://github.com/PhilipHazel/pcre2/releases/download/pcre2-%ver/pcre2-%ver.tar.gz
+
+[build]
+cd pcre2-%ver
+%conf \
+	 --enable-jit \
+	 --enable-pcre2-16 \
+	 --enable-pcre2-32
+%make
+%inst
+rm -r %dest/share/doc

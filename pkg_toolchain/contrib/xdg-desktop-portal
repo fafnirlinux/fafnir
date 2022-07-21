@@ -1,0 +1,24 @@
+ver=1.14.4
+
+[deps]
+fontconfig
+fuse3
+json-glib
+libportal
+
+[srcs]
+https://github.com/flatpak/xdg-desktop-portal/archive/%ver/%name-%ver.tar.gz
+
+[build]
+prt-get isinst pipewire && PKGMK_XDGDP+=' --enable-pipewire' || PKGMK_XDGDP+=' --disable-pipewire'
+prt-get isinst geoclue && PKGMK_XDGDP+=' --enable-geoclue' || PKGMK_XDGDP+=' --disable-geoclue'
+NOCONFIGURE=1 ./autogen.sh
+%conf %destMK_XDGDP \
+	 --libexecdir=/lib \
+	 --enable-libportal \
+	 --without-systemd \
+	 --disable-docbook-docs \
+	 --disable-nls
+%make
+%inst
+rm -fr %dest/{lib/systemd,share/doc}

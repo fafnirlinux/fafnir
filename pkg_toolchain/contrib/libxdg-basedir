@@ -1,0 +1,10 @@
+ver=1.2.3
+
+[srcs]
+https://github.com/devnev/%name/archive/%name-%ver/%name-%ver.tar.gz
+
+[build]
+NOCONFIGURE=1 ./autogen.sh
+%conf
+%make
+%inst

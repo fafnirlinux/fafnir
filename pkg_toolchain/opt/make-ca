@@ -1,0 +1,9 @@
+ver=1.10
+
+[srcs]
+https://github.com/lfs-book/make-ca/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+sed -i -e 's|^\(LIBEXECDIR=\).*|\1/usr/lib/make-ca|' Makefile
+%make
+%inst

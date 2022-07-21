@@ -1,0 +1,30 @@
+ver=2.5.1
+
+[deps]
+flac
+freetype
+libjpeg-turbo
+libvorbis
+mesa
+openal
+util-linux
+xorg-libsm
+xorg-xcb-util-image
+
+[srcs]
+https://www.sfml-dev.org/files/SFML-%ver-sources.zip
+
+[build]
+cmake -S SFML-%ver -B build -G Ninja \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D SFML_INSTALL_PKGCONFIG_FILES=1 \
+	 -D SFML_USE_SYSTEM_DEPS=ON \
+	 -D SFML_BUILD_EXAMPLES=0 \
+	 -D SFML_BUILD_DOC=0 \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build
+rm -r %dest/share/SFML/{license,readme}.md

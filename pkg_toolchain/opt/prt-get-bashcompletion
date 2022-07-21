@@ -1,0 +1,11 @@
+ver=5.19.3
+
+[deps]
+bash-completion
+
+[srcs]
+http://crux.nu/files/prt-get-%ver.tar.xz
+
+[build]
+install -D -m 755 prt-get-%ver/misc/prt-get_complete \
+%dest/etc/bash_completion.d/prt-get

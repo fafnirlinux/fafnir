@@ -1,0 +1,18 @@
+ver=1.6
+
+[srcs]
+https://crux.nu/files/tools/ports/%name-%ver.tar.gz
+
+[build]
+%make
+make DESTDIR=%dest MANDIR=/share/man install
+install -m 0644 %files/core.rsync %dest/etc/ports
+install -m 0644 %files/opt.rsync %dest/etc/ports
+install -m 0644 %files/xorg.rsync %dest/etc/ports
+install -m 0644 %files/compat-32.rsync.inactive %dest/etc/ports
+install -m 0644 %files/contrib.rsync.inactive %dest/etc/ports
+install -m 0644 %files/core.pub %dest/etc/ports
+install -m 0644 %files/opt.pub %dest/etc/ports
+install -m 0644 %files/xorg.pub %dest/etc/ports
+install -m 0644 %files/compat-32.pub %dest/etc/ports
+install -m 0644 %files/contrib.pub %dest/etc/ports

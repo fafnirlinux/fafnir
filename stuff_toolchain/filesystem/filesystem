@@ -1,0 +1,69 @@
+[build]
+install -d %dest/bin
+install -d %dest/sbin
+install -d %dest/boot
+install -d %dest/dev
+install -d %dest/dev/pts
+install -d %dest/proc
+install -d %dest/sys
+install -d %dest/etc
+install -d %dest/mnt
+install -d %dest/run
+install -d %dest/lib{,32}
+ln -s lib %dest/lib64
+install -d %dest/lib/modules
+install -d %dest/opt
+install -d %dest/opt/bin
+install -d %dest/opt/sbin
+install -d %dest/usr
+install -d %dest/usr/{bin,include,lib{,32},sbin,share,src}
+ln -s lib %dest/usr/lib64
+install -d -p %dest/usr/share/man/man{1,2,3,4,5,6,7,8}
+ln -s ../var %dest/usr/var
+install -d %dest/var
+install -d %dest/var/cache
+install -d %dest/var/lib
+install -d %dest/var/lib/pkg
+install -d %dest/var/log
+install -d %dest/var/log/old
+install -d %dest/var/run
+touch %dest/var/run/utmp
+install -d %dest/var/spool
+install -d %dest/var/ftp
+install -d %dest/var/www
+install -d %dest/var/empty
+ln -s spool/mail %dest/var/mail
+install -d %dest/home
+
+install -d -m 1777 %dest/tmp
+install -d -m 0750 %dest/root
+install -d -m 1777 %dest/var/lock
+install -d -m 1777 %dest/var/spool/mail
+install -d -m 1777 %dest/var/tmp
+install -d -m 1777 %dest/dev/shm
+
+# /dev
+mknod %dest/dev/console c 5 1
+chmod 0600 %dest/dev/console
+
+# /etc
+install -m 0644 %files/issue %dest/etc
+install -m 0644 %files/motd %dest/etc
+install -m 0644 %files/shells %dest/etc
+install -m 0644 %files/group %dest/etc
+install -m 0644 %files/passwd %dest/etc
+install -m 0640 %files/shadow %dest/etc
+install -m 0644 %files/securetty %dest/etc
+install -m 0644 %files/fstab %dest/etc
+install -m 0644 %files/mime.types %dest/etc
+ln -s /proc/self/mounts %dest/etc/mtab
+
+# /etc/os-release
+cat > %dest/etc/os-release << EOF
+NAME=unknown
+VERSION=unknown
+ID=unknown
+PRETTY_NAME="unknown"
+HOME_URL="unknown"
+BUG_REPORT_URL="unknown"
+EOF

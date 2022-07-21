@@ -1,0 +1,14 @@
+ver=1.2.6
+
+[deps]
+nasm
+
+[srcs]
+http://files.musepack.net/source/libmpcdec-%ver.tar.bz2
+
+[build]
+%conf \
+	 --disable-static
+%make
+%inst
+}

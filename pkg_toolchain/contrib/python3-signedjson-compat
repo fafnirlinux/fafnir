@@ -1,0 +1,19 @@
+ver=1.1.1
+
+[deps]
+python3-canonicaljson
+python3-pynacl
+python3-unpaddedbase64
+
+[srcs]
+https://files.pythonhosted.org/packages/source/s/signedjson/signedjson-%ver.tar.gz
+
+[build]
+cd signedjson-%ver
+_pyver=$(/usr/bin/python3 -c 'import sys; print("%s.%s" % sys.version_info[:2])')
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 --install-lib=usr/lib/python$_pyver/site-packages/signedjson-compat \
+	 -O1 \
+	 --skip-build

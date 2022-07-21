@@ -1,0 +1,4 @@
+ver=2.71
+
+[srcs]
+http://ftpmirror.gnu.org/gnu/%name/%name-%ver.tar.xz

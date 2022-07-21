@@ -1,0 +1,13 @@
+ver=20220411
+
+[deps]
+cabextract
+unzip
+wine
+xmessage
+
+[srcs]
+https://github.com/Winetricks/winetricks/archive/%ver/%name-%ver.tar.gz
+
+[build]
+%inst

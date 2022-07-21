@@ -1,0 +1,8 @@
+ver=0.8
+
+[srcs]
+https://github.com/Bumblebee-Project/%name/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+%make
+install -D -m 0644 %name.ko %dest/lib/modules/$(uname -r)/misc/%name.ko

@@ -1,0 +1,10 @@
+ver=1.8.0
+
+[srcs]
+https://github.com/nayuki/QR-Code-generator/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cp -R QR-Code-generator-%ver{,-cpp}
+cd QR-Code-generator-%ver
+make DESTDIR=%dest PREFIX= -C c install
+make DESTDIR=%dest PREFIX= -C cpp install

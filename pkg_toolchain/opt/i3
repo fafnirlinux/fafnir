@@ -1,0 +1,25 @@
+ver=4.20.1
+
+[deps]
+pango
+xorg-xcb-util-cursor
+xorg-xcb-util-keysyms
+xorg-xcb-util-wm
+xorg-xcb-util-xrm
+libxkbcommon
+yajl
+libev
+startup-notification
+
+[srcs]
+http://i3wm.org/downloads/%name-%ver.tar.xz
+
+[build]
+meson setup build %name-%ver \
+	 --sysconfdir=/etc \
+	 --buildtype=release
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build
+install -d %dest/share/man/man1
+install -m 0644 %name-%ver/man/*.1 %dest/share/man/man1/
+rm -r %dest/share/doc

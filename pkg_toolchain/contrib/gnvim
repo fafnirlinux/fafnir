@@ -1,0 +1,33 @@
+ver=0.1.6
+
+[deps]
+gtk3
+neovim
+rust
+
+[srcs]
+https://github.com/vhakulinen/gnvim/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+prt-get isinst sccache && export RUSTC_WRAPPER='/usr/bin/sccache'
+mkdir "%destMK_SOURCE_DIR/rust" || true
+export CARGO_HOME="%destMK_SOURCE_DIR/rust"
+prt-get isinst webkitgtk || PKGMK_GNVIM+=' --no-default-features'
+cat <<- EOF > %name-%ver/build.rs
+use std::env;
+use std::fs::File;
+use std::io::Write;
+use std::path::Path;
+fn main() {
+let out_dir = env::var("OUT_DIR").unwrap();
+let dest_path = Path::new(&out_dir).join("gnvim_version.rs");
+let mut f = File::create(&dest_path).unwrap();
+f.write_all(b"const VERSION: &str = \"%ver\";").unwrap();
+}
+EOF
+sed \
+s'|/usr/local/share/gnvim/runtime|/usr/share/gnvim/runtime|' \
+	 -i %name-%ver/src/main.rs
+cargo fetch --manifest-path %name-%ver/Cargo.toml --locked
+cargo build --manifest-path %name-%ver/Cargo.toml --release --frozen %destMK_GNVIM
+make -C %name-%ver PREFIX= DESTDIR=%dest install

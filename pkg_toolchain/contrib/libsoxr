@@ -1,0 +1,26 @@
+ver=0.1.3
+
+[deps]
+cmake
+ffmpeg
+
+[srcs]
+https://downloads.sourceforge.net/soxr/soxr-%ver-Source.tar.xz
+
+[build]
+[[ -e /usr/bin/ninja ]] && PKGMK_SOXR+=' -G Ninja'
+cmake -S soxr-%ver-Source -B build %destMK_SOXR \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D BUILD_EXAMPLES=OFF \
+	 -D BUILD_SHARED_LIBS=ON \
+	 -D WITH_AVFFT=ON \
+	 -D WITH_LSR_BINDINGS=ON \
+	 -D WITH_OPENMP=ON \
+	 -D WITH_PFFFT=ON \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build
+rm -r %dest/share/doc

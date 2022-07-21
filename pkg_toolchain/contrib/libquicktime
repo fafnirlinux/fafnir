@@ -1,0 +1,31 @@
+ver=1.2.4
+
+[deps]
+faac
+faad2
+ffmpeg
+gtk
+lame
+libdv
+libvorbis
+schroedinger
+util-linux
+x264
+xorg-libxaw
+
+[srcs]
+https://downloads.sourceforge.net/project/%name/%name/%ver/%name-%ver.tar.gz
+
+[build]
+for FILE in lqt_ffmpeg.c video.c audio.c ; do
+	 sed -i -e "s:CODEC_ID_:AV_&:g" "plugins/ffmpeg/${FILE}"
+done
+%conf \
+	 --enable-gpl \
+	 --disable-nls \
+	 --with-libdv \
+	 --with-ffmpeg \
+	 --with-x264 \
+	 --without-doxygen
+%make
+%inst

@@ -1,0 +1,11 @@
+ver=1.10.1
+
+[srcs]
+https://www.tcpdump.org/release/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --disable-dbus \
+	 --without-libnl
+%make
+make DESTDIR=%dest install install-shared

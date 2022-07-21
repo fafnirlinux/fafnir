@@ -1,0 +1,17 @@
+ver=2.27
+
+[deps]
+bzip2
+xz
+zlib
+zstd
+libevent
+
+[srcs]
+http://links.twibright.com/download/links-%ver.tar.bz2
+
+[build]
+%conf \
+	 --mandir=/share/man
+%make
+%inst

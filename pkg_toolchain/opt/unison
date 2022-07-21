@@ -1,0 +1,13 @@
+ver=2.52.1
+
+[deps]
+ocaml
+
+[srcs]
+https://github.com/bcpierce00/unison/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+unset CFLAGS CXXFLAGS
+make UISTYLE=text THREADS=true NATIVE=true
+install -d %dest/bin
+install -m 0755 src/{unison,unison-fsmonitor} %dest/bin/

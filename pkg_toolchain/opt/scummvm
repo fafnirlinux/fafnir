@@ -1,0 +1,15 @@
+ver=2.5.1
+
+[deps]
+libmad
+libmpeg2
+flac
+
+[srcs]
+https://downloads.scummvm.org/frs/scummvm/%ver/%name-%ver.tar.xz
+
+[build]
+%conf
+%make
+%inst
+rm -rf %dest/share/doc

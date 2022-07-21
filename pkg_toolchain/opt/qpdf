@@ -1,0 +1,15 @@
+ver=10.6.3
+
+[deps]
+zlib
+libjpeg-turbo
+openssl
+
+[srcs]
+http://downloads.sourceforge.net/project/%name/%name/%ver/%name-%ver.tar.gz
+
+[build]
+%conf
+%make
+%inst
+rm -r %dest/share/doc

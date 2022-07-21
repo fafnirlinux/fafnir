@@ -1,0 +1,24 @@
+ver=3.0.4
+
+[deps]
+gdbm
+libgmp
+openssl
+zlib
+libffi
+libyaml
+
+[srcs]
+http://cache.ruby-lang.org/pub/%name/3.0/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --enable-shared \
+	 --disable-install-doc \
+	 --with-ruby-version=minor
+%make
+%inst
+install -d %dest/share/man/man{1,5}
+mv %dest/lib/ruby/3.0/bundler/man/*.1 %dest/share/man/man1
+mv %dest/lib/ruby/3.0/bundler/man/*.5 %dest/share/man/man5
+rm -r %dest/lib/ruby/3.0/bundler/man

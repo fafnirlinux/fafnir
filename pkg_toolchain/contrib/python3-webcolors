@@ -1,0 +1,14 @@
+ver=1.12
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://pypi.io/packages/source/w/webcolors/webcolors-%ver.tar.gz
+
+[build]
+cd webcolors-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 --skip-build

@@ -1,0 +1,16 @@
+ver=1.18.2
+
+[deps]
+cairo
+python
+
+[srcs]
+https://github.com/pygobject/pycairo/releases/download/v%ver/pycairo-%ver.tar.gz
+
+[build]
+cd pycairo-%ver
+/usr/bin/python setup.py build
+/usr/bin/python setup.py install --skip-build --root=%dest --optimize=1
+local pyv="$(/usr/bin/python -c "import sys; print \"%s.%s\" % (sys.version_info[0], sys.version_info[1]);")"
+find %dest/lib/python$pyv/site-packages/ -maxdepth 1 -type f \
+	 -name "pycairo-%ver-py$pyv.egg-info" -delete

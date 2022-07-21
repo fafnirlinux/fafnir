@@ -1,0 +1,9 @@
+ver=0.4.32
+
+[srcs]
+http://gstreamer.freedesktop.org/src/%name/%name-%ver.tar.xz
+
+[build]
+meson build --prefix=%prefix -D gtk_doc=disabled
+ninja -C build -j %threads
+DESTDIR=%dest ninja -C build install

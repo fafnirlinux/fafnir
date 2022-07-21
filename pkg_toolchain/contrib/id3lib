@@ -1,0 +1,20 @@
+ver=3.8.3
+
+[deps]
+zlib
+
+[srcs]
+http://downloads.sourceforge.net/project/%name/%name/%ver/%name-%ver.tar.gz
+
+[build]
+patch -p 1 -i %files/CVE-2007-4460.diff
+sed -i -e 's/^AM_CONFIG_HEADER/AC_CONFIG_HEADERS/' \
+configure.in zlib/configure.in
+autoreconf -ivfs # buggy configure
+CC='g++' \
+%conf \
+	 --disable-static \
+	 --disable-assert \
+	 --enable-debug=no
+%make
+%inst

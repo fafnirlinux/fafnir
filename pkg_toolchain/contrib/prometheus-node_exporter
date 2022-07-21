@@ -1,0 +1,24 @@
+ver=1.3.1
+
+[deps]
+go
+
+[srcs]
+https://github.com/prometheus/node_exporter/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd node_exporter-%ver
+GOLDFLAGS="-X github.com/prometheus/common/version.Version=%ver
+	 -X github.com/prometheus/common/version.Revision=CRUX
+	 -X github.com/prometheus/common/version.Branch=master
+	 -X github.com/prometheus/common/version.BuildUser=$USER@$HOSTNAME
+	 -X github.com/prometheus/common/version.BuildDate=$(date -u "+%Y%m%d-%H:%M:%S" ${SOURCE_DATE_EPOCH:+-d @$SOURCE_DATE_EPOCH})"
+go build \
+	 -trimpath \
+	 -buildmode=pie \
+	 -mod=readonly \
+	 -modcacherw \
+	 -ldflags "$GOLDFLAGS" \
+.
+install -Dm755 node_exporter %dest/bin/prometheus-node-exporter
+install -Dm 755 %files/prometheus-node_exporter.service %dest/etc/rc.d/prometheus-node_exporter

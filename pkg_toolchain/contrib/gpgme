@@ -1,0 +1,24 @@
+ver=1.17.1
+
+[deps]
+gnupg
+swig
+
+[srcs]
+https://www.gnupg.org/ftp/gcrypt/%name/%name-%ver.tar.bz2
+
+[build]
+export PYTHON='/usr/bin/python3'
+%conf \
+	 --disable-fd-passing \
+	 --disable-gpgsm-test \
+	 --enable-languages='cl cpp python'
+%make
+%inst
+cd lang/python
+%inst
+install -d %dest/etc/gpgme
+echo 'c cl cpp' > %dest/etc/gpgme/base
+echo 'python3' > %dest/etc/gpgme/python
+rm -r %dest/share/info
+rm -rf %dest/lib/python2.7

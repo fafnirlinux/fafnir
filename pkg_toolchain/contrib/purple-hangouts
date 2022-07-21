@@ -1,0 +1,14 @@
+ver=20171004
+
+[deps]
+pidgin
+protobuf-c
+json-glib
+
+[srcs]
+http://crux.ster.zone/downloads/%name/5e769791d282.tar.bz2
+
+[build]
+cd EionRobb-purple-hangouts-*
+%make
+%inst

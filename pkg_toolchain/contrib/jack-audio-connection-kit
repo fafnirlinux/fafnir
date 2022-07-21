@@ -1,0 +1,15 @@
+ver=0.125.0
+
+[deps]
+libsamplerate
+
+[srcs]
+https://crux.ster.zone/downloads/%name/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --libdir=/lib \
+	 --disable-portaudio
+%make
+%inst
+rm -rf %dest/share/%name

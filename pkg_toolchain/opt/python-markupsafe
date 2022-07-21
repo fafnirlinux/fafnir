@@ -1,0 +1,13 @@
+ver=1.1.1
+
+[deps]
+python-setuptools
+
+[srcs]
+https://pypi.io/packages/source/M/MarkupSafe/MarkupSafe-%ver.tar.gz
+
+[build]
+cd MarkupSafe-%ver
+/usr/bin/python setup.py build
+/usr/bin/python setup.py install --prefix=%prefix \
+	 --root=%dest --optimize=1

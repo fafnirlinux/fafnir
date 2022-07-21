@@ -1,0 +1,25 @@
+ver=3.0.7
+
+[deps]
+glib-networking
+libpsl
+libxml2
+nghttp2-libs
+
+[srcs]
+https://download.gnome.org/sources/libsoup/3.0/libsoup-%ver.tar.xz
+
+[build]
+prt-get isinst brotli && PKGMK_LIBSOUP3+=' -D brotli=enabled'
+prt-get isinst gobject-introspection && PKGMK_LIBSOUP3+=' -D introspection=enabled'
+prt-get isinst vala && PKGMK_LIBSOUP3+=' -D vapi=enabled'
+meson setup build libsoup-%ver ${PKGMK_LIBSOUP3} \
+	 --buildtype=plain \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 --wrap-mode nodownload \
+	 --auto-features disabled
+sed -i 's|-R/usr/lib||g' build/build.ninja
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build
+rm -r %dest/share/locale

@@ -1,0 +1,15 @@
+ver=0.2.10
+
+[deps]
+python3-attrs
+
+[srcs]
+https://files.pythonhosted.org/packages/source/d/dephell_discover/dephell_discover-%ver.tar.gz
+
+[build]
+cd dephell_discover-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 -O1 \
+	 --skip-build

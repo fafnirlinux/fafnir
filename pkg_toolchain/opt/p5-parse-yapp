@@ -1,0 +1,12 @@
+ver=1.21
+
+[srcs]
+https://cpan.metacpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-%ver.tar.gz
+
+[build]
+cd Parse-Yapp-%ver
+perl Makefile.PL
+make OPTIMIZE="$CFLAGS"
+%inst
+find %dest \( -name perllocal.pod -o -name .packlist \) -exec rm {} \;
+find %dest -depth -type d -empty -exec rm -rf {} \;

@@ -1,0 +1,74 @@
+ver=17.0.3+7
+
+[deps]
+alsa-lib
+cups
+giflib
+harfbuzz
+lcms2
+libxslt
+nss
+unzip
+xorg-libxrandr
+xorg-libxt
+xorg-libxtst
+zip
+
+[srcs]
+https://github.com/openjdk/jdk17u/archive/jdk-%ver/%name-%ver.tar.gz
+
+[build]
+if [ -e '/usr/bin/ccache' ]; then
+PATH=$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')
+PKGMK_JDK17+=' --enable-ccache'
+fi
+OLD_PATH=$PATH
+export JAVA_HOME=%files/openjdk17-boot
+export PATH=$JAVA_HOME/bin:$OLD_PATH
+unset CFLAGS
+unset CXXFLAGS
+unset LDFLAGS
+unset MAKEFLAGS
+export _CFLAGS+=' -fcommon'
+export _CXXFLAGS+=' -fcommon'
+[ -z $JOBS ] && JOBS=$(nproc)
+mkdir %files/build
+LC_ALL=C
+/bin/bash ../jdk17u-jdk-${version/+/-}/configure %destMK_JDK17 \
+	 --disable-precompiled-headers \
+	 --disable-warnings-as-errors \
+	 --enable-dtrace=no \
+	 --enable-unlimited-crypto \
+	 --with-native-debug-symbols=internal \
+	 --with-debug-level=release \
+	 --with-stdc++lib=dynamic \
+	 --with-jvm-variants=server \
+	 --with-cacerts-file=%files/java_cacerts-$_cert_ver \
+	 --with-jtreg=no \
+	 --with-boot-jdk=$JAVA_HOME \
+	 --with-version-opt="CRUX-r$release" \
+	 --with-version-build="${version#*+}" \
+	 --with-vendor-name="CRUX" \
+	 --with-jobs=$JOBS \
+	 --with-libjpeg=system \
+	 --with-giflib=system \
+	 --with-libpng=system \
+	 --with-zlib=system \
+	 --with-lcms=system \
+	 --with-freetype=system \
+	 --with-harfbuzz=system \
+	 --with-extra-cflags="$_CFLAGS" \
+	 --with-extra-cxxflags="$_CXXFLAGS"
+LC_ALL=C \
+make LOG=warn JOBS=$JOBS jdk-image
+rm -r images/jdk/demo
+rm -r images/jdk/lib/src.zip
+rm -r images/jdk/lib/*.ja
+rm -r images/jdk/legal
+rm images/jdk/conf/security/policy/README.txt
+install -d -m 0755 %dest/lib/java/%name
+cp -r images/jdk/* %dest/lib/java/%name/
+install -d -m 0755 %dest/etc/revdep.d
+echo "/usr/lib/java/%name/lib" > %dest/etc/revdep.d/%name
+echo "/usr/lib/java/%name/lib/jli" >> %dest/etc/revdep.d/%name
+echo "/usr/lib/java/%name/lib/server" >> %dest/etc/revdep.d/%name

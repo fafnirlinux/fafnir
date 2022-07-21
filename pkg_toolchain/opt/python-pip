@@ -1,0 +1,12 @@
+ver=20.3.4
+
+[deps]
+python-setuptools
+
+[srcs]
+https://files.pythonhosted.org/packages/source/${name:7:1}/${name#*-}/${name#*-}-%ver.tar.gz
+
+[build]
+cd ${name#*-}-%ver
+/usr/bin/python setup.py build
+/usr/bin/python setup.py install \

@@ -1,0 +1,16 @@
+ver=1.12.0
+
+[deps]
+glib
+libepoxy
+libwpe
+wayland-protocols
+
+[srcs]
+https://wpewebkit.org/releases/%name-%ver.tar.xz
+
+[build]
+meson setup %name-%ver build \
+	 --buildtype=plain
+meson compile -C build
+DESTDIR=%dest meson install -C build

@@ -1,0 +1,8 @@
+ver=20220620
+
+[srcs]
+http://www.etallen.com/cpuid/%name-%ver.src.tar.gz
+
+[build]
+make -e CFLAGS="$CFLAGS"
+make BUILDROOT=%dest install

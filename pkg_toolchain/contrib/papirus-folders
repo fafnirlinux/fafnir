@@ -1,0 +1,11 @@
+ver=1.12.0
+
+[deps]
+papirus-icon-theme
+
+[srcs]
+https://github.com/PapirusDevelopmentTeam/papirus-folders/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+%inst
+[[ ! -d /lib/zsh || ! -d /usr/lib/zsh ]] && rm -r %dest/share/zsh

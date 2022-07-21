@@ -1,0 +1,17 @@
+ver=1.2.4
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://github.com/sphinx-doc/${name#*-}/archive/%ver/${name#*-}-%ver.tar.gz
+
+[build]
+cd ${name#python3-}-%ver
+sed -i setup.cfg \
+'/tag_build =.*/d' \
+'s,tag_date = true,tag_date = false,'
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix --root=%dest --optimize=1
+find %dest -name '*.txt' -exec chmod -x {} \;
+find %dest ! -type l -a \( -perm /go+w -o ! -perm /u+rw \) -exec chmod go-w,u+rw {} \;

@@ -1,0 +1,7 @@
+/opt/cuda/lib64
+/opt/cuda/nvvm/lib64
+/opt/cuda/extras/CUPTI/lib64
+/opt/cuda/extras/compute-sanitizer
+/opt/cuda/nsight_compute/host/linux-desktop-glibc_2_11_3-x64
+/opt/cuda/nsight_compute/target/linux-desktop-glibc_2_11_3-x86
+/opt/cuda/nsight_systems/host-linux-x64

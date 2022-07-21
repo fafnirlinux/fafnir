@@ -1,0 +1,16 @@
+ver=10.2+2.0.1
+
+[deps]
+libcdio
+
+[srcs]
+https://ftp.gnu.org/gnu/libcdio/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --enable-cpp-progs \
+	 --disable-example-progs
+
+%make
+%inst
+rm -r %dest/share/man/jp

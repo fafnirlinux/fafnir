@@ -1,0 +1,24 @@
+ver=1.0
+
+[deps]
+protobuf
+cmake
+gnutls
+git
+
+[srcs]
+https://crux.nu/~jaeger/files/%name-%ver.tar.xz
+
+[build]
+sed -i -e '45,48d' CMakeLists.txt
+sed -i -e '124,126d' hefur/CMakeLists.txt
+cmake -Bbuild -DCMAKE_INSTALL_PREFIX= \
+	 -DCMAKE_BUILD_TYPE=Release \
+	 -DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS -DNDEBUG" \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build
+install -d -m 0755 -o root -g root %dest/var/run/hefur %dest/share/hefur/torrents
+install -D -m 0644 -o root -g root /dev/null %dest/var/log/hefurd.log
+install -D -m 0755 -o root -g root %files/hefurd %dest/etc/rc.d/hefurd
+rm -r %dest/share/doc

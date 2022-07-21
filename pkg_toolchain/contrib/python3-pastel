@@ -1,0 +1,18 @@
+ver=0.2.1
+
+[deps]
+python3-certifi
+python3-pip
+python3-ruamel-yaml-clib
+
+[srcs]
+https://github.com/sdispater/pastel/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cd pastel-%ver
+if prt-get isinst python3-poetry; then
+/usr/bin/poetry build --format wheel
+/usr/bin/pip3 install --isolate --root=%dest --ignore-installed --no-deps dist/*.whl
+else
+/usr/bin/pip3 install --isolate --root=%dest --ignore-installed --no-deps pastel
+fi

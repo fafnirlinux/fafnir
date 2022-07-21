@@ -1,0 +1,20 @@
+ver=0.9.0
+
+[deps]
+python3-attrs
+python3-click
+python3-fissix
+python3-sh
+python3-moreorless
+python3-volatile
+
+[srcs]
+https://files.pythonhosted.org/packages/source/b/bowler/bowler-%ver.tar.gz
+
+[build]
+cd bowler-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 -O1 \
+	 --skip-build

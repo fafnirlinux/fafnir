@@ -1,0 +1,12 @@
+ver=1.18
+
+[deps]
+gettext
+
+[srcs]
+http://ftp.rpm.org/popt/releases/popt-1.x/%name-%ver.tar.gz
+
+[build]
+%conf --disable-nls
+%make
+%inst

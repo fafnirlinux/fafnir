@@ -1,0 +1,13 @@
+ver=014
+
+[deps]
+libusb
+
+[srcs]
+http://www.kernel.org/pub/linux/utils/usb/%name/%name-%ver.tar.xz
+
+[build]
+%conf --disable-zlib
+%make
+%inst
+unxz -c %files/usb.ids.xz > %dest/share/usb.ids

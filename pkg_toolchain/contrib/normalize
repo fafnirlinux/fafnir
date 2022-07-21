@@ -1,0 +1,17 @@
+ver=0.7.7
+
+[deps]
+lame
+libmad
+vorbisgain
+
+[srcs]
+https://download.savannah.gnu.org/releases/%name/%name-%ver.tar.bz2
+
+[build]
+%conf \
+	 --mandir=/share/man \
+	 --disable-nls
+%make
+%inst
+rm %dest/bin/normalize-ogg

@@ -1,0 +1,16 @@
+ver=4.6.0
+
+[deps]
+python3-attrs
+python3-pyrsistent
+python3-build
+python3-setuptools-scm
+python3-hatch-vcs
+
+[srcs]
+https://pypi.python.org/packages/source/j/jsonschema/jsonschema-%ver.tar.gz
+
+[build]
+cd jsonschema-%ver
+/usr/bin/python3 -m build --wheel --skip-dependency-check --no-isolation
+PIP_CONFIG_FILE=/dev/null /usr/bin/pip3 install --isolated --root=%dest --ignore-installed --no-deps dist/*.whl

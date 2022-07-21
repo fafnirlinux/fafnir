@@ -1,0 +1,26 @@
+ver=7.1.0-43
+
+[deps]
+libtool
+lcms2
+pango
+xorg-libxt
+chrpath
+
+[srcs]
+https://imagemagick.org/archive/releases/ImageMagick-%ver.tar.xz
+
+[build]
+cd ImageMagick-%ver
+%conf \
+	 --enable-shared \
+	 --with-modules \
+	 --with-perl=yes \
+	 --with-lcms=yes
+%make
+%inst
+find %dest/lib/perl5 -name '*.so' -exec chrpath -d {} +
+rm -r %dest/share/doc
+find %dest -regex '.*\(ChangeLog\|LICENSE\|NEWS\.txt\)$' -delete
+find %dest -regex '.*\(\.packlist\|perllocal.pod\|\.bs\)$' -delete
+find %dest -type d -empty -delete

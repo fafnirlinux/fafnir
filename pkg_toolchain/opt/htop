@@ -1,0 +1,13 @@
+ver=3.2.1
+
+[deps]
+ncurses
+
+[srcs]
+https://github.com/htop-dev/htop/archive/%ver/htop-%ver.tar.gz
+
+[build]
+./autogen.sh
+%conf
+%make
+%inst

@@ -1,0 +1,31 @@
+ver=42.3
+
+[deps]
+gsettings-desktop-schemas
+gtk4
+iso-codes
+libseccomp
+xorg-libxcomposite
+xorg-libxcursor
+xorg-libxinerama
+xkeyboard-config
+
+[srcs]
+https://download.gnome.org/sources/gnome-desktop/${version::2}/%name-%ver.tar.xz
+
+[build]
+meson setup %name-%ver build \
+	 --libexecdir=/lib/%name \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 --auto-features disabled \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D gnome_distributor="CRUX" \
+	 -D udev=enabled \
+	 -D gtk_doc=false \
+	 -D desktop_docs=false \
+	 -D systemd=disabled
+meson compile -C build
+DESTDIR=%dest meson install -C build
+rm -fr %dest/share/locale

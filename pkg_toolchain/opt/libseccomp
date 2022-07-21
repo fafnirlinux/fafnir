@@ -1,0 +1,10 @@
+ver=2.5.4
+
+[srcs]
+https://github.com/seccomp/libseccomp/archive/v%ver/libseccomp-%ver.tar.gz
+
+[build]
+./autogen.sh
+%conf
+%make
+%inst

@@ -1,0 +1,11 @@
+ver=24.2
+
+[deps]
+python
+
+[srcs]
+http://downloads.sourceforge.net/project/numpy/Old%20Numeric/%ver/Numeric-%ver.tar.gz
+
+[build]
+cd Numeric-%ver
+/usr/bin/python setup.py install --root=%dest

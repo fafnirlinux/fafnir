@@ -1,0 +1,14 @@
+ver=6.4.31
+
+[deps]
+openssl
+
+[srcs]
+https://downloads.sourceforge.net/project/%name/branch_6.4/%name-%ver.tar.xz
+
+[build]
+sed -i '22,25s/^/#/' Makefile.am
+autoreconf -vi
+%conf --disable-nls
+%make
+%inst

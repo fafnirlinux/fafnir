@@ -1,0 +1,19 @@
+ver=2.27
+
+[deps]
+linux-pam
+json-c
+yubikey-personalization
+
+[srcs]
+https://github.com/Yubico/yubico-pam/archive/%ver/%name-%ver.tar.gz
+
+[build]
+prt-get isinst asciidoc || PKGMK_YUBICOPAM+=' --disable-documentation'
+prt-get isinst openldap || PKGMK_YUBICOPAM+=' --without-ldap'
+autoreconf -fi
+%conf %destMK_YUBICOPAM \
+	 --with-pam-dir=/lib/security \
+	 --disable-static
+%make
+%inst

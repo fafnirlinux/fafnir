@@ -1,0 +1,47 @@
+ver=5.15.10
+
+[deps]
+ffmpeg
+libvpx
+libwebp
+nodejs
+nss
+qt5
+xorg-libxscrnsaver
+xorg-libxtst
+
+[srcs]
+https://anduin.linuxfromscratch.org/BLFS/qtwebengine/%name-%ver.tar.xz
+
+[build]
+mkdir -pv .git src/3rdparty/chromium/.git
+sed -e '/^MODULE_VERSION/s/5.*/5.15.2/' -i .qmake.conf
+find -type f -name "*.pr[io]" | \
+xargs sed -i -e 's|INCLUDEPATH += |&$$QTWEBENGINE_ROOT/include |'
+prt-get isinst pulseaudio && sed -e '/link_pulseaudio/s/false/true/' \
+	 -i src/3rdparty/chromium/media/media_options.gni
+test -n "$JOBS" && export NINJAFLAGS+=" -j %threads"
+prt-get isinst clang && CC=clang CXX=clang++
+prt-get isinst ccache && export \
+QMAKE_CC="ccache ${CC:-gcc}" \
+QMAKE_LINK_C="ccache ${CC:-gcc}" \
+QMAKE_LINK_C_SHLIB="ccache ${CC:-gcc}" \
+QMAKE_CXX="ccache ${CXX:-g++}" \
+QMAKE_LINK="ccache ${CXX:-g++}" \
+QMAKE_LINK_SHLIB="ccache ${CXX:-g++}" \
+PATH="$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
+install -d build
+cd build
+prt-get isinst pulseaudio && PKGMK_QTWEBENGINE+=' -pulseaudio' || PKGMK_QTWEBENGINE+=' -no-pulseaudio'
+prt-get isinst pipewire && PKGMK_QTWEBENGINE+=' -webengine-webrtc-pipewire'
+prt-get isinst icu && PKGMK_QTWEBENGINE+=' -webengine-icu' || PKGMK_QTWEBENGINE+=' -no-webengine-icu'
+qmake-qt5 .. -- \
+%destMK_QTWEBENGINE \
+	 -proprietary-codecs \
+	 -system-ffmpeg \
+	 -system-opus \
+	 -system-webp
+%make
+make INSTALL_ROOT=%dest install
+find "%dest/lib" -type f -name '*.prl' \
+	 -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;

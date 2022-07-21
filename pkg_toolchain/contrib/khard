@@ -1,0 +1,21 @@
+ver=0.17.0
+
+[deps]
+python3-atomicwrites
+python3-configobj
+python3-ruamel-yaml
+python3-unidecode
+python3-vobject
+
+[srcs]
+https://files.pythonhosted.org/packages/source/k/khard/%name-%ver.tar.gz
+
+[build]
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --skip-build \
+	 --optimize=1 \
+	 --root=%dest
+if [ -e /lib/zsh || /usr/lib/zsh ]; then
+install -vDm 644 misc/zsh/_* \
+	 -t %dest/share/zsh/site-functions/
+fi

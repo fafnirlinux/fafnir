@@ -1,0 +1,28 @@
+ver=1.7.4
+
+[deps]
+dbus-python
+mii-tool
+pygtk
+wireless-tools
+wpa_supplicant
+
+[srcs]
+https://launchpad.net/wicd/1.7/%ver/+download/%name-%ver.tar.gz
+
+[build]
+rm po/*.po
+/usr/bin/python setup.py configure \
+	 --etc=/etc/wicd \
+	 --dbus=/etc/dbus-1/system.d \
+	 --no-install-kde \
+	 --no-install-acpi \
+	 --no-install-pmutils \
+	 --no-install-init \
+	 --no-install-i18n-man \
+	 --no-install-docs \
+	 --no-install-gnome-shell-extensions
+/usr/bin/python setup.py build
+/usr/bin/python setup.py install --root=%dest
+/usr/bin/python -mcompileall %dest
+install -m 0744 -D %files/wicd.rc %dest/etc/rc.d/wicd

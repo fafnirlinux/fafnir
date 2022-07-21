@@ -1,0 +1,18 @@
+ver=1.0.5
+
+[deps]
+meson
+ninja
+
+[srcs]
+https://codeberg.org/dnkl/tllist/archive/%ver.tar.gz
+
+[build]
+meson setup %name build \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true
+meson compile -C build
+DESTDIR=%dest meson install -C build
+rm -r %dest/share

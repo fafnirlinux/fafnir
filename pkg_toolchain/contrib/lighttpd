@@ -1,0 +1,26 @@
+ver=1.4.65
+
+[deps]
+libpcre2
+lua
+bzip2
+linux-pam
+openssl
+zlib
+zstd
+
+[build]
+cd %name-%ver
+%conf \
+	 --libdir=/lib/%name \
+	 --with-openssl --with-pam \
+	 --with-bzip2 --with-zlib --with-zstd \
+	 --with-lua
+%make
+make DESTDIR=%dest install
+install -d -m 0755 %dest/var/lib/%name %dest/var/log/%name \
+%dest/var/www/%name/htdocs
+install -D -m 0755 %files/%name.rc %dest/etc/rc.d/%name
+install -D -m 0644 %files/%name.conf %dest/etc/
+rm -f %dest/usr/lib/%name/*.la
+}

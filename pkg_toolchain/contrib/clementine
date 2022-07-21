@@ -1,0 +1,26 @@
+ver=1.4.0rc1-733
+
+[deps]
+boost
+crypto++
+glew
+gst-plugins-bad
+gst-plugins-good
+gst-plugins-ugly
+protobuf
+qt5
+
+[srcs]
+https://github.com/clementine-player/Clementine/archive/$_tag/%name-%ver.tar.gz
+
+[build]
+PATH=$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')
+LDFLAGS=$(echo ${LDFLAGS} | awk -v RS=' ' -v ORS=' ' '/-Wl,--as-needed/ {next} {print}')
+cmake -S Clementine-$_tag -B build -G Ninja \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D CMAKE_CXX_FLAGS="$CXXFLAGS -Wno-catch-value" \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build

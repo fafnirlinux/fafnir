@@ -1,0 +1,12 @@
+ver=2.0.3
+
+[deps]
+boost
+
+[srcs]
+https://kohei.us/files/mdds/src/%name-%ver.tar.bz2
+
+[build]
+./autogen.sh --prefix=%prefix
+%inst
+rm -fr %dest/share/doc

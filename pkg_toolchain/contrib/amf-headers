@@ -1,0 +1,8 @@
+ver=1.4.24
+
+[srcs]
+https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+install -dm 755 %dest/include
+cp -dr --no-preserve=ownership AMF-%ver/amf/public/include %dest/usr/include/AMF

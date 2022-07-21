@@ -1,0 +1,15 @@
+ver=4.4.0
+
+[deps]
+libjpeg-turbo
+zlib
+
+[srcs]
+http://download.osgeo.org/libtiff/tiff-%ver.tar.gz
+
+[build]
+cd tiff-%ver
+%conf
+%make
+%inst
+rm -r %dest/{bin,share/{doc,man/man1}}

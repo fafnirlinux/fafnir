@@ -1,0 +1,15 @@
+ver=5.2.0
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://github.com/tkem/cachetools/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd cachetools-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 --skip-build \
+	 -O1

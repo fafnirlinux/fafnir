@@ -1,0 +1,28 @@
+ver=2.72.3
+
+[deps]
+libpcre
+util-linux
+meson
+ninja
+
+[srcs]
+https://download.gnome.org/sources/%name/${version:0:4}/%name-%ver.tar.xz
+
+[build]
+meson setup build %name-%ver \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D nls=disabled \
+	 -D selinux=disabled \
+	 -D gtk_doc=false \
+	 -D tests=false
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build
+export PYTHONHASHSEED=0
+/usr/bin/python3 -m compileall -d /usr/share/glib-2.0/codegen %dest/share/glib-2.0/codegen
+/usr/bin/python3 -O -m compileall -d /usr/share/glib-2.0/codegen %dest/share/glib-2.0/codegen
+install -m 0644 %files/gschemas.compiled %dest/share/glib-2.0/schemas/gschemas.compiled
+prt-get isinst bash-completion || rm -r %dest/share/bash-completion

@@ -1,0 +1,13 @@
+ver=0.4.3
+
+[deps]
+python3-msgpack
+python3-greenlet
+
+[srcs]
+https://github.com/neovim/pynvim/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cd pynvim-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --root=%dest --optimize=1 --skip-build

@@ -1,0 +1,13 @@
+ver=1
+
+[deps]
+gcc-fortran
+ccache
+
+[build]
+install -d %dest/lib/ccache
+ln -s ../../bin/ccache %dest/lib/ccache/f77
+ln -s ../../bin/ccache %dest/lib/ccache/f90
+ln -s ../../bin/ccache %dest/lib/ccache/f95
+ln -s ../../bin/ccache %dest/lib/ccache/gfortran
+}

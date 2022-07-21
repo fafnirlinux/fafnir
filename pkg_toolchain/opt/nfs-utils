@@ -1,0 +1,34 @@
+ver=2.6.1
+
+[deps]
+libdevmapper
+util-linux
+libcap
+rpcsvc-proto
+rpcbind
+libevent
+keyutils
+sqlite3
+
+[srcs]
+https://www.kernel.org/pub/linux/utils/%name/%ver/%name-%ver.tar.xz
+
+[build]
+CONFIG_SHELL=/bin/bash \
+%conf \
+	 --sysconfdir=/etc \
+	 --with-statedir=/var/lib/nfs \
+	 --without-tcp-wrappers \
+	 --disable-gss \
+	 --enable-libmount-mount
+%make
+%inst
+install -d %dest/etc/rc.d
+install -m 755 %files/nfs{,client,server,dcld} %dest/etc/rc.d/
+install -m 755 %files/rpc.* %dest/etc/rc.d/
+install -m 644 %files/{exports,idmapd.conf} %dest/etc/
+install -m 644 utils/mount/nfsmount.conf %dest/etc/
+install -m 644 nfs.conf %dest/etc/
+install -d %dest/var/lib/nfs/{rpc_pipefs,v4recovery,nfsdcltrack,nfsdcld}
+install -d %dest/etc/exports.d
+chown nobody %dest/var/lib/nfs

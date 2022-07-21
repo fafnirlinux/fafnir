@@ -1,0 +1,21 @@
+ver=1.2.4
+
+[deps]
+ruby
+ncurses
+
+[srcs]
+https://rubygems.org/downloads/ncurses-ruby-%ver.gem
+
+[build]
+gem install ncurses-ruby \
+	 --ignore-dependencies \
+	 --no-user-install \
+	 --no-document \
+	 --local \
+	 --build-root %dest
+cd %dest/$(gem env gemdir)
+rm -r cache doc build_info
+cd gems/ncurses-ruby-%ver
+rm COPYING Changelog.md LICENSE.txt README.md THANKS
+rm TODO .gitignore examples/LICENSES_for_examples

@@ -1,0 +1,18 @@
+ver=22.2.0
+
+[deps]
+httpbin
+python3-requests
+python3-service-identity
+python3-twisted
+
+[srcs]
+https://github.com/twisted/treq/archive/release-%ver/%name-%ver.tar.gz
+
+[build]
+cd treq-release-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 -O1 \
+	 --skip-build

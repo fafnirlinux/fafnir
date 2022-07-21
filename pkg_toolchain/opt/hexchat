@@ -1,0 +1,24 @@
+ver=2.16.1
+
+[deps]
+gtk
+iso-codes
+python3-cffi
+xorg-libxdamage
+
+[srcs]
+https://dl.hexchat.net/hexchat/%name-%ver.tar.xz
+
+[build]
+prt-get isinst lua && PKGMK_HEXCHAT+=' -D with-lua=lua' || PKGMK_HEXCHAT+=' -D with-lua=false'
+prt-get isinst libcanberra || PKGMK_HEXCHAT+=' -D libcanberra=disabled'
+prt-get isinst dbus-glib || PKGMK_HEXCHAT+=' -D dbus=disabled'
+prt-get isinst pciutils && PKGMK_HEXCHAT+=' -Dwith-sysinfo=true'
+meson setup build %name-%ver %destMK_HEXCHAT \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build
+rm -r %dest/share/locale

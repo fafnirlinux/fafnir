@@ -1,0 +1,10 @@
+ver=3.1
+
+[srcs]
+http://ftpmirror.gnu.org/gnu/%name/%name-%ver.tar.gz
+
+[build]
+%conf
+%make
+%inst
+rm -r %dest/share/{doc,info}

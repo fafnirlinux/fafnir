@@ -1,0 +1,19 @@
+ver=1.12.0
+
+[deps]
+libxkbcommon
+mesa
+
+[srcs]
+https://wpewebkit.org/releases/%name-%ver.tar.xz
+
+[build]
+cmake -S %name-%ver -B build -G Ninja \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_INSTALL_LIBDIR=lib \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build

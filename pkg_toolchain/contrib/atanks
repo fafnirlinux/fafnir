@@ -1,0 +1,17 @@
+ver=6.6
+
+[deps]
+allegro4
+
+[srcs]
+https://downloads.sourceforge.net/project/%name/%name/%name-%ver/%name-%ver.tar.gz
+
+[build]
+sed -i -e 's|share/games/atanks|share/atanks|' Makefile
+%make
+make DESTDIR=%dest INSTALL="install -c" install
+sed -i 's/^Name=atanks/Name=Atomic Tanks/' atanks.desktop
+sed -i 's/^Categories=Game;/Categories=Game;StrategyGame;/' atanks.desktop
+install -Dm644 atanks.desktop %dest/share/applications/atanks.desktop
+install -Dm644 atanks.png %dest/share/pixmaps/atanks.png
+rm %dest/share/atanks/{COPYING,Changelog,README,README_ru.txt,TODO}

@@ -1,0 +1,22 @@
+ver=1.0.4
+
+[srcs]
+https://crux.ster.zone/downloads/%name/hfsplus_%ver.src.tar.bz2
+
+[build]
+cd hfsplus-%ver
+sed -i -e 's/^CFLAGS\s/AM_CFLAGS /' {libhfsp/src,src}/Makefile.am
+mv configure.{in,ac}
+autoreconf -i
+CFLAGS+=' -fgnu89-inline'
+%conf \
+	 --disable-shared \
+	 --disable-dependency-tracking \
+CFLAGS="$CFLAGS"
+%make
+make DESTDIR=%dest SUBDIRS=src install
+ln -sf hpfsck %dest/bin/fsck.hfsplus
+install -D -m 0664 doc/man/hfsp.man %dest/share/man/man1/hfsp.1
+for a in hpcd hpcopy hpfsck hpls hpmkdir hpmount hppwd hprm hpumount fsck.hfsplus ; do
+	 ln -sf hfsp.1 %dest/share/man/man1/$a.1
+done

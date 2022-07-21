@@ -1,0 +1,19 @@
+ver=5.32.0
+
+[deps]
+libnsl
+libtirpc
+linux-pam
+openssl
+zlib
+
+[srcs]
+http://mmonit.com/%name/dist/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --sysconfdir=/etc
+%make
+%inst
+install -D -m 0755 %files/monitd %dest/etc/rc.d/monitd
+install -D -m 0700 monitrc %dest/etc/monitrc

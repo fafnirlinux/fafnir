@@ -1,0 +1,22 @@
+ver=0.3.8
+
+[deps]
+gumbo-parser
+jbig2dec
+mujs
+mupdf
+zathura
+
+[srcs]
+https://git.pwmt.org/pwmt/%name/-/archive/%ver/%name-%ver.tar.bz2
+
+[build]
+meson setup %name-%ver build \
+	 --sysconfdir=/etc \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true
+meson compile -C build
+DESTDIR=%dest meson install -C build
+find %dest -perm /go+w -exec chmod go-w {} \;

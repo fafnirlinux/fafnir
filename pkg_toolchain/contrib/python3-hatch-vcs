@@ -1,0 +1,12 @@
+ver=0.2.0
+
+[deps]
+python3-hatchling
+
+[srcs]
+https://github.com/ofek/hatch-vcs/archive/v%ver/hatch-vcs-%ver.tar.gz
+
+[build]
+cd hatch-vcs-%ver
+/usr/bin/python3 -m build --wheel --skip-dependency-check --no-isolation
+/usr/bin/python3 -m installer --compile-bytecode 2 --destdir=%dest dist/*.whl

@@ -1,0 +1,13 @@
+ver=0.8.0
+
+[deps]
+python3-poetry
+python3-tox
+
+[srcs]
+https://github.com/Tinche/aiofiles/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd aiofiles-%ver
+/usr/bin/poetry build --format wheel
+/usr/bin/pip3 install --isolate --root=%dest --ignore-installed --no-deps dist/*.whl

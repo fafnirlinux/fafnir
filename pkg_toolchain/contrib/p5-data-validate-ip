@@ -1,0 +1,19 @@
+ver=0.30
+
+[deps]
+p5-netaddr-ip
+
+[srcs]
+https://www.cpan.org/modules/by-module/Data/Data-Validate-IP-%ver.tar.gz
+
+[build]
+cd Data-Validate-IP-%ver
+perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest -type f \( \
+	 -name '.packlist' -or \
+	 -name '*.bs' -or \
+	 -name 'autosplit.ix' -or \
+	 -name 'perllocal.pod' \) -delete
+find %dest -depth -empty -exec rm -rf {} \;

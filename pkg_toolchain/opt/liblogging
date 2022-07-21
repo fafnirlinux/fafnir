@@ -1,0 +1,10 @@
+ver=1.0.6
+
+[srcs]
+http://download.rsyslog.com/%name/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --disable-journal
+%make
+%inst

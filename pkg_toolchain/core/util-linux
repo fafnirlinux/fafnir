@@ -1,0 +1,27 @@
+ver=2.38
+
+[deps]
+eudev
+file
+readline
+bzip2
+xz
+
+[srcs]
+https://www.kernel.org/pub/linux/utils/%name/v%ver/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --disable-nls \
+	 --disable-asciidoc \
+	 --disable-{login,su,sulogin,nologin,runuser} \
+	 --disable-chfn-chsh \
+	 --enable-{write,raw,kill} \
+	 --without-python
+%make
+%inst
+install -d %dest/{etc,var/{lib/libuuid,run/uuidd}}
+touch %dest/etc/adjtime
+rm -r %dest/share/{doc,bash-completion}
+rm %dest/sbin/{mkfs.bfs,mkfs.minix,fsck.minix}
+rm %dest/share/man/man8/{fsck.minix,mkfs.bfs,mkfs.minix}.8

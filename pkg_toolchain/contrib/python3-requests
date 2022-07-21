@@ -1,0 +1,19 @@
+ver=2.28.1
+
+[deps]
+python3-chardet
+python3-idna
+python3-urllib3
+
+[srcs]
+https://files.pythonhosted.org/packages/source/${name:8:1}/${name#*-}/${name#*-}-%ver.tar.gz
+
+[build]
+cd ${name#*-}-%ver
+sed \
+'/certifi/d' \
+"s/,<.*'/'/" \
+'/charset_normalizer/d' \
+	 -i setup.py
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix --root=%dest

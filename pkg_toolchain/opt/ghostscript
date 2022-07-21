@@ -1,0 +1,32 @@
+ver=9.56.1
+
+[deps]
+util-linux
+cups
+fontconfig
+libtiff
+xorg-libxt
+xorg-libxext
+
+[srcs]
+https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${version//./}/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --enable-cups \
+	 --disable-gtk \
+	 --disable-dbus \
+	 --with-drivers=ALL \
+	 --with-ijs \
+	 --with-fontpath=/share/ghostscript/fonts:/usr/share/fonts
+make so all
+make DESTDIR=%dest install-so install
+cd ijs
+./autogen.sh
+%conf --enable-shared
+%make
+%inst
+cp -r %files/fonts %dest/share/ghostscript
+rm -r %dest/share/{doc,man/de}
+rm %dest/share/ghostscript/fonts/[CRT]*
+rm %dest/bin/ijs_{client,server}_example

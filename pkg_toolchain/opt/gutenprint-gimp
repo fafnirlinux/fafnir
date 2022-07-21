@@ -1,0 +1,25 @@
+ver=5.3.4
+
+[deps]
+gimp
+gutenprint
+
+[srcs]
+http://downloads.sourceforge.net/project/gimp-print/gutenprint-5.3/%ver/gutenprint-%ver.tar.xz
+
+[build]
+cd gutenprint-%ver
+CONFIG_SHELL=/bin/bash \
+%conf \
+	 --disable-{nls,samples,escputil} \
+	 --without-{foomatic,ghostscript,doc} \
+	 --enable-libgutenprintui2 \
+	 --with-gimp2
+%make
+%inst
+rm %dest/lib/libgutenprint.*
+rm %dest/lib/pkgconfig/gutenprint.pc
+rm -r %dest/include/gutenprint
+rm -r %dest/lib/gutenprint
+rm -r %dest/lib/cups
+rm -r %dest/{bin,sbin,share} %dest/etc

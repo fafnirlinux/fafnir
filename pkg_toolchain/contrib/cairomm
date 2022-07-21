@@ -1,0 +1,14 @@
+ver=1.16.1
+
+[deps]
+cairo
+libsigc++
+
+[srcs]
+https://cairographics.org/releases/%name-%ver.tar.xz
+
+[build]
+meson setup build %name-%ver --prefix=%prefix \
+	 --buildtype=plain
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build

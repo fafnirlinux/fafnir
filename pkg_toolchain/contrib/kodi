@@ -1,0 +1,49 @@
+ver=19.4
+
+[deps]
+cmake
+fmt
+ghostscript
+giflib
+glu
+jdk8-bin
+libass
+libcdio
+libmicrohttpd
+mysql
+samba
+swig
+taglib
+tinyxml
+python
+spdlog
+libva
+libvdpau
+
+[srcs]
+https://github.com/xbmc/xbmc/archive/%ver-Matrix/%name-%ver.tar.gzgl-headers.patchfmt8.patch
+
+[build]
+[[ -e /usr/lib/ccache ]] && PATH="$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
+cmake -Bbuild \
+	 -DVERBOSE=ON \
+	 -DAPP_RENDER_SYSTEM=gl \
+	 -DCORE_PLATFORM_NAME=x11 \
+	 -DENABLE_DVDCSS=ON \
+	 -DENABLE_OPTICAL=ON \
+	 -DENABLE_PYTHON=ON \
+	 -DENABLE_INTERNAL_FFMPEG=ON \
+	 -DENABLE_INTERNAL_FLATBUFFERS=ON \
+	 -DENABLE_INTERNAL_FSTRCMP=ON \
+	 -DENABLE_INTERNAL_RapidJSON=ON \
+	 -DENABLE_TESTING=OFF \
+	 -DCMAKE_INSTALL_PREFIX= \
+	 -DCMAKE_INSTALL_LIBDIR=/lib \
+	 -DCMAKE_BUILD_TYPE=Release \
+	 -DCMAKE_C_FLAGS_RELEASE="$CFLAGS -DNDEBUG" \
+	 -DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS -DNDEBUG" \
+	 -Wno-dev \
+xbmc-%ver-Matrix
+cmake --build build
+DESTDIR=%dest cmake --install build
+find %dest -name "README*" -delete

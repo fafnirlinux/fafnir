@@ -1,0 +1,17 @@
+ver=0.8.5
+
+[deps]
+fontconfig
+freetype
+xorg-libx11
+xorg-libxext
+xorg-libxft
+
+[build]
+cd ${realn}-%ver
+sed -i '/tic/d' Makefile
+make CC="${CC:-cc}" PREFIX= \
+X11INC=/include/X11 X11LIB=/lib \
+DESTDIR=%dest \
+all install
+}

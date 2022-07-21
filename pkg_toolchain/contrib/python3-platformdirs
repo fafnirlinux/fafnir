@@ -1,0 +1,14 @@
+ver=2.5.2
+
+[deps]
+python3-setuptools-scm
+python3-hatchling
+python3-hatch-vcs
+
+[srcs]
+https://pypi.python.org/packages/source/p/platformdirs/platformdirs-%ver.tar.gz
+
+[build]
+cd platformdirs-%ver
+/usr/bin/python3 -m build --wheel --skip-dependency-check --no-isolation
+/usr/bin/python3 -m installer --compile-bytecode 2 --destdir=%dest dist/*.whl

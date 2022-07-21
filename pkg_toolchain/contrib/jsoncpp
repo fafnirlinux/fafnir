@@ -1,0 +1,16 @@
+ver=1.9.5
+
+[deps]
+meson
+ninja
+
+[srcs]
+https://github.com/open-source-parsers/jsoncpp/archive/%ver/%name-%ver.tar.gz
+
+[build]
+echo %ver > %name-%ver/version
+meson setup %name-%ver build \
+	 --buildtype=plain \
+	 --default-library shared
+meson compile -C build
+DESTDIR=%dest meson install -C build

@@ -1,0 +1,262 @@
+README for WireGuard
+
+  WireGuard is a thrilling VirtualPrivateNetwork option.
+
+  It uses stateless UDP connections, and looks like a server socket, for
+  example in output of "ss -l", but also "iptables -nvL".  It uses today's
+  state-of-the-art algorithms, is extremely simple to setup and maintain, and
+  has really nifty properties.  For example, you can load /dev/null as the key
+  to make the VPN unusable, then just put back the correct key and it
+  functions again.  You can also create a VPN with a single command line (plus
+  firewall).
+
+  It is possible to create point-to-point connections where the endpoints can
+  communicate only with each other, but on the other hand dedicated "servers"
+  can be used to which all traffic can be forwarded, so that laptops and other
+  end-devices can be boxed into a totally detached environment, having
+  internet access only through (the) VPN(s).
+
+  In all cases you need the kernel option
+
+    CONFIG_WIREGUARD=y
+
+  and generate keys:
+
+    # wg genkey | tee private.key | wg pubkey > public.key
+
+  You should also create a preshared key (may not work otherwise with
+  software before 2021-03-15):
+
+    # wg genpsk
+
+  Nothing magic about the keys, base64 encoded random of the correct
+  length (should do; and except for pubkey, which applies algorithms).
+
+Simple point-to-point VPN
+
+  Say this is a VPN of two boxes plus broadcast, server on 10.0.0.2,
+  laptop on 10.0.0.1.  The laptop has no fixed IP:
+
+  Server.conf:
+    [Interface]
+    PrivateKey = SERVER-PRIKEY
+    ListenPort = SERVER-PORT
+
+    [Peer]
+    PublicKey = LAPTOP-PUBKEY
+    # (Or only 10.0.0.1/32)
+    AllowedIPs = 10.0.0.0/30
+
+  Laptop.conf:
+    [Interface]
+    PrivateKey = LAPTOP-PRIKEY
+    # (Actually unused)
+    ListenPort = LAPTOP-PORT
+
+    [Peer]
+    PublicKey = SERVER-PUBKEY
+    Endpoint = SERVER-IP:SERVER-PORT
+    AllowedIPs = 10.0.0.2/32
+
+  Assuming these are the first interfaces we ever created:
+
+    # wg setconf wg0 Server.conf
+
+  We need some firewall rules.  For the case as shown here no forwarding or
+  masquerading is required -- and it is _never_, but on those peers which play
+  a server rule!  The Laptop should get away with
+
+    # ip link add dev wg0 type wireguard
+    # ip address add 10.0.0.1/30 dev wg0
+    # iptables -A OUTPUT -o wg0 -j ACCEPT
+    # # not even iptables -A INPUT -i wg0 -j ACCEPT
+    # iptables -A OUTPUT -p udp --dst SRV-IP --dport SRV-PORT -j ACCEPT
+    # ip link set wg0 up
+    # ip route add 10.0.0.1 dev wg0
+
+  That is it (beat me if i am wrong)!  Different iptables on the server:
+
+    # iptables -I INPUT -i wg0 -j ACCEPT
+    # # not even iptables -A OUTPUT -o wg0 -j ACCEPT
+    # iptables -A INPUT -p udp --dport SRV-PORT -j ACCEPT
+
+  Finished.  You could track the endpoint as they show up, and update the
+  rules with the exact address of the endpoint(s).  Like this the last shown
+  rule of the server can apply blacklisting rules.  This works easily because
+  once a handshake is completed the defined ListenPort and thus NETFILTER is
+  bypassed (at filter level), and only fewest packets actually show up on
+  --dport SRV-PORT.  A working watchdog below. 
+
+End-user having access only via VPN
+
+  In fact this is easy.  Of course you can create a wg, then a network
+  namespace, then move the wg to that namespace via "ip link set wg0 netns
+  NSNAME", then add the default route there via "ip -n NSNAME route add
+  default dev wg0", and be done with it.  Linux even seems to allow to move
+  the physical hardware to a network namespace, then go the reverse way with
+  the new wg, leaving only wg in the base namespace, and the physical devices
+  boxed somewhere else.  Really important differences are:
+
+    - The laptop must change the AllowedIPs of the server [Peer] to
+
+        AllowedIPs = 0.0.0.0/0
+
+      Only like this all the traffic is forwarded to the server.
+
+    - The server now needs forwarding and masquerading enabled:
+
+        # sysctl -w net.ipv4.conf.ETH0.forwarding=1
+        # sysctl -w net.ipv4.conf.WG0.forwarding=1
+        # iptables -A FORWARD -i WG0 -o ETH0 -j ACCEPT
+        # iptables -A FORWARD -o WG0 -i ETH0 -j ACCEPT
+        # iptables -t nat -A POSTROUTING -o ETH0 -j MASQUERADE
+
+      Exchange WG0/ETH0 with your devices.  You may want to have a final
+      FORWARDING rule like
+
+        # iptables -A FORWARD -j REJECT --reject-with icmp-proto-unreachable
+
+  You may want to create an additional veth pair that links into the
+  namespace, so that a local DNS proxy like dnsmasq could serve the DNS of
+  that VPN network namespace as well as any other namespace ("interface
+  NSNAME" in dnsmasq.conf).  No need to start multiple instances, just share
+  the DNS cache.  Of course that single dnsmasq instance could also have
+  a configured upstream that is reached via VPN, maybe just another channel.
+  Luckily "ip link" and "ip netns" names can coexist, so:
+
+      # Placing this in 10.4.0.8/30
+      ip=ip ns=NSNAME 1=10.4.0.9 2=10.4.0.10 p_domain=53
+      ...
+
+       ${ip} link add ${ns} type veth peer name ${ns}_peer
+       ${ip} link set ${ns}_peer netns ${ns}
+
+       ${ip} addr add ${1}/30 dev ${ns}
+       ${ip} link set ${ns} up
+       #${ip} route add ${1} dev ${ns}
+
+       ${ip} -n ${ns} addr add ${2}/30 dev ${ns}_peer broadcast +
+       ${ip} -n ${ns} link set ${ns}_peer up
+       ${ip} -n ${ns} route add ${1} dev ${ns}_peer
+
+       iptables_rule filter INPUT -A -i ${ns} \
+          -p tcp --dport ${p_domain} -j ${ACC}
+       iptables_rule filter INPUT -A -i ${ns} \
+          -p udp --dport ${p_domain} -j ${ACC}
+       iptables_rule filter INPUT -A -i ${ns} -j REJECT
+
+  So now only DNS is allowed from the network namespace to the base namespace,
+  where dnsmasq is listening on "interface NSNAME" (maybe after a restart).
+  All other traffic generated in NSNAME but to 10.4.0.9 is routed through the
+  WireGuard VPN.
+
+A watchdog
+
+  Driven by cron one can selectively whitelist endpoints without fixed
+  IP addresses, in order to apply strict black listing on those
+
+    # iptables -A INPUT -p udp --dport PORT -j ACCEPT
+
+  rules that are needed (on servers).  Here is one idea, it is pretty fresh
+  but working for some time here.  Imagine a configuration
+
+    : ${RUNDIR:=/run}
+
+    # (y/empty) Wireguard VPN (ie: look for WG_digit_ADDR settings)?
+    : ${WG:=}
+       #     If empty
+       : ${WG_WATCHDOG:=${RUNDIR}/.net-qos-wg-watch}
+       #  For wg_watchdog() (aka "$0 watchdog-wg"): persistance data file.
+       #  Watchdog only works if non-empty.
+       # -> WG_digit_ADDR='any wg(8) address:LISTEN-PORT'
+       #     Ie address+CIDR netmask plus listen port.  Whether we create it.
+    ....
+
+  In the following, please substitute ACCEPT for f_m1, and INPUT for i_good.
+  I currently use primitive CONNMARK jumps for all my traffic, instead of
+  using the "fwmark" feature of WireGuard to shortcut that for the VPN.
+
+wg_watchdog() {
+   [ -n "${WG_WATCHDOG}" ] || {
+      echo >&2 '$WG_WATCHDOG is not set'
+      return 0
+   }
+
+   touch "${WG_WATCHDOG}" "${WG_WATCHDOG}".new "${WG_WATCHDOG}".lck
+   chown root:root "${WG_WATCHDOG}" "${WG_WATCHDOG}".new "${WG_WATCHDOG}".lck
+   chmod 0600 "${WG_WATCHDOG}" "${WG_WATCHDOG}".new "${WG_WATCHDOG}".lck
+
+   if exec 7>"${WG_WATCHDOG}.lck" && flock 7; then :; else
+      echo >&2 'Cannot aquire lock file '${WG_WATCHDOG}.lck
+      return 1
+   fi
+
+   # New list of peers
+   printf '' > "${WG_WATCHDOG}".new
+   wl=
+
+   id=0
+   while :; do
+      eval x=\$WG_${id}_ADDR
+      [ -z "${x}" ] && break
+
+      wg__splita "${x}"
+      dport=${port}
+
+      x=`${wg} show wg${id} endpoints 2>/dev/null`
+      if [ ${?} -eq 0 ]; then
+         x=`echo ${x} | cut -f2 -d' '`
+         if [ "${x}" != '(none)' ]; then
+            wg__splita "${x}"
+            wl=${wl}' '${addr}
+            printf -- "-p udp --src %s --dport %s -j f_m1\n" \
+               "${addr}" "${dport}" >> "${WG_WATCHDOG}".new
+            #--sport ${port}
+         fi
+      fi
+
+      id=$((id + 1))
+   done
+
+   # ..if different to old one, recreate firewall rules
+   if cmp "${WG_WATCHDOG}".new "${WG_WATCHDOG}" >/dev/null 2>&1; then :; else
+      if [ -s "${WG_WATCHDOG}" ]; then
+         while read l; do
+            iptables_rule filter i_good -D ${l}
+         done < "${WG_WATCHDOG}"
+      fi
+
+      # Add new list of peers
+      if [ -n "${wl}" ]; then
+         while read l; do
+            iptables_rule filter i_good -I 1 ${l}
+         done < "${WG_WATCHDOG}".new
+         logger -t /root/bin/net-qos.sh/WG 'whitelist: '${wl}
+      fi
+
+      cp -f "${WG_WATCHDOG}".new "${WG_WATCHDOG}"
+   fi
+
+   exec 7>&-
+}
+
+wg__splita() {
+   addr=${1%:*}
+   port=${1##*:}
+   ip6=0
+
+   if [ "${addr}" != "${addr%]*}" ]; then
+      ip6=1
+      addr=${addr%]*}
+      addr=${addr#[*}
+   fi
+
+   if [ "${addr}" != "${addr%/*}" ]; then
+      mask=/${addr#*/}
+      addr=${addr%/*}
+   else
+      mask=/32
+   fi
+}
+
+# s-ts-mode

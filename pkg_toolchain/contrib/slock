@@ -1,0 +1,15 @@
+ver=1.4
+
+[deps]
+xorg-libxext
+xorg-libxrandr
+
+[srcs]
+https://dl.suckless.org/tools/%name-%ver.tar.gz
+
+[build]
+cd %name-%ver
+sed -i'' -Ee 's/nogroup/nobody/' config.def.h
+%make
+make PREFIX= DESTDIR=%dest install
+}

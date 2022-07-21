@@ -1,0 +1,14 @@
+ver=0.0.2
+
+[deps]
+librevenge
+icu
+
+[srcs]
+https://dev-www.libreoffice.org/src/%name/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --without-docs
+%make
+%inst

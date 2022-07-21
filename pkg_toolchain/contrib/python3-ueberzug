@@ -1,0 +1,16 @@
+ver=18.1.9
+
+[deps]
+python3-docopt
+python3-pillow
+python3-xlib
+
+[srcs]
+https://github.com/seebye/ueberzug/archive/%ver/ueberzug-%ver.tar.gz
+
+[build]
+cd ueberzug-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 --skip-build

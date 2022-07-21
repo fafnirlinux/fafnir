@@ -1,0 +1,20 @@
+ver=2022.82
+
+[deps]
+zlib
+linux-pam
+
+[srcs]
+https://matt.ucc.asn.au/%name/releases/%name-%ver.tar.bz2
+
+[build]
+sed '/pam_start/s/sshd/dropbear/' -i svr-authpam.c
+echo '#define SFTPSERVER_PATH "/usr/lib/ssh/sftp-server"' > localoptions.h
+echo '#define DROPBEAR_SVR_PASSWORD_AUTH 0' >> localoptions.h
+echo '#define DROPBEAR_SVR_PAM_AUTH 1' >> localoptions.h
+%conf --enable-pam
+%make
+%inst
+install -d %dest/etc/{rc.d,pam.d,dropbear}
+install -m 755 %files/dropbear.rc %dest/etc/rc.d/dropbear
+install -m 644 %files/dropbear.pam %dest/etc/pam.d/dropbear

@@ -1,0 +1,10 @@
+ver=5.13
+
+[srcs]
+http://www.kernel.org/pub/linux/docs/%name/%name-%ver.tar.xz
+
+[build]
+rm man5/passwd.5
+make prefix= DESTDIR=%dest install
+make prefix= DESTDIR=%dest install
+touch %dest/share/man/whatis

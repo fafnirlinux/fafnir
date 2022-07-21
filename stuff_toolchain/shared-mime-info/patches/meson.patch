@@ -1,0 +1,43 @@
+diff -Naur shared-mime-info-2.1.orig/data/freedesktop_generate.sh shared-mime-info-2.1/data/freedesktop_generate.sh
+--- shared-mime-info-2.1.orig/data/freedesktop_generate.sh	2021-12-14 00:28:02.284628243 +0100
++++ shared-mime-info-2.1/data/freedesktop_generate.sh	1970-01-01 01:00:00.000000000 +0100
+@@ -1,12 +0,0 @@
+-#!/bin/sh -e
+-
+-src_root="$1"
+-build_root="$2"
+-
+-ninja -C "${build_root}" shared-mime-info-gmo
+-
+-itstool \
+-    --its "${src_root}/data/its/shared-mime-info.its" \
+-    --join "${src_root}/data/freedesktop.org.xml.in" \
+-    -o "${build_root}/data/freedesktop.org.xml" \
+-    "${build_root}/po/"*".gmo"
+diff -Naur shared-mime-info-2.1.orig/data/meson.build shared-mime-info-2.1/data/meson.build
+--- shared-mime-info-2.1.orig/data/meson.build	2021-12-14 00:28:02.285628247 +0100
++++ shared-mime-info-2.1/data/meson.build	2021-12-14 00:29:28.972927773 +0100
+@@ -1,18 +1,12 @@
+ 
+ install_man('update-mime-database.1')
+ 
+-freedesktop_org_xml = custom_target('freedesktop.org.xml',
+-    input : files(
+-        'freedesktop.org.xml.in',
+-        'its/shared-mime-info.its',
+-        'its/shared-mime-info.loc',
+-    ),
++freedesktop_org_xml = i18n.merge_file(
++    input: 'freedesktop.org.xml.in',
+     output: 'freedesktop.org.xml',
+-    command: [
+-        find_program('freedesktop_generate.sh'),
+-        meson.source_root(),
+-        meson.build_root()
+-    ],
++    data_dirs: '.',
++    po_dir: '../po',
++    type: 'xml',
+     install: true,
+     install_dir: get_option('datadir') / 'mime' / 'packages',
+ )

@@ -1,0 +1,17 @@
+ver=2.1.0
+
+[deps]
+librsvg
+libtorrent-rasterbar
+python3-chardet
+python3-pyopenssl
+python3-pyxdg
+python3-twisted
+python3-pyxdg
+
+[srcs]
+https://ftp.osuosl.org/pub/deluge/source/2.1/%name-%ver.tar.xz
+
+[build]
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix --root=%dest --optimize=1 --skip-build

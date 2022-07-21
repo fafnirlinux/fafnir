@@ -1,0 +1,29 @@
+ver=1.12.2
+
+[deps]
+curl
+cmake
+lua
+imlib2
+libxml2
+xorg-libxdamage
+xorg-libxft
+xorg-libxinerama
+
+[srcs]
+https://github.com/brndnmtthws/conky/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cmake -S %name-%ver -B build \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D SYSTEM_CONFIG_FILE=/etc/conky.conf \
+	 -D BUILD_DOCS=OFF \
+	 -D BUILD_I18N=OFF \
+	 -D BUILD_CURL=ON \
+	 -D BUILD_RSS=ON \
+	 -D RELEASE=TRUE
+cmake --build build -j %threads
+DESTDIR=%dest cmake --install build
+rm -r %dest/share/doc

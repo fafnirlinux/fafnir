@@ -1,0 +1,20 @@
+ver=3.24.11
+
+[deps]
+gtk3
+
+[srcs]
+https://ftp.gnome.org/pub/gnome/sources/%name/${version:0:4}/%name-%ver.tar.xz
+
+[build]
+if [ -n "$(pkginfo -i | grep '^glade ')" ]; then
+local glade=--enable-glade-catalog
+fi
+%conf \
+	 --disable-nls \
+	 --disable-dependency-tracking \
+"$glade"
+%make
+%inst
+
+rm -r %dest/share/gtk-doc

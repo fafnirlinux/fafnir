@@ -1,0 +1,17 @@
+ver=1.10.3
+
+[deps]
+meson
+ninja
+
+[srcs]
+https://github.com/libsixel/libsixel/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+meson setup %name-%ver build \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true
+meson compile -C build
+DESTDIR=%dest meson install -C build

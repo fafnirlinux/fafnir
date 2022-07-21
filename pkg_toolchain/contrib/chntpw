@@ -1,0 +1,10 @@
+ver=140201
+
+[srcs]
+http://crux.ster.zone/downloads/%name/%name-source-%ver.zip) #source=(http://pogostick.net/~pnh/ntpasswd/%name-source-%ver.zip
+
+[build]
+sed -i 's/^CFLAGS= \(.*\) -m32 $/CFLAGS= \1/' Makefile
+make chntpw cpnt reged samusrgrp sampasswd
+install -d %dest/bin
+install -m 0755 -t %dest/bin chntpw cpnt reged samusrgrp sampasswd

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+dot -c
+
+# End of file

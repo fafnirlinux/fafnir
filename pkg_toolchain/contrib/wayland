@@ -1,0 +1,21 @@
+ver=1.21.0
+
+[deps]
+expat
+libffi
+libxml2
+meson
+ninja
+
+[srcs]
+https://gitlab.freedesktop.org/wayland/wayland/-/releases/%ver/downloads/wayland-%ver.tar.xz
+
+[build]
+meson setup %name-%ver build \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D documentation=false
+meson compile -C build
+DESTDIR=%dest meson install -C build

@@ -1,0 +1,22 @@
+ver=16.10
+
+[deps]
+libdbusmenu-gtk3
+libindicator-gtk3
+dbus-glib
+
+[srcs]
+http://unrealize.co.uk/source/libappindicator-16.10.tar.gz
+
+[build]
+cd libappindicator-%ver
+sed -i -e 's/ -Werror//' src/Makefile.am
+sed -e 's/--enable-gtk-doc//g' -i autogen.sh
+NOCONFIGURE=1 ./autogen.sh
+CXXFLAGS="$CXXFLAGS -std=c++11" \
+%conf \
+	 --localstatedir=/var \
+	 --disable-{gtk-doc-html,python,mono-test,static,tests} \
+	 --with-gtk=3
+%make
+make DESTDIR=%dest -j1 install

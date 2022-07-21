@@ -1,0 +1,14 @@
+ver=20130607
+
+[deps]
+p5-text-csv-xs
+xtables-addons
+
+[srcs]
+http://crux.ster.zone/downloads/%name/GeoIPCountryCSV-20130604.zip
+
+[build]
+gunzip %files/GeoIPv6-*.csv.gz
+install -d %dest/share/xt_geoip
+/usr/lib/xtables-addons/xt_geoip_build \
+	 -D %dest/share/xt_geoip/ %files/*.csv

@@ -1,0 +1,17 @@
+ver=1.0.20210914
+
+[srcs]
+https://git.zx2c4.com/wireguard-tools/snapshot/
+
+[build]
+cd %name-%ver
+cd src
+%make
+make install \
+DESTDIR=%dest \
+PREFIX= \
+RUNSTATEDIR=/run \
+WITH_BASHCOMPLETION=no \
+WITH_SYSTEMDUNITS=no \
+WITH_WGQUICK=no
+}

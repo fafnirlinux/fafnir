@@ -1,0 +1,16 @@
+ver=1.07.1
+
+[deps]
+readline
+
+[srcs]
+http://ftpmirror.gnu.org/gnu/%name/%name-%ver.tar.gz
+
+[build]
+
+%conf --with-readline
+
+touch doc/*.info doc/*.1 doc/Makefile
+%make
+%inst
+rm -r %dest/share/info

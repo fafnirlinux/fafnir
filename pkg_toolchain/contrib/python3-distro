@@ -1,0 +1,12 @@
+ver=1.7.0
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://pypi.io/packages/source/d/distro/distro-%ver.tar.gz
+
+[build]
+cd distro-%ver
+python3 setup.py build
+python3 setup.py install --root=%dest

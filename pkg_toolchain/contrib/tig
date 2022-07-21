@@ -1,0 +1,13 @@
+ver=2.5.5
+
+[deps]
+readline
+git
+
+[srcs]
+https://github.com/jonas/tig/releases/download/%name-%ver/%name-%ver.tar.gz
+
+[build]
+%conf --sysconfdir=/etc
+%make
+make DESTDIR=%dest install install-doc-man

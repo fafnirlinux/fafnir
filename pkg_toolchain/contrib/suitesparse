@@ -1,0 +1,22 @@
+ver=5.12.0
+
+[deps]
+chrpath
+lapack
+metis
+
+[srcs]
+https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd SuiteSparse-%ver
+local PKGMK_SUITESPARSE+="
+_BLAS=-lblas
+LAPACK=-llapack
+MY_METIS_LIB=/lib/libmetis.so"
+make %destMK_SUITESPARSE
+install -dm755 %dest/{include,lib}
+INSTALL_LIB=%dest/lib \
+INSTALL_INCLUDE=%dest/include \
+make %destMK_SUITESPARSE install
+chrpath -d %dest/lib/*

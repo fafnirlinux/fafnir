@@ -1,0 +1,12 @@
+ver=2.0.3
+
+[deps]
+lcms2
+
+[srcs]
+https://downloads.sourceforge.net/%name/%name-%ver.tar.xz
+
+[build]
+%conf
+%make
+%inst

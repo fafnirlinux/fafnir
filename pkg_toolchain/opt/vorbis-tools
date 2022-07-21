@@ -1,0 +1,17 @@
+ver=1.4.2
+
+[deps]
+curl
+libao
+libvorbis
+
+[srcs]
+https://downloads.xiph.org/releases/vorbis/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --disable-nls \
+	 --enable-vcut
+%make
+%inst
+rm -r %dest/share/doc

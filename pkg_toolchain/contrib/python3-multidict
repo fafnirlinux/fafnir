@@ -1,0 +1,14 @@
+ver=6.0.2
+
+[deps]
+python3-cython
+
+[srcs]
+https://github.com/aio-libs/multidict/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd multidict-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 --skip-build

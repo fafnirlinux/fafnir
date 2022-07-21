@@ -1,0 +1,16 @@
+ver=1.6.1
+
+[deps]
+gobject-introspection
+json-c
+intltool
+
+[srcs]
+https://github.com/mypaint/libmypaint/releases/download/v%ver/%name-%ver.tar.xz
+
+[build]
+export LINGUAS=" "
+%conf \
+	 --disable-nls
+%make
+%inst

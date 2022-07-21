@@ -1,0 +1,17 @@
+ver=2.6.1
+
+[deps]
+libvorbis
+libmodplug
+flac
+libsdl2
+mpg123
+
+[srcs]
+https://github.com/libsdl-org/SDL_mixer/releases/download/release-%ver/SDL2_mixer-%ver.tar.gz
+
+[build]
+cd SDL2_mixer-%ver
+CONFIG_SHELL=/bin/bash %conf \
+%make
+%inst

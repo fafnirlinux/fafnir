@@ -1,0 +1,20 @@
+ver=0.2.0
+
+[deps]
+dbus
+meson
+ninja
+
+[srcs]
+https://github.com/emersion/basu/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+meson %name-%ver build \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D system-bus-address='unix:path=/var/run/dbus/system_bus_socket' \
+	 -D nobody-user=nobody
+meson compile -C build
+DESTDIR=%dest meson install -C build

@@ -1,0 +1,10 @@
+ver=1.3.0
+
+[srcs]
+https://github.com/thkukuk/%name/releases/download/v%ver/%name-%ver.tar.xz
+
+[build]
+autoreconf -fi
+%conf
+%make
+%inst

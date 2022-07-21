@@ -1,0 +1,15 @@
+ver=0.0.4
+
+[deps]
+boost
+cppunit
+
+[srcs]
+https://sourceforge.net/projects/libwpd/files/librevenge/%name-%ver/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --disable-werror \
+	 --without-docs
+%make
+make DESTDIR=%dest install

@@ -1,0 +1,11 @@
+ver=1.26
+
+[srcs]
+https://ftp.gnu.org/gnu/%name/%name-%ver.tar.lz
+
+[build]
+%conf
+make CXXFLAGS="$CXXFLAGS" $MAKEFLAGS
+%inst
+rm -rf %dest/share/info
+find %dest/share -depth -empty -delete

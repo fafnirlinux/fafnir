@@ -1,0 +1,13 @@
+ver=3.8.0
+
+[deps]
+eudev
+
+[srcs]
+https://www.kernel.org/pub/software/utils/pciutils/%name-%ver.tar.xz
+
+[build]
+local CONF="ZLIB=no DESTDIR=%dest PREFIX="
+make -j1 $CONF OPT="$CFLAGS" SHARED=yes install install-lib
+make clean
+make -j1 $CONF OPT="$CFLAGS" SHARED=no install install-lib

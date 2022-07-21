@@ -1,0 +1,12 @@
+ver=1.26.10
+
+[deps]
+python3-pyopenssl
+
+[srcs]
+https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-%ver.tar.gz
+
+[build]
+cd $_name-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix --root=%dest --optimize=1

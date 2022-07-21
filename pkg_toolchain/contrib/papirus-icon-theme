@@ -1,0 +1,8 @@
+ver=20220710
+
+[srcs]
+https://github.com/PapirusDevelopmentTeam/papirus-icon-theme/archive/%ver/%name-%ver.tar.gz
+
+[build]
+%inst
+find %dest -name AUTHORS -name README -exec rm '{}' \+

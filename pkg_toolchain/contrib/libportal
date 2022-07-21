@@ -1,0 +1,23 @@
+ver=0.6
+
+[deps]
+glib
+gtk3
+
+[srcs]
+https://github.com/flatpak/libportal/releases/download/%ver/%name-%ver.tar.xz
+
+[build]
+prt-get isinst gtk4 && LIBPORTAL_BACKENDS+=',gtk4'
+prt-get isinst qt5 && LIBPORTAL_BACKENDS+=',qt5'
+prt-get isinst gobject-introspection || PKGMK_LIBPORTAL+=' -D introspection=false'
+prt-get isinst vala || PKGMK_LIBPORTAL+=' -D vapi=false'
+meson setup %name-%ver build %destMK_LIBPORTAL \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D docs=false \
+	 -D backends=gtk3$LIBPORTAL_BACKENDS
+meson compile -C build
+DESTDIR=%dest meson install -C build

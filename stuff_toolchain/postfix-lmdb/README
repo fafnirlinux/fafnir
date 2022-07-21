@@ -1,0 +1,131 @@
+
+The CRUX postfix package
+========================
+
+* Abstract
+* TLS
+* SmartHost
+* Relay
+* DNS black lists
+* Gray listing
+* Address verification
+
+Abstract
+--------
+
+- Fully configured for "sailing in the wind".
+- Only listens to SMTP by default, but.
+- A few knobs can be turned here and there for more, see below.
+
+Remember to run "postmap FILE" after you have updated table files,
+and "newaliases" or "postalias FILE" after changing alias files.
+
+TLS
+---
+
+tlsproxy(8) for connection tracking is running by default.
+To be identifiable generate a private key with certificate, either via
+
+  openssl genpkey -algorithm ed25519 -out prv.pem
+  #openssl pkey -in prv.pem -pubout -out pub.pem
+  openssl req -x509 -key prv.pem -out crt.pem
+
+or
+
+  openssl req -x509 -nodes -newkey ed25519 -keyout prv.pem -out crt.pem
+
+This is self-signed (which might be sufficient for client certificate
+identification as below).  Also create DH parameters
+
+  openssl dhparam -out dh2048.pem 2048
+
+Move all these to a save place.  Do
+
+  cat prv.pem crt.pem > /etc/postfix-lmdb/key_and_cert.pem
+  cp dh2048.pem /etc/postfix-lmdb/dh2048.pem
+
+Make them root:root and 0600.
+Edit main.cf: uncomment all lines marked #TLS.
+Edit master.cf and ditto.
+Run "/etc/rc.d/postfix-lmdb reload" (or restart).
+
+SmartHost
+---------
+
+For laptops or hosts without their own hostname using a smart host which
+does the real delivery is usually the thing.
+
+Edit main.cf and uncomment and edit lines marked #SMART.
+Run "/etc/rc.d/postfix-lmdb reload" (or restart).
+
+Authentication to the smart host is not covered by the default
+configuration, with TLS as above however it may be possible to go
+via client certificates shall the relayhost allow this, see below.
+I.e., just reuse key_and_cert.pem "also" for this.  Just uncomment the
+according lines.
+
+Note it seems wise to go the $smtp_tls_fingerprint_cert_match approach
+to verify $relayhost, because the $smtp_tls_CAfile way requires a full
+chain, to the best of my knowledge.
+
+You need to have cyrus-sasl installed otherwise (usually), and also
+dovecot that drives the SASL authentication.  The default configuration
+contains the necessary entries, you should only need to adjust and
+uncomment it.  Just search #SMART.
+
+Relay
+-----
+
+The default configuration only allows mails that address $mydestination
+aka the local host, or shall be relayed to $mynetworks (set to the
+IPv4 private address range).
+
+Not covering SASL authentification of clients, the default configuration
+ships support for client certificate fingerprint matching, in order to
+allow clients which authenticate themselves to relay mail to anywhere.
+Edit main.cf and uncomment and edit lines marked #RELAY.
+Run "/etc/rc.d/postfix-lmdb reload" (or restart).
+
+Put the fingerprints in /etc/postfix-lmdb/relay_clientcerts as shown.
+Calculate them via
+
+  openssl x509 -noout -sha256 -fingerprint < CERT.pem
+or
+  openssl x509 -outform DER -in CERT.pem | openssl dgst -sha256 -c
+
+It seems to support public-key-only fingerprinting also.
+
+You need to have cyrus-sasl installed otherwise (usually), and also
+dovecot that drives the SASL authentication.  The default configuration
+contains the necessary entries, you should only need to adjust and
+uncomment it.  See above for SmartHost.
+
+DNS deny lists
+--------------
+
+. Edit main.cf and uncomment and edit lines marked #DNSDL.
+. Run "/etc/rc.d/postfix-lmdb reload" (or restart).
+
+Gray listing
+------------
+
+. Install s-postgray, and create a minimal configuration file.
+. Edit main.cf and uncomment and edit lines marked #GRAY.
+. Run "/etc/rc.d/postfix-lmdb reload" (or restart).
+. Track your logs to fill in configuration some days or weeks.
+. Remove "-c 0" s-postgray command line option from master.cf.
+
+Address verification
+--------------------
+
+. Unless you use gray listing with --msg-allow=permit allowance, and
+  have a completed set of allowlisted entries, you should read postfix's
+  README_FILES/ADDRESS_VERIFICATION_README.
+. Edit main.cf and uncomment and edit lines marked #VERIFY.
+  If gray listing is enabled, you could reconfigure it to not include
+  recipients but only senders and client addresses via --focus-sender;
+  then, change GRAY and VERIFY to happen in smtpd_sender_restrictions
+  not smtpd_recipient_restrictions.
+. Run "/etc/rc.d/postfix-lmdb reload" (or restart).
+
+# s-ts-mode

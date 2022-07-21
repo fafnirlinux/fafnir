@@ -1,0 +1,12 @@
+ver=0.3.2
+
+[deps]
+prt-get
+ruby-ncurses
+
+[srcs]
+http://jue.li/crux/%name/%name-%ver.tar.gz
+
+[build]
+sed -ri 's/(Config)($|[.])/YapoConfig\2/' yapo.rb
+make MANDIR=/share/man/man8 DESTDIR=%dest install

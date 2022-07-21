@@ -1,0 +1,15 @@
+ver=0.13.8
+
+[deps]
+libsigc++
+curl
+
+[srcs]
+https://github.com/rakshasa/libtorrent/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+./autogen.sh
+%conf \
+	 --enable-debug=no
+%make
+%inst

@@ -1,0 +1,13 @@
+ver=0.10.3
+
+[deps]
+librevenge
+
+[srcs]
+https://downloads.sourceforge.net/project/libwpd/libwpd/%name-%ver/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --without-docs
+%make
+%inst

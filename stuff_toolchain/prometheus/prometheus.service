@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# /etc/rc.d/prometheus: start/stop prometheus daemon
+#
+
+SSD=/sbin/start-stop-daemon
+PROG=/usr/bin/prometheus
+OPTS="--config.file=/etc/prometheus/prometheus.yml --web.listen-address=":9191""
+USER=prometheus
+WORKING_DIR=/var/lib/prometheus/
+
+case $1 in
+  start)
+    $SSD --start --chuid $USER --chdir $WORKING_DIR --background --exec $PROG -- $OPTS
+    ;;
+  stop)
+    $SSD --stop --retry 10 --exec $PROG
+    ;;
+  restart)
+    $0 stop
+    $0 start
+    ;;
+  status)
+    $SSD --status --exec $PROG
+    case $? in
+      0) echo "$PROG is running with pid $(pidof $PROG)" ;;
+      1) echo "$PROG is not running but the pid file $PID exists" ;;
+      3) echo "$PROG is not running" ;;
+      4) echo "Unable to determine the program status" ;;
+    esac
+    ;;
+  *)
+    echo "usage: $0 [start|stop|restart|status]"
+    ;;
+esac
+
+# End of file

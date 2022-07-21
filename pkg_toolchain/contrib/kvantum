@@ -1,0 +1,20 @@
+ver=1.0.3
+
+[deps]
+icu
+kwindowsystem
+xorg-xcb-util-renderutil
+
+[srcs]
+https://github.com/tsujan/Kvantum/archive/V%ver/Kvantum-v%ver.tar.gz
+
+[build]
+cmake -S Kvantum-%ver/Kvantum -B build -G Ninja \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build
+rm -fr %dest/share/{kvantumpreview/translations,kvantummanager/translations}

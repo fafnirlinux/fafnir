@@ -1,0 +1,12 @@
+ver=1.47
+
+[deps]
+libpcap
+
+[srcs]
+https://github.com/jpr5/ngrep/archive/V${version//./_}/%name-%ver.tar.gz
+
+[build]
+%conf --enable-ipv6
+%make
+%inst

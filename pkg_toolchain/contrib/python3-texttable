@@ -1,0 +1,12 @@
+ver=1.6.4
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://pypi.python.org/packages/source/t/texttable/texttable-%ver.tar.gz
+
+[build]
+cd texttable-%ver
+python3 setup.py build
+python3 setup.py install --root=%dest

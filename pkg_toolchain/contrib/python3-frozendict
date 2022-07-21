@@ -1,0 +1,15 @@
+ver=2.3.2
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://pypi.org/packages/source/f/frozendict/frozendict-%ver.tar.gz
+
+[build]
+cd frozendict-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 -O1 \
+	 --skip-build

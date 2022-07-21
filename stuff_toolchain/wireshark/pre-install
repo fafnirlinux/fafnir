@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+_GROUP=wireshark
+
+/usr/bin/getent group $_GROUP > /dev/null 2>&1 || /usr/sbin/groupadd $_GROUP

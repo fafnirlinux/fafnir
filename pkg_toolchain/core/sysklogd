@@ -1,0 +1,22 @@
+ver=2.4.0
+
+[srcs]
+https://github.com/troglobit/sysklogd/releases/download/v%ver/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --sysconfdir=/etc \
+	 --localstatedir=/var \
+	 --runstatedir=/run \
+	 --without-logger
+%make
+%inst
+install -d %dest/etc/{cron/weekly,rc.d,syslog.d}
+install -m 755 %files/rotatelog %dest/sbin
+install -m 755 %files/syslog %dest/etc/cron/weekly
+install -m 644 %files/syslog.conf %dest/etc
+install -m 755 %files/sysklogd %dest/etc/rc.d
+install -d %dest/var/log
+touch %dest/var/log/{messages,auth,mail,cron,kernel,debug}
+chmod 640 %dest/var/log/{messages,auth,mail,cron,kernel,debug}
+rm -r %dest/share/doc

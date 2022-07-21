@@ -1,0 +1,17 @@
+ver=0.9.33
+
+[deps]
+libgcrypt
+libmpfr
+libpcre
+raptor
+
+[srcs]
+http://download.librdf.org/source/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --enable-release
+%make
+%inst
+rm -r %dest/share/gtk-doc

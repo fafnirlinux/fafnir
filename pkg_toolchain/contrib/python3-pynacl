@@ -1,0 +1,13 @@
+ver=1.5.0
+
+[deps]
+python3-setuptools
+python3-pip
+
+[srcs]
+https://files.pythonhosted.org/packages/a7/22/27582568be639dfe22ddb3902225f91f2f17ceff88ce80e4db396c8986da/PyNaCl-%ver.tar.gz
+
+[build]
+cd PyNaCl-%ver
+python3 setup.py build
+python3 setup.py install --root=%dest

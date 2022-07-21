@@ -1,0 +1,24 @@
+ver=0.34.1
+
+[deps]
+ffmpeg
+libass
+libplacebo
+util-linux
+xorg-libxscrnsaver
+
+[srcs]
+https://github.com/%name-player/%name/archive/v%ver/%name-v%ver.tar.gz
+
+[build]
+install -m0755 %files/waf-2.0.9 waf
+[[ -e '/usr/lib/pkgconfig/libcdio_cdda.pc' ]] && PKGMK_MPV+=' --enable-cdda'
+[[ -e '/usr/lib/pkgconfig/dvdnav.pc' ]] && PKGMK_MPV+=' --enable-dvdnav'
+/usr/bin/python3 waf configure ${PKGMK_MPV} \
+	 --enable-libarchive \
+	 --enable-libmpv-shared \
+	 -j %threads
+/usr/bin/python3 waf build
+/usr/bin/python3 waf install --destdir=%dest
+rm -r %dest/share/doc
+[ -e '/usr/bin/rst2man.py' ] || install -D -m 0644 -t %dest/share/man/man1 %files/mpv.1

@@ -1,0 +1,16 @@
+ver=1.2.1
+
+[deps]
+libogg
+
+[srcs]
+https://gitlab.xiph.org/xiph/speex/-/archive/Speex-%ver/speex-Speex-%ver.tar.bz2
+
+[build]
+NO_CONFIGURE=1 ./autogen.sh
+%conf \
+	 --enable-epic-48k \
+	 --enable-binaries
+sed -i -e "/^SUBDIRS = /s/doc //" Makefile
+%make
+%inst

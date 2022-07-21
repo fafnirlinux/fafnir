@@ -1,0 +1,77 @@
+ver=19.4
+
+[deps]
+dbus
+flatbuffers
+fstrcmp
+libass
+libcdio
+libinput
+libmicrohttpd
+libxkbcommon
+mesa
+openjdk17-jdk
+rapidjson
+rtmpdump
+spdlog
+swig
+taglib
+tinyxml
+
+[srcs]
+https://github.com/xbmc/xbmc/archive/%ver-$_codename/xbmc-%ver-$_codename.tar.gz
+
+[build]
+if [[ %destMK_KODI_USE_CLANG == on ]]; then
+[[ -e /usr/bin/clang && -e /usr/bin/clang++ && -e /usr/bin/lld ]] && export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib LDFLAGS+=' -fuse-ld=lld' && KODI_EXTRA+=' -D CMAKE_CXX_COMPILER_AR=/bin/llvm-ar -D CMAKE_CXX_COMPILER_RANLIB=/bin/llvm-ranlib -D CMAKE_NM=/bin/llvm-nm -D ENABLE_LLD=ON -D USE_LTO=8' || echo "Please install clang first"
+fi
+unset PATH
+export PATH="/usr/lib/java/openjdk17-jdk/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+prt-get isinst alsa-lib && KODI_EXTRA+=' -D ENABLE_ALSA=ON' || KODI_EXTRA+=' -D ENABLE_ALSA=OFF'
+prt-get isinst avahi && KODI_EXTRA+=' -D ENABLE_AVAHI=ON' || KODI_EXTRA+=' -D ENABLE_AVAHI=OFF'
+prt-get isinst bluez sbc && KODI_EXTRA+=' -D ENABLE_BLUETOOTH=ON' || KODI_EXTRA+=' -D ENABLE_BLUETOOTH=OFF'
+prt-get isinst dav1d && KODI_EXTRA+=' -D ENABLE_INTERNAL_DAV1D=OFF' || KODI_EXTRA+=' -D ENABLE_INTERNAL_DAV1D=ON'
+prt-get isinst libmicrohttpd && KODI_EXTRA+=' -D ENABLE_MICROHTTPD=ON' || KODI_EXTRA+=' -D ENABLE_MICROHTTPD=OFF'
+prt-get isinst libnfs && KODI_EXTRA+=' -D ENABLE_NFS=ON' || KODI_EXTRA+=' -D ENABLE_NFS=OFF'
+prt-get isinst libva && KODI_EXTRA+=' -D ENABLE_VAAPI=ON' || KODI_EXTRA+=' -D ENABLE_VAAPI=OFF'
+prt-get isinst libva-vdpau-driver && KODI_EXTRA+=' -D ENABLE_VDPAU=ON' || KODI_EXTRA+=' -D ENABLE_VDPAU=OFF'
+prt-get isinst libxslt && KODI_EXTRA+=' -D ENABLE_XSLT=ON' || KODI_EXTRA+=' -D ENABLE_XSLT=OFF'
+prt-get isinst mysql && KODI_EXTRA+=' -D ENABLE_MYSQLCLIENT=ON'
+prt-get isinst mariadb && KODI_EXTRA+=' -D ENABLE_MARIADBCLIENT=ON'
+prt-get isinst pulseaudio && KODI_EXTRA+=' -D ENABLE_PULSEAUDIO=ON' || KODI_EXTRA+=' -D ENABLE_PULSEAUDIO=OFF'
+prt-get isinst ccache && PATH="$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
+cmake -S xbmc-%ver-$_codename -B build -G Ninja $KODI_EXTRA \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_INSTALL_LIBDIR=lib \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D CORE_PLATFORM_NAME=gbm \
+	 -D APP_RENDER_SYSTEM=gles \
+	 -D ENABLE_DBUS=ON \
+	 -D ENABLE_DVDCSS=ON \
+	 -D ENABLE_EVENTCLIENTS=ON \
+	 -D ENABLE_UDEV=ON \
+	 -D ENABLE_PYTHON=ON \
+	 -D ENABLE_ISO9660PP=OFF \
+	 -D ENABLE_LDGOLD=OFF \
+	 -D ENABLE_OPTICAL=OFF \
+	 -D ENABLE_TESTING=OFF \
+	 -D VERBOSE=OFF \
+	 -D ENABLE_INTERNAL_FFMPEG=ON \
+	 -D FFMPEG_URL="%files/4.3-kodi-dav1d-1.0.tar.gz" \
+	 -D ENABLE_INTERNAL_CROSSGUID=ON \
+	 -D CROSSGUID_URL="%files/crossguid-$_crossguid_version.tar.gz" \
+	 -D LIBDVDCSS_URL="%files/${name/-gbm/}-libdvdcss-$_libdvdcss_version.tar.gz" \
+	 -D LIBDVDNAV_URL="%files/${name/-gbm/}-libdvdnav-$_libdvdnav_version.tar.gz" \
+	 -D LIBDVDREAD_URL="%files/${name/-gbm/}-libdvdread-$_libdvdread_version.tar.gz" \
+	 -D ENABLE_INTERNAL_FMT=OFF \
+	 -D ENABLE_INTERNAL_FSTRCMP=OFF \
+	 -D ENABLE_INTERNAL_FLATBUFFERS=OFF \
+	 -D ENABLE_INTERNAL_GTEST=OFF \
+	 -D ENABLE_INTERNAL_RapidJSON=OFF \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --build build --target install
+rm -r %dest/{lib/firewalld,share/doc}
+}

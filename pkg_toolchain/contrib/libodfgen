@@ -1,0 +1,14 @@
+ver=0.1.8
+
+[deps]
+librevenge
+libxml2
+
+[srcs]
+https://sourceforge.net/projects/libwpd/files/libodfgen/%name-%ver/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --without-docs
+%make
+%inst

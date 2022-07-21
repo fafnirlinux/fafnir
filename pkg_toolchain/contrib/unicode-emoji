@@ -1,0 +1,15 @@
+ver=14.0
+
+[deps]
+unicode-character-database
+
+[srcs]
+http://www.unicode.org/Public/emoji/%ver/emoji-sequences.txt
+
+[build]
+cp %destMK_SOURCE_DIR/emoji-sequences-%ver.txt .
+cp %destMK_SOURCE_DIR/emoji-test-%ver.txt .
+cp %destMK_SOURCE_DIR/emoji-zwj-sequences-%ver.txt .
+for _f in sequences test zwj-sequences; do
+	 install -Dm644 emoji-$_f-%ver.txt "%dest/share/unicode/emoji/emoji-$_f.txt"
+done

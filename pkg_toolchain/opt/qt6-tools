@@ -1,0 +1,23 @@
+ver=6.3.1
+
+[deps]
+qt6-declarative
+
+[srcs]
+https://download.qt.io/official_releases/qt/6.3/%ver/submodules/qttools-everywhere-src-%ver.tar.xz
+
+[build]
+prt-get isinst ninja && PKGMK_QT6+=' -G Ninja'
+prt-get isinst ccache && PKGMK_QT6+=' -D QT_USE_CCACHE=ON' && PATH="$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
+cmake -S qttools-everywhere-src-%ver -B build %destMK_QT6 \
+	 -D INSTALL_PUBLICBINDIR=usr/bin \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS"
+cmake --build build
+DESTDIR=%dest cmake --install build
+cd %dest
+mkdir usr/bin
+while read _line; do
+ln -s $_line
+done < %files/build/user_facing_tool_links.txt

@@ -1,0 +1,10 @@
+ver=0.4.11
+
+[deps]
+poppler
+
+[srcs]
+https://poppler.freedesktop.org/%name-%ver.tar.gz
+
+[build]
+make datadir=/share DESTDIR=%dest install

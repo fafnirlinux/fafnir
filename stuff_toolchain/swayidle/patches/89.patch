@@ -1,0 +1,380 @@
+From 28950f78781363a61175eedb81973121cf7b1cea Mon Sep 17 00:00:00 2001
+From: Jan Beich <jbeich@FreeBSD.org>
+Date: Mon, 21 Dec 2020 21:03:14 +0000
+Subject: [PATCH 1/4] Drop dependency on sd-login
+
+Only sd_bus_* functions appear to be used, also supported by basu.
+---
+ main.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/main.c b/main.c
+index a33d6465..8a7823d5 100644
+--- a/main.c
++++ b/main.c
+@@ -19,10 +19,8 @@
+ #include "log.h"
+ #if HAVE_SYSTEMD
+ #include <systemd/sd-bus.h>
+-#include <systemd/sd-login.h>
+ #elif HAVE_ELOGIND
+ #include <elogind/sd-bus.h>
+-#include <elogind/sd-login.h>
+ #endif
+ 
+ static struct org_kde_kwin_idle *idle_manager = NULL;
+
+From ff7569ad112997085e4d2c90fa38aea4818aef27 Mon Sep 17 00:00:00 2001
+From: Jan Beich <jbeich@FreeBSD.org>
+Date: Mon, 21 Dec 2020 21:24:35 +0000
+Subject: [PATCH 2/4] build: rename logind-provider to sd-bus-provider
+
+Based on https://github.com/swaywm/sway/commit/fdbe98512a71
+---
+ main.c            | 26 +++++++++++++-------------
+ meson.build       | 39 +++++++++++++++++++++++++++++++--------
+ meson_options.txt |  2 +-
+ 3 files changed, 45 insertions(+), 22 deletions(-)
+
+diff --git a/main.c b/main.c
+index 8a7823d5..b15462e3 100644
+--- a/main.c
++++ b/main.c
+@@ -17,9 +17,9 @@
+ #include "config.h"
+ #include "idle-client-protocol.h"
+ #include "log.h"
+-#if HAVE_SYSTEMD
++#if HAVE_LIBSYSTEMD
+ #include <systemd/sd-bus.h>
+-#elif HAVE_ELOGIND
++#elif HAVE_LIBELOGIND
+ #include <elogind/sd-bus.h>
+ #endif
+ 
+@@ -169,7 +169,7 @@ static void cmd_exec(char *param) {
+ 	}
+ }
+ 
+-#if HAVE_SYSTEMD || HAVE_ELOGIND
++#if HAVE_LOGIND
+ #define DBUS_LOGIND_SERVICE "org.freedesktop.login1"
+ #define DBUS_LOGIND_PATH "/org/freedesktop/login1"
+ #define DBUS_LOGIND_MANAGER_INTERFACE "org.freedesktop.login1.Manager"
+@@ -585,7 +585,7 @@ static void enable_timeouts(void) {
+ 	if (state.timeouts_enabled) {
+ 		return;
+ 	}
+-#if HAVE_SYSTEMD || HAVE_ELOGIND
++#if HAVE_LOGIND
+ 	if (get_logind_idle_inhibit()) {
+ 		swayidle_log(LOG_INFO, "Not enabling timeouts: idle inhibitor found");
+ 		return;
+@@ -600,7 +600,7 @@ static void enable_timeouts(void) {
+ 	}
+ }
+ 
+-#if HAVE_SYSTEMD || HAVE_ELOGIND
++#if HAVE_LOGIND
+ static void disable_timeouts(void) {
+ 	if (!state.timeouts_enabled) {
+ 		return;
+@@ -622,7 +622,7 @@ static void handle_idle(void *data, struct org_kde_kwin_idle_timeout *timer) {
+ 	struct swayidle_timeout_cmd *cmd = data;
+ 	cmd->resume_pending = true;
+ 	swayidle_log(LOG_DEBUG, "idle state");
+-#if HAVE_SYSTEMD || HAVE_ELOGIND
++#if HAVE_LOGIND
+ 	if (cmd->idlehint) {
+ 		set_idle_hint(true);
+ 	} else
+@@ -639,7 +639,7 @@ static void handle_resume(void *data, struct org_kde_kwin_idle_timeout *timer) {
+ 	if (cmd->registered_timeout != cmd->timeout) {
+ 		register_timeout(cmd, cmd->timeout);
+ 	}
+-#if HAVE_SYSTEMD || HAVE_ELOGIND
++#if HAVE_LOGIND
+ 	if (cmd->idlehint) {
+ 		set_idle_hint(false);
+ 	} else
+@@ -712,7 +712,7 @@ static int parse_timeout(int argc, char **argv) {
+ }
+ 
+ static int parse_sleep(int argc, char **argv) {
+-#if !HAVE_SYSTEMD && !HAVE_ELOGIND
++#if !HAVE_LOGIND
+ 	swayidle_log(LOG_ERROR, "%s not supported: swayidle was compiled "
+ 		       "with neither systemd nor elogind support.", "before-sleep");
+ 	exit(-1);
+@@ -732,7 +732,7 @@ static int parse_sleep(int argc, char **argv) {
+ }
+ 
+ static int parse_resume(int argc, char **argv) {
+-#if !HAVE_SYSTEMD && !HAVE_ELOGIND
++#if !HAVE_LOGIND
+ 	swayidle_log(LOG_ERROR, "%s not supported: swayidle was compiled "
+ 			"with neither systemd nor elogind support.", "after-resume");
+ 	exit(-1);
+@@ -752,7 +752,7 @@ static int parse_resume(int argc, char **argv) {
+ }
+ 
+ static int parse_lock(int argc, char **argv) {
+-#if !HAVE_SYSTEMD && !HAVE_ELOGIND
++#if !HAVE_LOGIND
+ 	swayidle_log(LOG_ERROR, "%s not supported: swayidle was compiled"
+ 			" with neither systemd nor elogind support.", "lock");
+ 	exit(-1);
+@@ -772,7 +772,7 @@ static int parse_lock(int argc, char **argv) {
+ }
+ 
+ static int parse_unlock(int argc, char **argv) {
+-#if !HAVE_SYSTEMD && !HAVE_ELOGIND
++#if !HAVE_LOGIND
+ 	swayidle_log(LOG_ERROR, "%s not supported: swayidle was compiled"
+ 			" with neither systemd nor elogind support.", "unlock");
+ 	exit(-1);
+@@ -792,7 +792,7 @@ static int parse_unlock(int argc, char **argv) {
+ }
+ 
+ static int parse_idlehint(int argc, char **argv) {
+-#if !HAVE_SYSTEMD && !HAVE_ELOGIND
++#if !HAVE_LOGIND
+ 	swayidle_log(LOG_ERROR, "%s not supported: swayidle was compiled"
+ 			" with neither systemd nor elogind support.", "idlehint");
+ 	exit(-1);
+@@ -1077,7 +1077,7 @@ int main(int argc, char *argv[]) {
+ 	}
+ 
+ 	bool should_run = !wl_list_empty(&state.timeout_cmds);
+-#if HAVE_SYSTEMD || HAVE_ELOGIND
++#if HAVE_LOGIND
+ 	connect_to_bus();
+ 	setup_property_changed_listener();
+ 	if (state.before_sleep_cmd || state.after_resume_cmd) {
+diff --git a/meson.build b/meson.build
+index fce3ca3e..6bc71c78 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3,7 +3,7 @@ project(
+ 	'c',
+ 	version: '1.8',
+ 	license: 'MIT',
+-	meson_version: '>=0.48.0',
++	meson_version: '>=0.50.0',
+ 	default_options: [
+ 		'c_std=c11',
+ 		'warning_level=2',
+@@ -32,7 +32,6 @@ wayland_protos = dependency('wayland-protocols', version: '>=1.14')
+ wayland_server = dependency('wayland-server')
+ bash_comp      = dependency('bash-completion', required: false)
+ fish_comp      = dependency('fish', required: false)
+-logind = dependency('lib' + get_option('logind-provider'), required: get_option('logind'))
+ 
+ scdoc = find_program('scdoc', required: get_option('man-pages'))
+ wayland_scanner = find_program('wayland-scanner')
+@@ -77,15 +76,39 @@ swayidle_deps = [
+ 	wayland_server,
+ ]
+ 
+-conf_data = configuration_data()
+-conf_data.set10('HAVE_SYSTEMD', false)
+-conf_data.set10('HAVE_ELOGIND', false)
++if get_option('sd-bus-provider') == 'auto'
++	if not get_option('logind').disabled()
++		assert(get_option('auto_features').auto(), 'sd-bus-provider must not be set to auto since auto_features != auto')
++	endif
++	sdbus = dependency('libsystemd',
++		required: false,
++		not_found_message: 'libsystemd not found, trying libelogind',
++	)
++	if not sdbus.found()
++		sdbus = dependency('libelogind',
++			required: false,
++		)
++	endif
++else
++	sdbus = dependency(get_option('sd-bus-provider'), required: get_option('logind'))
++endif
++
++logind_deps_found = sdbus.found()
++if get_option('logind').enabled() and not logind_deps_found
++	error('Building with -Dlogind=enabled, but sd-bus has not been not found')
++endif
++have_logind = (not get_option('logind').disabled()) and logind_deps_found
+ 
+-if logind.found()
+-	swayidle_deps += logind
+-	conf_data.set10('HAVE_' + get_option('logind-provider').to_upper(), true)
++if have_logind
++	swayidle_deps += sdbus
+ endif
+ 
++conf_data = configuration_data()
++
++conf_data.set10('HAVE_LIBSYSTEMD', sdbus.found() and sdbus.name() == 'libsystemd')
++conf_data.set10('HAVE_LIBELOGIND', sdbus.found() and sdbus.name() == 'libelogind')
++conf_data.set10('HAVE_LOGIND', have_logind)
++
+ configure_file(output: 'config.h', configuration: conf_data)
+ 
+ executable(
+diff --git a/meson_options.txt b/meson_options.txt
+index d40de9cb..f96aba0e 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -1,6 +1,6 @@
+ option('man-pages', type: 'feature', value: 'auto', description: 'Generate and install man pages')
+ option('logind', type: 'feature', value: 'auto', description: 'Enable support for logind')
+-option('logind-provider', type: 'combo', choices: ['systemd', 'elogind'], value: 'systemd', description: 'Provider of logind support library')
++option('sd-bus-provider', type: 'combo', choices: ['auto', 'libsystemd', 'libelogind'], value: 'auto', description: 'Provider of the sd-bus library')
+ option('zsh-completions', type: 'boolean', value: true, description: 'Install zsh shell completions.')
+ option('bash-completions', type: 'boolean', value: true, description: 'Install bash shell completions.')
+ option('fish-completions', type: 'boolean', value: true, description: 'Install fish shell completions.')
+
+From f2f7e4d0a7c84d7dcd0de3e0344c8b3844708da1 Mon Sep 17 00:00:00 2001
+From: Jan Beich <jbeich@FreeBSD.org>
+Date: Thu, 24 Dec 2020 23:24:05 +0000
+Subject: [PATCH 3/4] build: add basu as sd-bus provider
+
+Based on https://github.com/swaywm/sway/commit/a52176f83035
+---
+ main.c            | 12 +++++++-----
+ meson.build       |  5 +++++
+ meson_options.txt |  2 +-
+ 3 files changed, 13 insertions(+), 6 deletions(-)
+
+diff --git a/main.c b/main.c
+index b15462e3..b0025e24 100644
+--- a/main.c
++++ b/main.c
+@@ -21,6 +21,8 @@
+ #include <systemd/sd-bus.h>
+ #elif HAVE_LIBELOGIND
+ #include <elogind/sd-bus.h>
++#elif HAVE_BASU
++#include <basu/sd-bus.h>
+ #endif
+ 
+ static struct org_kde_kwin_idle *idle_manager = NULL;
+@@ -714,7 +716,7 @@ static int parse_timeout(int argc, char **argv) {
+ static int parse_sleep(int argc, char **argv) {
+ #if !HAVE_LOGIND
+ 	swayidle_log(LOG_ERROR, "%s not supported: swayidle was compiled "
+-		       "with neither systemd nor elogind support.", "before-sleep");
++		       "with neither systemd nor elogind nor basu support.", "before-sleep");
+ 	exit(-1);
+ #endif
+ 	if (argc < 2) {
+@@ -734,7 +736,7 @@ static int parse_sleep(int argc, char **argv) {
+ static int parse_resume(int argc, char **argv) {
+ #if !HAVE_LOGIND
+ 	swayidle_log(LOG_ERROR, "%s not supported: swayidle was compiled "
+-			"with neither systemd nor elogind support.", "after-resume");
++			"with neither systemd nor elogind nor basu support.", "after-resume");
+ 	exit(-1);
+ #endif
+ 	if (argc < 2) {
+@@ -754,7 +756,7 @@ static int parse_resume(int argc, char **argv) {
+ static int parse_lock(int argc, char **argv) {
+ #if !HAVE_LOGIND
+ 	swayidle_log(LOG_ERROR, "%s not supported: swayidle was compiled"
+-			" with neither systemd nor elogind support.", "lock");
++			" with neither systemd nor elogind nor basu support.", "lock");
+ 	exit(-1);
+ #endif
+ 	if (argc < 2) {
+@@ -774,7 +776,7 @@ static int parse_lock(int argc, char **argv) {
+ static int parse_unlock(int argc, char **argv) {
+ #if !HAVE_LOGIND
+ 	swayidle_log(LOG_ERROR, "%s not supported: swayidle was compiled"
+-			" with neither systemd nor elogind support.", "unlock");
++			" with neither systemd nor elogind nor basu support.", "unlock");
+ 	exit(-1);
+ #endif
+ 	if (argc < 2) {
+@@ -794,7 +796,7 @@ static int parse_unlock(int argc, char **argv) {
+ static int parse_idlehint(int argc, char **argv) {
+ #if !HAVE_LOGIND
+ 	swayidle_log(LOG_ERROR, "%s not supported: swayidle was compiled"
+-			" with neither systemd nor elogind support.", "idlehint");
++			" with neither systemd nor elogind nor basu support.", "idlehint");
+ 	exit(-1);
+ #endif
+ 	if (state.logind_idlehint) {
+diff --git a/meson.build b/meson.build
+index 6bc71c78..b147c0cf 100644
+--- a/meson.build
++++ b/meson.build
+@@ -87,8 +87,12 @@ if get_option('sd-bus-provider') == 'auto'
+ 	if not sdbus.found()
+ 		sdbus = dependency('libelogind',
+ 			required: false,
++			not_found_message: 'libelogind not found, trying basu',
+ 		)
+ 	endif
++	if not sdbus.found()
++		sdbus = dependency('basu', required: false)
++	endif
+ else
+ 	sdbus = dependency(get_option('sd-bus-provider'), required: get_option('logind'))
+ endif
+@@ -107,6 +111,7 @@ conf_data = configuration_data()
+ 
+ conf_data.set10('HAVE_LIBSYSTEMD', sdbus.found() and sdbus.name() == 'libsystemd')
+ conf_data.set10('HAVE_LIBELOGIND', sdbus.found() and sdbus.name() == 'libelogind')
++conf_data.set10('HAVE_BASU', sdbus.found() and sdbus.name() == 'basu')
+ conf_data.set10('HAVE_LOGIND', have_logind)
+ 
+ configure_file(output: 'config.h', configuration: conf_data)
+diff --git a/meson_options.txt b/meson_options.txt
+index f96aba0e..4cb0cb65 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -1,6 +1,6 @@
+ option('man-pages', type: 'feature', value: 'auto', description: 'Generate and install man pages')
+ option('logind', type: 'feature', value: 'auto', description: 'Enable support for logind')
+-option('sd-bus-provider', type: 'combo', choices: ['auto', 'libsystemd', 'libelogind'], value: 'auto', description: 'Provider of the sd-bus library')
++option('sd-bus-provider', type: 'combo', choices: ['auto', 'libsystemd', 'libelogind', 'basu'], value: 'auto', description: 'Provider of the sd-bus library')
+ option('zsh-completions', type: 'boolean', value: true, description: 'Install zsh shell completions.')
+ option('bash-completions', type: 'boolean', value: true, description: 'Install bash shell completions.')
+ option('fish-completions', type: 'boolean', value: true, description: 'Install fish shell completions.')
+
+From 47056e5c6e7ffc636ef88f93dbe801ca3b731124 Mon Sep 17 00:00:00 2001
+From: Jan Beich <jbeich@FreeBSD.org>
+Date: Thu, 24 Dec 2020 23:50:40 +0000
+Subject: [PATCH 4/4] ci: add FreeBSD job
+
+---
+ .build.yml => .builds/alpine.yml |  0
+ .builds/freebsd.yml              | 17 +++++++++++++++++
+ 2 files changed, 17 insertions(+)
+ rename .build.yml => .builds/alpine.yml (100%)
+ create mode 100644 .builds/freebsd.yml
+
+diff --git a/.build.yml b/.builds/alpine.yml
+similarity index 100%
+rename from .build.yml
+rename to .builds/alpine.yml
+diff --git a/.builds/freebsd.yml b/.builds/freebsd.yml
+new file mode 100644
+index 00000000..9bea6989
+--- /dev/null
++++ b/.builds/freebsd.yml
+@@ -0,0 +1,17 @@
++image: freebsd/latest
++packages:
++  - basu
++  - meson
++  - pkgconf
++  - scdoc
++  - wayland
++  - wayland-protocols
++sources:
++  - https://github.com/swaywm/swayidle
++tasks:
++  - setup: |
++      cd swayidle
++      meson build
++  - build: |
++      cd swayidle
++      ninja -C build

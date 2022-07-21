@@ -1,0 +1,21 @@
+ver=8.2206.0
+
+[deps]
+libestr
+json-c
+libgcrypt
+liblogging
+libfastjson
+
+[srcs]
+http://www.rsyslog.com/files/download/%name/%name-%ver.tar.gz
+
+[build]
+%conf
+%make
+%inst
+install -d %dest/var/lib/%name %dest/etc/%name.d
+install -D -m 0644 %files/%name.conf \
+%dest/etc/%name.conf
+install -D -m 0755 %files/rsyslogd.rc \
+%dest/etc/rc.d/rsyslogd

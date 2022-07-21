@@ -1,0 +1,17 @@
+ver=2.10.3
+
+[deps]
+python3-pytz
+python3-setuptools
+
+[srcs]
+https://github.com/python-babel/babel/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd babel-%ver
+/usr/bin/python3 setup.py import_cldr
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --root=%dest \
+	 --optimize=1 \
+	 --skip-build
+mv %dest/bin/pybabel %dest/bin/py3babel

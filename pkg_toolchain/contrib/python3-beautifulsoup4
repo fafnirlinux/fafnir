@@ -1,0 +1,13 @@
+ver=4.11.1
+
+[deps]
+python3-chardet
+python3-soupsieve
+
+[srcs]
+https://files.pythonhosted.org/packages/source/b/beautifulsoup4/beautifulsoup4-%ver.tar.gz
+
+[build]
+cd ${name#*-}-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install \

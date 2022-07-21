@@ -1,0 +1,12 @@
+ver=20200505
+
+[srcs]
+https://github.com/fontforge/libspiro/releases/download/%ver/libspiro-dist-%ver.tar.gz
+
+[build]
+autoreconf -i
+automake --foreign -Wall
+%conf
+%make
+%inst
+install -m 0644 -D libspiro.pc %dest/lib/pkgconfig/libspiro.pc

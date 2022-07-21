@@ -1,0 +1,14 @@
+ver=3.12.0
+
+[deps]
+icon-naming-utils
+gtk3
+
+[srcs]
+https://download.gnome.org/sources/%name/${version:0:4}/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --disable-nls
+%make
+%inst

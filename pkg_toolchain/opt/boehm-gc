@@ -1,0 +1,16 @@
+ver=8.2.0
+
+[srcs]
+https://github.com/ivmai/bdwgc/releases/download/v%ver/gc-%ver.tar.gz
+
+[build]
+cd gc-%ver
+ln -s ../libatomic_ops-7.6.10 libatomic_ops
+%conf \
+	 --enable-threads=pthreads \
+	 --enable-static \
+	 --enable-shared
+%make
+%inst
+rm -r %dest/share/doc
+install -D -m 644 doc/gc.man %dest/share/man/man3/gc.3

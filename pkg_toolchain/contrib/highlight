@@ -1,0 +1,14 @@
+ver=4.2
+
+[deps]
+lua
+boost
+
+[srcs]
+http://www.andre-simon.de/zip/%name-%ver.tar.bz2
+
+[build]
+%make
+make cli
+make DESTDIR=%dest install
+rm -rf %dest/usr/share/doc

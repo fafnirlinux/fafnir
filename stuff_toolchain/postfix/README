@@ -1,0 +1,5 @@
+# postfix README
+
+NOTE: Currently postfix does not build with fakeroot; if you see a message
+which says "ATTENTION: Not supported: building with LD_LIBRARY_PATH" this
+is the cause.

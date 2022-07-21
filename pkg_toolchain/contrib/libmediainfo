@@ -1,0 +1,19 @@
+ver=22.06
+
+[deps]
+libzen
+tinyxml
+
+[srcs]
+https://mediaarea.net/download/source/libmediainfo/%ver/libmediainfo_%ver.tar.xz
+
+[build]
+cd MediaInfoLib/Project/GNU/Library
+./autogen.sh
+%conf \
+	 --enable-shared \
+	 --disable-static \
+	 --with-libcurl \
+	 --with-libmms
+%make
+%inst

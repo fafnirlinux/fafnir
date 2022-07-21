@@ -1,0 +1,15 @@
+ver=0.2.6
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://files.pythonhosted.org/packages/source/r/ruamel.yaml.clib/ruamel.yaml.clib-%ver.tar.gz
+
+[build]
+cd ruamel.yaml.clib-%ver
+/usr/bin/python3 setup.py build
+RUAMEL_NO_PIP_INSTALL_CHECK=1 /usr/bin/python3 setup.py install \
+	 --skip-build \
+	 --root=%dest \
+	 --optimize=1

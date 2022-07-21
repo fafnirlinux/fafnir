@@ -1,0 +1,19 @@
+ver=1.4.3
+
+[srcs]
+https://github.com/rhash/RHash/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd RHash-%ver
+sed -i -e '/^INSTALL_SHARED/s/644/755/' librhash/Makefile
+%conf \
+	 --sysconfdir=/etc \
+	 --enable-lib-{static,shared} \
+	 --extra-cflags="$CFLAGS" \
+	 --extra-ldflags="$LDFLAGS"
+%make
+make test test-lib
+%inst
+make -C librhash DESTDIR=%dest install-lib-headers install-so-link
+install -Dm0644 -o root -g root dist/librhash.pc \
+%dest/lib/pkgconfig/librhash.pc

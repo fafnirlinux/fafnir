@@ -1,0 +1,31 @@
+ver=2.10.32
+
+[deps]
+gegl
+glib-networking
+gtk
+gtk3
+libart_lgpl
+mypaint-brushes
+poppler-data
+xorg-libxmu
+xorg-libxpm
+
+[srcs]
+https://download.gimp.org/pub/gimp/v2.10/%name-%ver.tar.bz2
+
+[build]
+sed -i -e '/$(helpbrowser)/d' plug-ins/Makefile.in
+%conf \
+	 --libexecdir=/bin \
+	 --with-bug-report-url=https://crux.nu/bugs \
+	 --enable-mp \
+	 --disable-static \
+	 --disable-python \
+	 --disable-nls \
+	 --disable-check-update \
+	 --without-webkit
+%make
+%inst
+mv %dest/share/man/man1/gimp-console{-2.10.1,.1}
+rm -r %dest/share/{gtk-doc,locale}

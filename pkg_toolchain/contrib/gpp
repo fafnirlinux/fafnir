@@ -1,0 +1,10 @@
+ver=2.27
+
+[srcs]
+https://files.nothingisreal.com/software/%name/%name-%ver.tar.bz2
+
+[build]
+%conf
+%make
+%inst
+rm -r %dest/share/doc

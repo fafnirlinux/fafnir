@@ -1,0 +1,26 @@
+ver=3.0.5
+
+[deps]
+acorn
+typescript
+yarn
+
+[srcs]
+https://github.com/bash-lsp/bash-language-server/archive/server-%ver/%name-%ver.tar.gz
+
+[build]
+yarn
+yarn run compile
+install -d %dest/lib/%name
+cp -a server/* %dest/lib/%name
+install -d %dest/bin
+ln -s /usr/lib/%name/bin/main.js %dest/bin/%name
+find %dest \(\
+	 -iname "*README.md*" -o \
+	 -iname "*README.markdown*" -o \
+	 -iname "*CHANGELOG.md*" -o \
+	 -iname "*AUTHORS*" -o \
+	 -iname "*ChangeLog*" -o \
+	 -iname "*README_js.md*" -o \
+	 -iname "*COPYING*" -o \
+	 -iname "*LICENSE*" \) -delete

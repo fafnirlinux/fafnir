@@ -1,0 +1,19 @@
+ver=8.1.2
+
+[deps]
+ncurses
+
+[srcs]
+http://ftpmirror.gnu.org/gnu/%name/%name-8.1.tar.gz
+
+[build]
+gunzip -c %files/%name-%ver.patch.gz | patch -p0
+%conf
+make -j1 SHLIB_LIBS=-lncurses
+make -j1 DESTDIR=%dest install
+install -d %dest/lib
+mv %dest/lib/lib*.so.* %dest/lib
+ln -sf ../lib/libhistory.so.8.1 %dest/lib/libhistory.so
+ln -sf ../lib/libreadline.so.8.1 %dest/lib/libreadline.so
+install -D -m 644 %files/inputrc %dest/etc/inputrc
+rm -r %dest/share/{doc,info}

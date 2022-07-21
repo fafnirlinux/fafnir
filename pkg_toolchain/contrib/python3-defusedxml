@@ -1,0 +1,15 @@
+ver=0.7.1
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://pypi.io/packages/source/d/defusedxml/defusedxml-%ver.tar.gz
+
+[build]
+cd defusedxml-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 -O1 \
+	 --skip-build

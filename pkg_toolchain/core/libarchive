@@ -1,0 +1,22 @@
+ver=3.6.1
+
+[deps]
+acl
+bzip2
+lzo
+xz
+zlib
+zstd
+
+[srcs]
+https://github.com/libarchive/libarchive/releases/download/v%ver/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --without-xml2 \
+	 --without-expat \
+	 --without-nettle \
+	 --without-openssl \
+	 --without-libb2
+%make
+%inst

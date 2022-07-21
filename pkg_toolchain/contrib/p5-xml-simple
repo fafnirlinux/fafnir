@@ -1,0 +1,16 @@
+ver=2.25
+
+[srcs]
+http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/XML-Simple-%ver.tar.gz
+
+[build]
+cd XML-Simple-%ver
+perl Makefile.PL
+make OPTIMIZE="$CFLAGS"
+%inst
+find %dest -type f \( \
+	 -name '.packlist' -o \
+	 -name '*.bs' -o \
+	 -name 'autosplit.ix' -o \
+	 -name 'perllocal.pod' \) -delete
+find %dest -depth -empty -delete

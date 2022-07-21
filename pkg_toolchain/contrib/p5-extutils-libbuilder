@@ -1,0 +1,15 @@
+ver=0.08
+
+[deps]
+p5-module-build
+
+[srcs]
+https://cpan.metacpan.org/authors/id/A/AM/AMBS/ExtUtils-LibBuilder-%ver.tar.gz
+
+[build]
+cd ExtUtils-LibBuilder-%ver
+unset PERL5LIB PERL_MM_OPT PERL_MB_OPT PERL_LOCAL_LIB_ROOT
+perl Build.PL
+./Build
+./Build install installdirs=vendor destdir=%dest
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

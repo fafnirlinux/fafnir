@@ -1,0 +1,19 @@
+ver=6.37
+
+[deps]
+p5-encode-locale
+p5-http-date
+p5-io-html
+p5-lwp-mediatypes
+p5-uri
+p5-try-tiny
+
+[srcs]
+https://cpan.metacpan.org/authors/id/O/OA/OALDERS/HTTP-Message-%ver.tar.gz
+
+[build]
+cd HTTP-Message-%ver
+perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

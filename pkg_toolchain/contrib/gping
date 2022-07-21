@@ -1,0 +1,15 @@
+ver=1.3.2
+
+[deps]
+rust
+
+[srcs]
+https://github.com/orf/gping/archive/refs/tags/%name-v%ver.tar.gz
+
+[build]
+mv %name-%name-v%ver %name-v%ver
+prt-get isinst sccache && export RUSTC_WRAPPER=/bin/sccache
+mkdir "%destMK_SOURCE_DIR/rust" || true
+export CARGO_HOME="%destMK_SOURCE_DIR/rust"
+cargo build --release
+install -D -m 0755 -t %dest/bin target/release/gping

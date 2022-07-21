@@ -1,0 +1,12 @@
+ver=5.1.1
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://pypi.python.org/packages/source/${_name:0:1}/${_name}/$_name-%ver.tar.gz
+
+[build]
+cd $_name-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --root=%dest --optimize=1 --skip-build

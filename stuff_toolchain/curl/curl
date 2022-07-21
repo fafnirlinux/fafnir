@@ -1,0 +1,24 @@
+ver=7.84.0
+
+[deps]
+openssl
+zlib
+zstd
+
+[srcs]
+https://curl.haxx.se/download/%name-%ver.tar.xz
+
+[build]
+%conf \
+	--enable-ipv6 \
+	--enable-threaded-resolver \
+	--with-ca-bundle=/etc/ssl/cert.pem \
+	--with-openssl \
+	--disable-ldap{,s} \
+	--without-brotli \
+	--without-libidn2 \
+	--without-libpsl \
+	--without-nghttp2 \
+	--without-librtmp
+%mk
+#make -C docs/libcurl DESTDIR=%dest install

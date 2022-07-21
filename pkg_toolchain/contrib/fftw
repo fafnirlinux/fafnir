@@ -1,0 +1,48 @@
+ver=3.3.10
+
+[deps]
+gcc-fortran
+openmpi
+
+[srcs]
+https://www.fftw.org/%name-%ver.tar.gz
+
+[build]
+[ -e '/usr/bin/ccache' ] && PATH=$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')
+local config="
+F77=gfortran
+	--enable-threads
+	--enable-shared
+	--enable-openmp"
+CFLAGS+=" -O3 -fomit-frame-pointer -malign-double -fstrict-aliasing -fno-schedule-insns -ffast-math -fPIC -mavx2"
+%conf \
+$config \
+	 --enable-single \
+	 --enable-avx \
+	 --enable-sse \
+	 --enable-mpi
+%make
+%inst
+make clean
+%conf \
+$config \
+	 --enable-avx \
+	 --enable-mpi \
+	 --enable-sse2
+%make
+%inst
+make clean
+%conf \
+$config \
+	 --enable-long-double \
+	 --enable-mpi
+%make
+%inst
+make clean
+%conf \
+$config \
+	 --enable-quad-precision
+%make
+%inst
+rm -r %dest/share/info
+rm %dest/lib/*.la

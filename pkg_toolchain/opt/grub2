@@ -1,0 +1,28 @@
+ver=2.06
+
+[deps]
+libdevmapper
+freetype
+python3
+
+[srcs]
+http://ftp.gnu.org/gnu/grub/grub-%ver.tar.xz
+
+[build]
+export CFLAGS="${CFLAGS} -Wno-error -Os"
+export PYTHON=python3
+cd grub-%ver
+patch -i %files/%name-00_header.diff util/grub.d/00_header.in
+patch -i %files/%name-10_linux.diff util/grub.d/10_linux.in
+%conf \
+	 --sysconfdir=/etc \
+	 --enable-device-mapper \
+	 --disable-efiemu \
+	 --disable-grub-mount
+%make
+%inst
+rm -rf %dest/share/{info,locale,grub/themes}
+gzip -d %files/unifont-9.0.06.pcf.gz
+install -d %dest/lib/grub/fonts
+./grub-mkfont -o %dest/lib/grub/fonts/unifont.pf2 \
+%files/unifont-9.0.06.pcf

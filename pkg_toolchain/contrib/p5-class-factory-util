@@ -1,0 +1,17 @@
+ver=1.7
+
+[deps]
+p5-module-build
+
+[srcs]
+https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/Class-Factory-Util-%ver.tar.gz
+
+[build]
+cd Class-Factory-Util-%ver
+PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest -name .packlist -o \
+	 -name perllocal.pod -o \
+	 -name README -o \
+	 -name '*.bs' | xargs rm

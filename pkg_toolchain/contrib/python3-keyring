@@ -1,0 +1,15 @@
+ver=23.7.0
+
+[deps]
+python3-entrypoints
+python3-importlib_metadata
+python3-secretstorage
+
+[srcs]
+https://pypi.io/packages/source/k/keyring/keyring-%ver.tar.gz
+
+[build]
+cd keyring-%ver
+/usr/bin/python3 -m build --wheel --skip-dependency-check --no-isolation
+/usr/bin/python3 -m installer --compile-bytecode 2 --destdir=%dest dist/*.whl
+rm -rf %dest/lib/python3.9/site-packages/keyring/tests

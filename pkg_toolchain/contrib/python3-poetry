@@ -1,0 +1,23 @@
+ver=1.1.14
+
+[deps]
+python3-cachecontrol
+python3-cachy
+python3-cleo
+python3-html5lib
+python3-keyring
+python3-lockfile
+python3-pexpect
+python3-pkginfo
+python3-poetry-core
+python3-requests-toolbelt
+python3-shellingham
+python3-virtualenv
+
+[srcs]
+https://github.com/sdispater/poetry/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cd poetry-%ver
+/usr/bin/python3 -m build --wheel --skip-dependency-check --no-isolation
+/usr/bin/python3 -m installer --compile-bytecode 2 --destdir=%dest dist/*.whl

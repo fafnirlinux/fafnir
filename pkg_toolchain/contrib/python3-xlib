@@ -1,0 +1,20 @@
+ver=0.31
+
+[deps]
+python3-importlib_metadata
+
+[srcs]
+https://github.com/python-xlib/python-xlib/releases/download/%ver/python-xlib-%ver.tar.bz2
+
+[build]
+cd python-xlib-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --root=%dest \
+	 --optimize=1 \
+	 --skip-build
+find %dest \(\
+	 -iname '*pkg-info*' -o \
+	 -iname '*sources*' -o \
+	 -iname '*dependency_links*' -o \
+	 -iname '*top_level*' -o \
+	 -iname '*requires*' \) -exec rm -fr '{}' \+

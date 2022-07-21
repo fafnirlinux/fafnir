@@ -1,0 +1,17 @@
+ver=3.36.0
+
+[deps]
+gtk3
+startup-notification
+xorg-libxres
+
+[srcs]
+https://ftp.gnome.org/pub/gnome/sources/libwnck/3.36/libwnck-%ver.tar.xz
+
+[build]
+meson build libwnck-%ver --prefix=%prefix
+ninja -C build -j %threads
+DESTDIR=%dest meson install -C build
+mv %dest/bin/wnck-urgency-monitor{,3}
+mv %dest/bin/wnckprop{,3}
+rm -r %dest/share/locale

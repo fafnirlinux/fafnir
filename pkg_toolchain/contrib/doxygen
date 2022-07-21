@@ -1,0 +1,22 @@
+ver=1.9.4
+
+[deps]
+cmake
+python3
+
+[srcs]
+https://www.doxygen.nl/files/%name-%ver.src.tar.gz
+
+[build]
+prt-get isinst ninja && PKGMK_DOXYGEN+=' -G Ninja'
+cmake -S %name-%ver -B build ${PKGMK_DOXYGEN} \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="${CXXFLAGS}" \
+	 -D CMAKE_C_FLAGS_RELEASE="${CFLAGS}" \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build
+install -D -m 0755 %files/%name-%ver/doc/%name.1 \
+%dest/usr/share/man/man1/%name.1
+}

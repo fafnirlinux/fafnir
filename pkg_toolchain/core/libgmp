@@ -1,0 +1,15 @@
+ver=6.2.1
+
+[srcs]
+https://gmplib.org/download/gmp/gmp-%ver.tar.xz
+
+[build]
+cd gmp-%ver
+%conf \
+	 --enable-cxx \
+	 --build=x86_64-unknown-linux-gnu
+%make
+%inst
+mv %dest/include/gmp{,-64}.h
+install -m 0644 %files/gmp.h %dest/include/
+rm -r %dest/share

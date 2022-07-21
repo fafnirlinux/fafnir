@@ -1,0 +1,33 @@
+ver=14.4
+
+[deps]
+openssl
+
+[srcs]
+https://ftp.postgresql.org/pub/source/v%ver/postgresql-%ver.tar.bz2
+
+[build]
+prt-get isinst clang && PKGMK_PGSQL+=' --with-llvm'
+prt-get isinst icu && PKGMK_PGSQL+=' --with-icu'
+prt-get isinst krb5 && PKGMK_PGSQL+=' --with-gssapi'
+prt-get isinst libxml2 && PKGMK_PGSQL+=' --with-libxml'
+prt-get isinst libxslt && PKGMK_PGSQL+=' --with-libxslt'
+prt-get isinst tcl && PKGMK_PGSQL+=' --with-tcl'
+%conf %destMK_PGSQL \
+	 --with-openssl \
+	 --with-pam \
+	 --with-perl \
+	 --with-python \
+	 --with-uuid=e2fs \
+	 --disable-nls \
+	 --disable-rpath \
+PYTHON=/bin/python3
+%make
+%inst
+cd doc/src/sgml
+make DESTDIR=%dest install-man
+rm -rf %dest/share/doc
+install -Dm 755 %files/postgresql.rc %dest/etc/rc.d/postgresql
+install -Dm 755 %files/postgresql.pam %dest/etc/pam.d/postgresql
+install -Dm 660 -o postgres -g postgres /dev/null %dest/var/log/postgresql
+}

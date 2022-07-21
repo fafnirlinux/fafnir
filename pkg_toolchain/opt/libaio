@@ -1,0 +1,11 @@
+ver=0.3.113
+
+[srcs]
+https://pagure.io/libaio/archive/%name-%ver/%name-%name-%ver.tar.gz
+
+[build]
+%make
+make prefix=%dest install
+install -d %dest/lib
+mv %dest/lib/libaio.so.* %dest/lib
+ln -sf ../lib/$(readlink %dest/lib/libaio.so) %dest/lib/libaio.so

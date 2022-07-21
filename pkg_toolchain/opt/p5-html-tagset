@@ -1,0 +1,16 @@
+ver=3.20
+
+[srcs]
+https://search.cpan.org/CPAN/authors/id/P/PE/PETDANCE/HTML-Tagset-%ver.tar.gz
+
+[build]
+cd HTML-Tagset-%ver
+perl Makefile.PL INSTALLDIRS=vendor
+make OPTIMIZE="$CFLAGS"
+%inst
+find %dest -type f \( \
+	 -name '.packlist' -or \
+	 -name '*.bs' -or \
+	 -name 'autosplit.ix' -or \
+	 -name 'perllocal.pod' \) -delete
+find %dest -depth -empty -exec rm -r {} \;

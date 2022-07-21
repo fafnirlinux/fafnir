@@ -1,0 +1,21 @@
+ver=3.22.6
+
+[deps]
+cups
+libjpeg-turbo
+
+[srcs]
+http://downloads.sourceforge.net/project/hplip/hplip/%ver/hplip-%ver.tar.gz
+
+[build]
+cd hplip-%ver
+%conf \
+	 --enable-hpcups-only-build \
+	 --enable-hpcups-install \
+	 --with-hpppddir=/share/cups/model/HP \
+	 --disable-{doc,network}-build
+%make
+%inst
+install prnt/hpcups/libImageProcessor-x86_64.so %dest/lib
+ln -s libImageProcessor-x86_64.so %dest/lib/libImageProcessor.so
+rm -r %dest/share/doc

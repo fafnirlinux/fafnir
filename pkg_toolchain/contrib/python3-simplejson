@@ -1,0 +1,15 @@
+ver=3.17.6
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://github.com/simplejson/simplejson/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd simplejson-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 -O1 \
+	 --skip-build

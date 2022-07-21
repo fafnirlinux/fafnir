@@ -1,0 +1,9 @@
+ver=1.0.4
+
+[srcs]
+https://archive.hadrons.org/software/%name/%name-%ver.tar.xz
+
+[build]
+%conf
+%make
+%inst

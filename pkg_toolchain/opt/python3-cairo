@@ -1,0 +1,12 @@
+ver=1.21.0
+
+[deps]
+cairo
+
+[srcs]
+https://github.com/pygobject/pycairo/releases/download/v%ver/pycairo-%ver.tar.gz
+
+[build]
+cd pycairo-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --skip-build --root=%dest --optimize=1

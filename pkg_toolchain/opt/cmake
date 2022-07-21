@@ -1,0 +1,33 @@
+ver=3.23.2
+
+[deps]
+curl
+expat
+libarchive
+ncurses
+
+[srcs]
+https://cmake.org/files/v3.23/%name-%ver.tar.gz
+
+[build]
+sed -i Source/CMakeInstallDestinations.cmake \
+'s|share/cmake-${CMake_VERSION_MAJOR}.${CMake_VERSION_MINOR}|share/cmake|'
+prt-get isinst ninja && PKGMK_CMAKE+=' --generator=Ninja'
+prt-get isinst jsoncpp && PKGMK_CMAKE+=' --system-jsoncpp' || PKGMK_CMAKE+=' --no-system-jsoncpp'
+prt-get isinst librhash && PKGMK_CMAKE+=' --system-librhash' || PKGMK_CMAKE+=' --no-system-librhash'
+prt-get isinst libuv && PKGMK_CMAKE+=' --system-libuv' || PKGMK_CMAKE+=' --no-system-libuv'
+prt-get isinst lzlib && PKGMK_CMAKE+=' --system-liblzma' || PKGMK_CMAKE+=' --no-system-liblzma'
+prt-get isinst nghttp2-libs && PKGMK_CMAKE+=' --system-nghttp2' || PKGMK_CMAKE+=' --no-system-nghttp2'
+./bootstrap %destMK_CMAKE \
+	 --system-curl \
+	 --system-expat \
+	 --system-zlib \
+	 --system-bzip2 \
+	 --system-libarchive \
+	 --system-zstd \
+	 --parallel=%threads \
+$(prt-get isinst python3-sphinx >/dev/null && echo --sphinx-man)
+%make
+%inst
+rm -r %dest/{doc,share/cmake/Help}
+ln -sf %name %dest/share/%name-3.23

@@ -1,0 +1,8 @@
+ver=8.6.0
+
+[srcs]
+https://www.cryptopp.com/${name//++/pp}${version//./}.zip
+
+[build]
+make CXXFLAGS="$CXXFLAGS -DNDEBUG -fPIC" -f GNUmakefile dynamic libcryptopp.pc
+make DESTDIR=%dest PREFIX="/usr" install-lib

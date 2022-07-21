@@ -1,0 +1,15 @@
+ver=4.2
+
+[deps]
+python3-pytz
+
+[srcs]
+https://files.pythonhosted.org/packages/source/t/tzlocal/tzlocal-%ver.tar.gz
+
+[build]
+cd tzlocal-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install \
+	 --optimize=1 \
+	 --skip-build \
+	 --root=%dest

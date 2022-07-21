@@ -1,0 +1,19 @@
+ver=2.5.1
+
+[srcs]
+https://www.kernel.org/pub/linux/utils/%name/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --datadir=/share/kbd \
+	 --disable-vlock \
+	 --disable-nls \
+	 --disable-tests
+%make
+%inst
+ln -sf default8x16.psfu.gz %dest/share/kbd/consolefonts/default.gz
+rm -r %dest/share/kbd/keymaps/{ppc,mac,atari,amiga,sun}
+rm %dest/bin/{loadunimap,mapscrn,resizecons,psf*table}
+rm %dest/share/man/man8/{loadunimap,mapscrn,resizecons}.8
+rm %dest/share/man/man1/psf*table.1
+find %dest/share/kbd/ -type f -name "README*" -delete

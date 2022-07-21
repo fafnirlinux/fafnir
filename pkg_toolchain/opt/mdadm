@@ -1,0 +1,9 @@
+ver=4.2
+
+[srcs]
+http://www.kernel.org/pub/linux/utils/raid/%name/%name-%ver.tar.xz
+
+[build]
+make all mdadm.static
+%inst
+install -m0755 mdadm.static %dest/sbin

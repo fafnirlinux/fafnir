@@ -1,0 +1,15 @@
+ver=1.4.2
+
+[deps]
+cmake
+libusb
+
+[srcs]
+https://gitlab.com/BenjaminDobell/Heimdall/-/archive/v%ver/Heimdall-v%ver.tar.bz2
+
+[build]
+export CXXFLAGS="$CXXFLAGS -DNDEBUG"
+cmake -SHeimdall-v%ver -Bbuild \
+	 -DDISABLE_FRONTEND=ON # set to off for GUI (requires qt5)
+	 cmake --build build -v
+	 install -Dm755 build/bin/heimdall %dest/bin/heimdall

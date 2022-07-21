@@ -1,0 +1,20 @@
+ver=0.68.0
+
+[deps]
+gnutls
+gtk3
+libpcre2
+
+[srcs]
+https://gitlab.gnome.org/GNOME/vte/-/archive/%ver/vte-%ver.tar.bz2
+
+[build]
+prt-get isinst gtk4 && PKGMK_VTE+=' -D gtk4=true'
+prt-get isinst vala || PKGMK_VTE+=' -D vapi=false'
+prt-get isinst icu || PKGMK_VTE+=' -D icu=false'
+meson build vte-%ver ${PKGMK_VTE} \
+	 --libexecdir=/lib \
+	 -D _systemd=false
+ninja -C build -j %threads
+DESTDIR=%dest ninja -C build install
+rm -r %dest/share/locale

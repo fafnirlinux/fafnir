@@ -1,0 +1,19 @@
+ver=0.2.2
+
+[deps]
+cmake
+
+[srcs]
+https://github.com/graeme-hill/crossguid/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+[[ -e /usr/bin/ninja ]] && PKGMK_CROSSGUID+=' -GNinja'
+cmake -S %name-%ver -B build %destMK_CROSSGUID \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -Wno-dev
+cmake --build build
+install -D -m 0644 build/libxg.a %dest/lib/libxg.a
+install -D -m 0644 %name-%ver/Guid.hpp %dest/include/Guid.hpp

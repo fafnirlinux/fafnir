@@ -1,0 +1,14 @@
+ver=0.6.4
+
+[deps]
+glib
+libxml2
+
+[srcs]
+https://bitbucket.org/tagoh/liblangtag/downloads/%name-%ver.tar.bz2
+
+[build]
+%conf
+%make
+%inst
+rm -r %dest/share/gtk-doc

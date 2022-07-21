@@ -1,0 +1,19 @@
+ver=2.0.24
+
+[deps]
+zlib
+
+[srcs]
+https://git.kernel.org/pub/scm/utils/kernel/${xname}/
+
+[build]
+cd %name-%ver
+./bootstrap
+%conf --without-lzma
+%make
+make DESTDIR=%dest install
+rm -rf \
+%dest/usr/lib \
+%dest/usr/sbin/vmcore-dmesg \
+%dest/usr/share/man/man8/vmcore-dmesg.8
+}

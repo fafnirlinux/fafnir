@@ -1,0 +1,19 @@
+ver=2.2.0
+
+[deps]
+mesa
+xorg-libxi
+xorg-libxmu
+
+[srcs]
+https://downloads.sourceforge.net/project/%name/%name/%ver/%name-%ver.tgz
+
+[build]
+sed -i -e "s|lib64|lib|" config/Makefile.linux
+sed -i -e '/^.PHONY: .*\.pc$/d' -i Makefile
+make \
+CC="${CC:-gcc}" \
+LD="${CC:-gcc}" \
+CFLAGS.EXTRA="$CFLAGS -fPIC" \
+LDFLAGS.EXTRA="$LDFLAGS"
+make GLEW_DEST=%dest install

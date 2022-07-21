@@ -1,0 +1,14 @@
+ver=18
+
+[deps]
+efivar
+
+[srcs]
+#source=(https://github.com/rhinstaller/%name/releases/download/%ver/%name-%ver.tar.bz2) source=(https://github.com/rhboot/efibootmgr/archive/%ver/%name-%ver.tar.gz
+
+[build]
+export CFLAGS="${CFLAGS} -Wno-error=pointer-sign"
+sed -e '/extern int efi_set_verbose/d' -i src/efibootmgr.c
+%make
+install -D src/efibootmgr %dest/sbin/efibootmgr
+install -D src/efibootmgr.8 %dest/share/man/man8/efibootmgr.8

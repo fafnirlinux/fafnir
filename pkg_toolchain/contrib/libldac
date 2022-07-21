@@ -1,0 +1,17 @@
+ver=2.0.2.3
+
+[deps]
+cmake
+
+[srcs]
+https://github.com/EHfive/ldacBT/releases/download/v%ver/ldacBT-%ver.tar.gz
+
+[build]
+[[ -e /usr/bin/ninja ]] && PKGMK_LIBLDAC+=' -G Ninja'
+cmake -S ldacBT -B build %destMK_LIBLDAC \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build

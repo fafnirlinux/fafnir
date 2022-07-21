@@ -1,0 +1,19 @@
+ver=2.12.45
+
+[deps]
+libglade
+mono
+
+[srcs]
+https://download.mono-project.com/sources/%name212/gtk-sharp-%ver.tar.gz
+
+[build]
+sed -e 's/SUBDIRS = test/SUBDIRS =/g' -i sample/Makefile.am
+sed -e 's/SUBDIRS = test/SUBDIRS =/g' -i sample/Makefile.in
+%conf \
+	 --disable-static
+%make
+make DESTDIR=%dest \
+PREFIX= \
+MANDIR=/share/man \
+install

@@ -1,0 +1,37 @@
+--- master.cf.orig	2022-06-08 22:53:27.956225130 +0200
++++ master.cf	2022-06-08 22:56:16.596225800 +0200
+@@ -10,6 +10,20 @@
+ #               (yes)   (yes)   (no)    (never) (100)
+ # ==========================================================================
+ smtp      inet  n       -       n       -       -       smtpd
++#TLS Does: STARTTLS on :25, enforced STARTTLS on :587, always TLS on :465
++#TLS   -o smtpd_tls_security_level=may
++#TLS   -o smtpd_sasl_auth_enable=no
++#TLS submission inet n       -       n       -       -       smtpd
++#TLS  -o syslog_name=postfix/submission
++#TLS  -o smtpd_tls_security_level=encrypt
++#TLS  -o smtpd_sasl_auth_enable=yes
++#TLS # This was SMTPS aka :465. I use it as that.
++#TLS submissions     inet  n       -       n       -       -       smtpd
++#TLS  -o syslog_name=postfix/submissions
++#TLS  -o smtpd_tls_wrappermode=yes
++#TLS  -o smtpd_sasl_auth_enable=no
++tlsproxy  unix  -       -       n       -       0       tlsproxy
++  -o tlsproxy_tls_security_level=encrypt
+ #smtp      inet  n       -       n       -       1       postscreen
+ #smtpd     pass  -       -       n       -       -       smtpd
+ #dnsblog   unix  -       -       n       -       0       dnsblog
+@@ -86,7 +100,12 @@
+ # agent.  See the pipe(8) man page for information about ${recipient}
+ # and other message envelope options.
+ # ====================================================================
+-#
++
++#GRAY
++#GRAY postgray unix - n n - - spawn
++#GRAY
++#GRAY  user=_postfix_xlocal argv=/usr/libexec/s-postgray -c0 -R /etc/postfix-lmdb/pg.rc
++
+ # maildrop. See the Postfix MAILDROP_README file for details.
+ # Also specify in main.cf: maildrop_destination_recipient_limit=1
+ #

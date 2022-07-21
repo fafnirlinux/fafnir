@@ -1,0 +1,12 @@
+ver=1.16.5
+
+[srcs]
+http://ftpmirror.gnu.org/gnu/%name/%name-%ver.tar.xz
+
+[deps]
+autoconf
+gawk
+perl
+
+[postbuild]
+rm /share/automake-*/texinfo.tex

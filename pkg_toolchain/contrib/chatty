@@ -1,0 +1,19 @@
+ver=0.19
+
+[deps]
+openjdk17
+
+[srcs]
+https://github.com/chatty/chatty/releases/download/v%ver/Chatty_%ver.zip
+
+[build]
+install -d %dest/{bin,lib/%name}
+cp -a . %dest/lib/%name
+cat <<- EOF > %dest/bin/%name
+java -jar /usr/lib/%name/Chatty.jar "\$@"
+EOF
+chmod 0775 %dest/bin/%name
+install -Dm644 %name.desktop \
+%dest/share/applications/%name.desktop
+rm -f %dest/lib/chatty/chatty.desktop
+rm %dest/lib/chatty/{LICENSE,readme.txt}

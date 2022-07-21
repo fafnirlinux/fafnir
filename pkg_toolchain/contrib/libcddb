@@ -1,0 +1,9 @@
+ver=1.3.2
+
+[srcs]
+http://download.sourceforge.net/%name/%name-%ver.tar.bz2
+
+[build]
+%conf
+%make
+%inst

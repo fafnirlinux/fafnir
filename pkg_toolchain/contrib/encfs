@@ -1,0 +1,22 @@
+ver=20200509
+
+[deps]
+cmake
+ninja
+fuse
+openssl
+
+[srcs]
+https://github.com/vgough/%name/archive/${gitver}/%name-%ver.tar.gz
+
+[build]
+cd %name-${gitver}
+mkdir build
+cd build
+cmake .. \
+	 -DCMAKE_INSTALL_PREFIX= \
+	 -DBUILD_UNIT_TESTS=OFF \
+	 -DUSE_INTERNAL_TINYXML=ON \
+	 -DENABLE_NLS=OFF
+make MAKEFLAGS="${MAKEFLAGS}" DESTDIR=%dest install
+}

@@ -1,0 +1,15 @@
+ver=1.02
+
+[deps]
+p5-xml-namespacesupport
+p5-xml-sax-base
+
+[srcs]
+https://www.cpan.org/authors/id/G/GR/GRANTM/XML-SAX-%ver.tar.gz
+
+[build]
+cd XML-SAX-%ver
+PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

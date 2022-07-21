@@ -1,0 +1,31 @@
+ver=0.24.1
+
+[deps]
+libffi
+libtasn1
+make-ca
+meson
+ninja
+
+[srcs]
+https://github.com/p11-glue/%name/releases/download/%ver/%name-%ver.tar.xz
+
+[build]
+sed '20,$ d' -i %name-%ver/trust/trust-extract-compat
+cat >> %name-%ver/trust/trust-extract-compat << "EOF"
+/usr/lib/make-ca/copy-trust-modifications
+/usr/sbin/make-ca -f -g
+EOF
+meson setup %name-%ver build \
+	 --libexecdir=/lib \
+	 --buildtype=plain \
+	 --wrap-mode=nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D trust_paths=/etc/pki/anchors \
+	 -D module_path=/lib/pkcs11 \
+	 -D nls=false
+meson compile -C build
+DESTDIR=%dest meson install -C build
+ln -s /usr/lib/p11-kit/trust-extract-compat \
+%dest/bin/update-ca-trust

@@ -1,0 +1,8 @@
+ver=0.17
+
+[srcs]
+http://icon-theme.freedesktop.org/releases/%name-%ver.tar.xz
+
+[build]
+%conf
+%inst

@@ -1,0 +1,14 @@
+ver=0.0.4
+
+[deps]
+librevenge
+
+[srcs]
+https://dev-www.libreoffice.org/src/%name/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --disable-werror \
+	 --without-docs
+%make
+%inst

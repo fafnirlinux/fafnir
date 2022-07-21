@@ -1,0 +1,16 @@
+ver=3.5
+
+[deps]
+libdevmapper
+readline
+
+[srcs]
+http://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --disable-nls \
+	 --with-readline
+%make
+%inst
+rm -rf %dest/share/info

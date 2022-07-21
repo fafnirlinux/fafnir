@@ -1,0 +1,15 @@
+ver=4.5
+
+[srcs]
+http://www.jimpryor.net/linux/releases/%name-%ver.tar.gz
+
+[build]
+%make PREFIX=%prefix
+make DESTDIR=%dest CRONTAB_GROUP=users install
+
+install -m 600 %files/crontab %dest/var/spool/cron/crontabs/root
+ln -s ../var/spool/cron/crontabs/root %dest/etc/crontab
+install -D -m 755 %files/crond %dest/etc/rc.d/crond
+install -D -m 755 %files/runjobs %dest/usr/sbin/runjobs
+
+install -d %dest/etc/cron/{hourly,daily,weekly,monthly}

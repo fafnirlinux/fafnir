@@ -1,0 +1,18 @@
+ver=1.30
+
+[deps]
+p5-module-implementation
+p5-module-build
+
+[srcs]
+https://www.cpan.org/authors/id/D/DR/DROLSKY/Params-Validate-%ver.tar.gz
+
+[build]
+cd Params-Validate-%ver
+perl ./Build.PL --installdirs=vendor
+./Build
+./Build install --destdir=%dest
+find %dest -name .packlist -o \
+	 -name perllocal.pod -o \
+	 -name README -o \
+	 -name '*.bs' | xargs rm

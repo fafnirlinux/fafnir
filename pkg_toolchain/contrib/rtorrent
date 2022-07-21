@@ -1,0 +1,14 @@
+ver=0.9.8
+
+[deps]
+libtorrent
+
+[srcs]
+https://github.com/rakshasa/rtorrent/releases/download/v%ver/%name-%ver.tar.gz
+
+[build]
+./autogen.sh
+%conf \
+	 --enable-debug=no
+%make
+%inst

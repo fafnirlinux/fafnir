@@ -1,0 +1,14 @@
+ver=3.1.6
+
+[deps]
+freeglut
+
+[srcs]
+https://pypi.python.org/packages/source/P/PyOpenGL/PyOpenGL-%ver.tar.gz
+
+[build]
+cd PyOpenGL-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --root=%dest \
+	 --optimize=1 \
+	 --skip-build

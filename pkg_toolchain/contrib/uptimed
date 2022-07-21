@@ -1,0 +1,13 @@
+ver=0.4.6
+
+[srcs]
+https://github.com/rpodgorny/uptimed/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+./autogen.sh
+%conf \
+	 --sysconfdir=/etc
+%make
+%inst
+mv %dest/etc/uptimed.conf-dist %dest/etc/uptimed.conf
+install -m 0755 -D %files/uptimed.rc %dest/etc/rc.d/uptimed

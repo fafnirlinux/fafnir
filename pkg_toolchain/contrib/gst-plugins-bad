@@ -1,0 +1,92 @@
+ver=1.20.3
+
+[deps]
+chromaprint
+dav1d
+faac
+faad2
+fdk-aac
+libass
+libmodplug
+libnice
+libsrtp
+lilv
+mjpegtools
+nghttp2-libs
+openjpeg2
+rtmpdump
+soundtouch
+x264
+x265
+bzip2
+curl
+eudev
+expat
+libffi
+libgmp
+libpcre
+util-linux
+xz
+zlib
+zstd
+brotli
+ffmpeg
+flac
+glib
+gst-plugins-base
+gstreamer
+lame
+lcms2
+libgudev
+libjpeg-turbo
+libogg
+libpng
+libsndfile
+libtheora
+libvorbis
+libvpx
+libwebp
+openal
+opus
+orc
+vulkan-loader
+libdrm
+libglvnd
+libva
+libvdpau
+ladspa
+neon
+bluez
+shaderc
+
+[srcs]
+https://gstreamer.freedesktop.org/src/%name/%name-%ver.tar.xz
+
+[build]
+meson build %name-%ver \
+	 --libexecdir lib \
+	 --buildtype plain \
+	 --wrap-mode nodownload \
+	 -D b_pie=true \
+	 -D doc=disabled \
+	 -D nls=disabled \
+	 -D directfb=disabled \
+	 -D flite=disabled \
+	 -D gsm=disabled \
+	 -D iqa=disabled \
+	 -D magicleap=disabled \
+	 -D msdk=disabled \
+	 -D openh264=disabled \
+	 -D openmpt=disabled \
+	 -D openni2=disabled \
+	 -D opensles=disabled \
+	 -D tinyalsa=disabled \
+	 -D voaacenc=disabled \
+	 -D voamrwbenc=disabled \
+	 -D wasapi2=disabled \
+	 -D wasapi=disabled \
+	 -D gobject-cast-checks=disabled \
+	 -D package-name="GStreamer Bad Plugins (CRUX Linux)" \
+	 -D package-origin="https://crux.nu/"
+ninja -C build -j %threads
+DESTDIR=%dest ninja -C build install

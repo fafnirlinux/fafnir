@@ -1,0 +1,26 @@
+ver=2.2.6
+
+[deps]
+gdbm
+openssl
+zlib
+
+[srcs]
+https://bitbucket.org/mutt/mutt/downloads/%name-%ver.tar.gz
+
+[build]
+prt-get isinst gpgme && PKGMK_MUTT+=' --enable-gpgme'
+prt-get isinst cyrus-sasl && PKGMK_MUTT+=' --enable-smtp --with-sasl'
+%conf %destMK_MUTT \
+	 --with-mailpath=/var/spool/mail \
+	 --enable-pop \
+	 --enable-imap \
+	 --enable-hcache \
+	 --enable-sidebar \
+	 --disable-nls \
+	 --with-ssl
+%make
+%inst
+rm %dest/etc/{Muttrc,mime.types}.dist
+rm -r %dest/share/{doc,info}
+rm %dest/share/man/man5/{mmdf.5,mbox.5}

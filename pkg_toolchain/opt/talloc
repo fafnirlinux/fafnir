@@ -1,0 +1,16 @@
+ver=2.3.4
+
+[deps]
+python3
+
+[srcs]
+https://samba.org/ftp/%name/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --bundled-libraries=NONE \
+	 --enable-talloc-compat1
+%make
+%inst
+install -d %dest/share/man/man3
+install -m 0644 %files/talloc.3 %dest/share/man/man3

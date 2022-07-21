@@ -1,0 +1,11 @@
+ver=2.5.1
+
+[srcs]
+http://www.bytereef.org/software/%name/releases/%name-%ver.tar.gz
+
+[build]
+%conf
+%make
+%inst
+rm -r %dest/share/doc
+rmdir %dest/share

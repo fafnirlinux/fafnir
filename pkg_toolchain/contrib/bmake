@@ -1,0 +1,26 @@
+ver=20220418
+
+[srcs]
+http://www.crufty.net/ftp/pub/sjg/%name-%ver.tar.gz
+
+[build]
+cd %name
+BROKEN_TESTS='\
+cmd-interrupt \
+deptgt-interrupt \
+\
+opt-debug-x-trace \
+var-op-shell \
+'
+export BROKEN_TESTS
+mkdir -p build
+cd build
+sh ../boot-strap --with-default-sys-path=/share/mk
+sh ../boot-strap --prefix=%prefix \
+	 --with-mksrc=/share/mk \
+	 --install-destdir=%dest op=install
+chmod g-w %dest/usr/bin %dest/usr/share/mk
+rm -rf %dest/usr/share/man/cat1
+mkdir %dest/usr/share/man/man1
+cp ../bmake.1 %dest/usr/share/man/man1/
+}

@@ -1,0 +1,17 @@
+ver=1.1.1q
+
+[srcs]
+https://www.openssl.org/source/%name-%ver.tar.gz
+
+[build]
+./config \
+	 --libdir=lib \
+	 --openssldir=/etc/ssl \
+shared \
+enable-ec_nistp_64_gcc_128
+sed -i "s|-O3|$CFLAGS|" Makefile
+make depend
+%make
+make MANSUFFIX=ssl DESTDIR=%dest install_sw install_ssldirs install_man_docs
+find %dest -name "*fips*" -delete
+install -D -m 755 %files/mksslcert.sh %dest/bin/mksslcert

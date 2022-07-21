@@ -1,0 +1,22 @@
+ver=1.2.2
+
+[deps]
+giflib
+libpng
+libtiff
+
+[srcs]
+https://storage.googleapis.com/downloads.webmproject.org/releases/webp/%name-%ver.tar.gz
+
+[build]
+prt-get isinst ninja && PKGMK_LIBWEBP+=' -G Ninja'
+cmake -S ${name%-*}-%ver -B build %destMK_LIBWEBP \
+	 -D CMAKE_INSTALL_PREFIX="/usr" \
+	 -D CMAKE_INSTALL_LIBDIR="/usr/lib" \
+	 -D BUILD_SHARED_LIBS=ON \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_C_FLAGS_RELEASE="${CFLAGS}" \
+	 -D WEBP_BUILD_VWEBP=OFF \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build

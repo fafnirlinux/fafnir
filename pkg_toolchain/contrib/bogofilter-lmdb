@@ -1,0 +1,13 @@
+ver=1.2.5
+
+[deps]
+lmdb
+xmlto
+
+[build]
+cd ${realn}-%ver
+%conf --sysconfdir=/etc --with-database=lmdb
+make DESTDIR=%dest install
+for f in `find %dest/usr/share/man -type f`; do
+	 sed -i -E -e 's/^[[:space:]]+(\.[[:alpha:]].+)$/\1/' "${f}"
+done

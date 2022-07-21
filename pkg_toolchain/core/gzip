@@ -1,0 +1,18 @@
+ver=1.12
+
+[srcs]
+http://ftpmirror.gnu.org/gnu/%name/%name-%ver.tar.xz
+
+[build]
+%conf
+%make
+%inst
+install -d %dest/bin
+mv %dest/bin/{gzip,gunzip,zcat} %dest/bin
+rm %dest/share/man/man1/{gunzip.1,zcat.1,zcmp.1}
+ln -s gzip.1.gz %dest/share/man/man1/gunzip.1.gz
+ln -s gzip.1.gz %dest/share/man/man1/zcat.1.gz
+ln -s zdiff.1.gz %dest/share/man/man1/zcmp.1.gz
+rm %dest/bin/uncompress
+ln -s /bin/gunzip %dest/bin/uncompress
+rm -r %dest/share/info

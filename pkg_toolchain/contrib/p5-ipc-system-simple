@@ -1,0 +1,12 @@
+ver=1.30
+
+[srcs]
+https://cpan.metacpan.org/authors/id/${_author::1}/${_author::2}/$_author/$_realname-%ver.tar.gz
+
+[build]
+cd $_realname-%ver
+PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+%make
+make DESTDIR=%dest install
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete
+find %dest -depth -empty -delete

@@ -1,0 +1,18 @@
+ver=0.187
+
+[deps]
+bzip2
+xz
+zlib
+
+[srcs]
+https://sourceware.org/%name/ftp/%ver/%name-%ver.tar.bz2
+
+[build]
+%conf \
+	 --program-prefix=eu- \
+	 --disable-debuginfod \
+	 --disable-libdebuginfod \
+	 --disable-nls
+%make
+%inst

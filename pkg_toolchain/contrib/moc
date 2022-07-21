@@ -1,0 +1,20 @@
+ver=2.5.2
+
+[deps]
+curl
+libid3tag
+libmad
+libsndfile
+popt
+
+[srcs]
+http://ftp.daper.net/pub/soft/moc/stable/%name-%ver.tar.bz2
+
+[build]
+%conf \
+	 --disable-nls \
+	 --disable-debug
+%make
+%inst
+install -D -m 0644 -t %dest/share/moc/ config.example keymap.example
+rm -rf %dest/share/doc

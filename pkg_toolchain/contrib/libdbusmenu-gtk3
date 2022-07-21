@@ -1,0 +1,30 @@
+ver=18.10
+
+[deps]
+gtk3
+json-glib
+libdbusmenu-glib
+
+[srcs]
+http://cdn-fastly.deb.debian.org/debian/pool/main/libd/libdbusmenu/libdbusmenu_18.10.20180917~bzr490+repack1.orig.tar.xz
+
+[build]
+cd libdbusmenu-18.10.20180917~bzr490
+sed -e 's/gtkdocize || exit 1//g' -i autogen.sh
+sed -e 's/--enable-gtk-doc//g' -i autogen.sh
+sed -e 's/AM_MAINTAINER_MODE//g' -i configure.ac
+export CFLAGS+=" -O2 -Wno-error"
+export HAVE_VALGRIND_TRUE='#'
+export HAVE_VALGRIND_FALSE=''
+./autogen.sh --prefix=%prefix \
+	 --sysconfdir=/etc \
+	 --libexecdir=/lib/%name \
+	 --localstatedir=/var \
+	 --with-gtk=3 \
+	 --disable-{dumper,static,tests,valgrind}
+make -j1
+make -j1 DESTDIR=%dest -C libdbusmenu-glib install
+make -j1 DESTDIR=%dest -C libdbusmenu-gtk install
+make -j1 DESTDIR=%dest -C libdbusmenu-glib uninstall
+find %dest -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
+| cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true

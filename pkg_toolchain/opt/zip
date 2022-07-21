@@ -1,0 +1,12 @@
+ver=3.0
+
+[deps]
+bzip2
+
+[srcs]
+http://downloads.sourceforge.net/sourceforge/infozip/%name${version//./}.tar.gz
+
+[build]
+cd %name${version//./}
+make -f unix/Makefile LOCAL_ZIP="$CFLAGS" prefix= generic
+make -f unix/Makefile INSTALL=install prefix=%dest MANDIR=%dest/share/man/man1 install

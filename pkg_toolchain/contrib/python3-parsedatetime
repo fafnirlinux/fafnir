@@ -1,0 +1,12 @@
+ver=2.6
+
+[deps]
+python3-future
+
+[srcs]
+https://github.com/bear/parsedatetime/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd parsedatetime-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --root=%dest --optimize=1

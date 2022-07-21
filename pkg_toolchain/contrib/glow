@@ -1,0 +1,22 @@
+ver=1.4.1
+
+[deps]
+go
+
+[srcs]
+https://github.com/charmbracelet/glow/archive/v%ver/glow-%ver.tar.gz
+
+[build]
+export CGO_CPPFLAGS="${CPPFLAGS}"
+export CGO_CFLAGS="${CFLAGS}"
+export CGO_CXXFLAGS="${CXXFLAGS}"
+export CGO_LDFLAGS="${LDFLAGS}"
+mkdir "%destMK_SOURCE_DIR/gopath" || true
+export GOPATH="%destMK_SOURCE_DIR/gopath"
+go build \
+	 -trimpath \
+	 -buildmode=pie \
+	 -mod=readonly \
+	 -modcacherw \
+	 -o glow .
+install -Dm755 glow %dest/bin/glow

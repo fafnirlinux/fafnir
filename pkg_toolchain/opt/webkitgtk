@@ -1,0 +1,50 @@
+ver=2.36.4
+
+[deps]
+gst-plugins-base
+gtk
+gtk3
+hyphen
+icu
+lcms2
+libseccomp
+libsecret
+libsoup
+libwebp
+libxslt
+ruby
+woff2
+xorg-libxt
+
+[srcs]
+https://webkitgtk.org/releases/webkitgtk-%ver.tar.xz
+
+[build]
+ls /usr/include/harfbuzz/hb-icu.h || (printf '[1;31m%-6s[m
+' "You need to install icu, then rebuild harfbuzz for webkitgtk to work, quitting..." ; exit 1)
+	 [ -e '/usr/bin/ccache' ] && PATH="$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
+	 prt-get isinst openjpeg2 || PKGMK_WEBKITGTK+=' -DUSE_OPENJPEG=OFF'
+	 prt-get isinst enchant || PKGMK_WEBKITGTK+=' -DENABLE_SPELLCHECK=OFF'
+	 prt-get isinst libnotify && PKGMK_WEBKITGTK+=' -DUSE_LIBNOTIFY=ON' || PKGMK_WEBKITGTK+=' -DUSE_LIBNOTIFY=OFF'
+	 prt-get isinst geoclue && PKGMK_WEBKITGTK+=' -DENABLE_GEOLOCATION=ON' || PKGMK_WEBKITGTK+=' -DENABLE_GEOLOCATION=OFF'
+	 prt-get isinst bubblewrap xdg-dbus-proxy && PKGMK_WEBKITGTK+=' -DENABLE_BUBBLEWRAP_SANDBOX=ON' \
+	 || PKGMK_WEBKITGTK+=' -DENABLE_BUBBLEWRAP_SANDBOX=OFF'
+	 prt-get isinst wpebackend-fdo || PKGMK_WEBKITGTK+=' -DUSE_WPE_RENDERER=OFF'
+	 prt-get isinst libmanette || PKGMK_WEBKITGTK+=' -DENABLE_GAMEPAD=OFF'
+	 cmake -S webkitgtk-%ver -B build -G Ninja ${PKGMK_WEBKITGTK} \
+	 -D CMAKE_INSTALL_PREFIX:PATH= \
+	 -D CMAKE_INSTALL_LIBDIR:PATH=/lib \
+	 -D CMAKE_INSTALL_LIBEXECDIR:PATH=/lib \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="${CXXFLAGS} -DNDEBUG -ffat-lto-objects" \
+	 -D CMAKE_C_FLAGS_RELEASE="${CFLAGS} -DNDEBUG -ffat-lto-objects" \
+	 -D CMAKE_EXE_LINKER_FLAGS="${LDFLAGS} -Wl,-fuse-ld=gold" \
+	 -D CMAKE_SKIP_RPATH=ON \
+	 -D PORT=GTK \
+	 -D USE_SOUP2=ON \
+	 -D ENABLE_MINIBROWSER=ON \
+	 -D ENABLE_JOURNALD_LOG=OFF \
+	 -Wno-dev
+	 cmake --build build
+	 DESTDIR=%dest cmake --install build
+	 rm -r %dest/share/locale

@@ -1,0 +1,25 @@
+ver=1.28.15
+
+[deps]
+ghostscript
+poppler
+qpdf
+mupdf
+xorg-font-dejavu-ttf
+
+[srcs]
+https://www.openprinting.org/download/%name/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --sysconfdir=/etc \
+	 --without-php \
+	 --disable-avahi \
+	 --disable-dbus \
+	 --disable-braille \
+	 --without-rcdir \
+	 --with-browseremoteprotocols=cups
+%make
+%inst
+install -D -m 0755 %files/cups-browsed %dest/etc/rc.d/cups-browsed
+rm -r %dest/share/doc

@@ -1,0 +1,41 @@
+ver=1.79.0
+
+[deps]
+bzip2
+zstd
+
+[srcs]
+https://boostorg.jfrog.io/artifactory/main/release/%ver/source/%name_${version//./_}.tar.bz2
+
+[build]
+cd %name_${version//./_}
+prt-get isinst python3-numpy || sed \
+'s/\[ unless \[ python\.numpy \] : <build>no \]/<build>no/g' \
+	 -i libs/python/build/Jamfile
+pushd tools/build
+./bootstrap.sh --cxxflags="$CXXFLAGS $LDFLAGS"
+./b2 install --prefix=%dest
+ln -s b2 %dest/bin/bjam
+popd
+prt-get isinst python3-numpy || sed \
+'s/\[ unless \[ python\.numpy \] : <build>no \]/<build>no/g' \
+	 -i libs/python/build/Jamfile
+./bootstrap.sh --with-toolset=gcc --with-python=/bin/python3
+prt-get isinst openmpi && echo "using mpi ;" >>project-config.jam || PKGMK_BOOST+=' --without-mpi --without-graph_parallel'
+prt-get isinst icu || PKGMK_BOOST+=' --disable-icu boost.locale.icu=off'
+./b2 install ${PKGMK_BOOST} \
+	 --layout=system \
+	 --without-stacktrace \
+	 -j %threads \
+variant=release \
+debug-symbols=off \
+threading=multi \
+runtime-link=shared \
+link=shared,static \
+toolset=gcc \
+python=$(/usr/bin/python3 -c 'import sys; print("%s.%s" % sys.version_info[:2])') \
+cflags="$CPPFLAGS $CFLAGS -fPIC -O3 -ffat-lto-objects" \
+cxxflags="$CPPFLAGS $CXXFLAGS -fPIC -O3 -ffat-lto-objects" \
+linkflags="$LDFLAGS"
+prt-get isinst python3-numpy || rm -r %dest/include/boost/python/numpy*
+prt-get isinst openmpi || rm -r %dest//usr/include/boost/mpi/python*

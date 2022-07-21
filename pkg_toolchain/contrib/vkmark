@@ -1,0 +1,21 @@
+ver=20220318
+
+[deps]
+assimp
+glm
+meson
+ninja
+wayland-protocols
+vulkan-loader
+
+[srcs]
+https://github.com/vkmark/vkmark/archive/$_commit/%name-%ver.tar.gz
+
+[build]
+meson setup %name-$_commit build \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true
+meson compile -C build
+DESTDIR=%dest meson install -C build

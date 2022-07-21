@@ -1,0 +1,14 @@
+ver=3.6.0
+
+[deps]
+perl
+
+[srcs]
+https://github.com/lm-sensors/lm-sensors/archive/V${version//./-}/%name-%ver.tar.gz
+
+[build]
+cd lm-sensors-${version//./-}
+make install PREFIX= \
+ETCDIR=/etc \
+MANDIR=/share/man \
+DESTDIR=%dest

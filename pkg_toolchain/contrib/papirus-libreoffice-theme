@@ -1,0 +1,10 @@
+ver=20170228
+
+[deps]
+libreoffice
+
+[srcs]
+https://github.com/PapirusDevelopmentTeam/papirus-libreoffice-theme/archive/%ver/%name-%ver.tar.gz
+
+[build]
+make DESTDIR=%dest PREFIX=/lib install

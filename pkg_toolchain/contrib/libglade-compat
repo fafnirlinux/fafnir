@@ -1,0 +1,27 @@
+ver=2.6.4
+
+[deps]
+libglade
+pango-compat
+
+[srcs]
+http://download.gnome.org/sources/libglade/2.6/libglade-%ver.tar.bz2
+
+[build]
+cd libglade-%ver
+sed -i -e 's/USE_NLS=yes/USE_NLS=no/' \
+'s/ENABLE_NLS 1/ENABLE_NLS 0/' configure
+sed -i -e "s|/etc/xml/catalog|%dest/etc/xml/dtd/libglade/2.0/catalog|" \
+'s|$(datadir)/xml/libglade|$(datadir)/xml/dtd/libglade/2.0|' Makefile.in
+PKG_CONFIG_PATH+="/usr/lib/pango-compat/pkgconfig" \
+%conf \
+	 --includedir='/usr/include/libglade-compat' \
+	 --libdir='/usr/lib/libglade-compat' \
+	 --disable-debug \
+	 --disable-gtk-doc
+%make
+%inst
+rm -rf %dest/share/gtk-doc
+rm \
+%dest/bin/libglade-convert \
+%dest/share/xml/dtd/libglade/2.0/glade-2.0.dtd

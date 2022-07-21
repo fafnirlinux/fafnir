@@ -1,0 +1,18 @@
+ver=0.4.0
+
+[deps]
+pipewire
+
+[srcs]
+https://gitlab.freedesktop.org/pipewire/media-session/-/archive/%ver/media-session-%ver.tar.bz2
+
+[build]
+meson setup %name-%ver build \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D tests=disabled
+meson compile -C build
+DESTDIR=%dest meson install -C build
+rm -r %dest/share/locale

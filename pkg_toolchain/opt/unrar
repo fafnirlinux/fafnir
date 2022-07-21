@@ -1,0 +1,10 @@
+ver=6.1.7
+
+[srcs]
+https://www.rarlab.com/rar/%namesrc-%ver.tar.gz
+
+[build]
+sed -e '/CXXFLAGS=/d' -e '/LDFLAGS=/d' -i makefile
+export LDFLAGS+=' -pthread'
+make -j1 STRIP=:
+%inst

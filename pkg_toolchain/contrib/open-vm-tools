@@ -1,0 +1,21 @@
+ver=12.0.5-19716617
+
+[deps]
+libmspack
+libdnet
+glib
+rpcsvc-proto
+fuse
+
+[srcs]
+https://github.com/vmware/%name/releases/download/stable-${version%-*}/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --without-icu \
+	 --without-x \
+	 --without-xerces
+%make
+%inst
+install -o root -g root -m 0755 -D %files/vmtoolsd \
+%dest/etc/rc.d/vmtoolsd

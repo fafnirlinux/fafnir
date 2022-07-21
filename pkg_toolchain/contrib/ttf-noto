@@ -1,0 +1,9 @@
+ver=20201206
+
+[srcs]
+https://github.com/googlefonts/noto-fonts/archive/v%ver-phase3/noto-fonts-%ver-phase3.tar.gz
+
+[build]
+find noto-fonts-%ver-phase3/unhinted/ttf \
+	 -iname "*.ttf" \
+	 -execdir install -Dm644 {} %dest/share/fonts/TTF/noto/{} \;

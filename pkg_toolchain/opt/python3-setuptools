@@ -1,0 +1,10 @@
+ver=63.1.0
+
+[srcs]
+https://files.pythonhosted.org/packages/source/${name:8:1}/${name#*-}/${name#*-}-%ver.tar.gz
+
+[build]
+cd ${name#*-}-%ver
+export SETUPTOOLS_INSTALL_WINDOWS_SPECIFIC_FILES=0
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install \

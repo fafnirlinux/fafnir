@@ -1,0 +1,8 @@
+# postfix-pgsql README
+
+NOTE: Currently postfix does not build with fakeroot; if you see a message
+which says "ATTENTION: Not supported: building with LD_LIBRARY_PATH" this
+is the cause.
+
+See http://www.postfix.org/PGSQL_README.html for general information about
+postfix PostgreSQL support.

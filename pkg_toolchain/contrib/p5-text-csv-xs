@@ -1,0 +1,17 @@
+ver=1.48
+
+[srcs]
+https://www.cpan.org/modules/by-module/Text/Text-CSV_XS-%ver.tgz
+
+[build]
+cd Text-CSV_XS-%ver
+perl Makefile.PL
+make OPTIMIZE="$CFLAGS"
+%inst
+find %dest -type f \( \
+	 -name '.packlist' -o \
+	 -name '*.bs' -o \
+	 -name 'autosplit.ix' -o \
+	 -name 'perllocal.pod' \) -delete
+find %dest -depth -empty -delete
+}

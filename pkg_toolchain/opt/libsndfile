@@ -1,0 +1,17 @@
+ver=1.1.0
+
+[deps]
+alsa-lib
+flac
+libvorbis
+opus
+python3
+
+[srcs]
+https://github.com/libsndfile/libsndfile/releases/download/%ver/%name-%ver.tar.xz
+
+[build]
+%conf
+%make
+%inst
+rm -r %dest/share/doc

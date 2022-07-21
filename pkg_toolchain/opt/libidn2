@@ -1,0 +1,14 @@
+ver=2.3.3
+
+[deps]
+libunistring
+
+[srcs]
+https://ftp.gnu.org/gnu/libidn/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --disable-nls
+%make
+%inst
+rm -r %dest/share/{gtk-doc,info}

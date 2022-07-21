@@ -1,0 +1,19 @@
+ver=6.15
+
+[deps]
+linux-pam
+samba
+keyutils
+
+[srcs]
+https://download.samba.org/pub/linux-cifs/%name/%name-%ver.tar.bz2
+
+[build]
+install -d %dest/{sbin,usr/share/man/man{1,8}}
+install -m 0644 %files/*.1 %dest/share/man/man1
+install -m 0644 %files/*.8 %dest/share/man/man8
+ln -s mount.cifs.8 %dest/share/man/man8/mount.smb3.8
+%conf --with-pamdir=/lib/security
+%make
+%inst
+install -D -m 0755 %files/cifs %dest/etc/rc.d/cifs

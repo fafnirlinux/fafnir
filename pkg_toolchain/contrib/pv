@@ -1,0 +1,10 @@
+ver=1.6.20
+
+[srcs]
+http://www.ivarch.com/programs/sources/%name-%ver.tar.bz2
+
+[build]
+%conf \
+	 --disable-nls
+%make
+%inst

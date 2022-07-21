@@ -1,0 +1,15 @@
+ver=2.3.5
+
+[deps]
+php-fpm
+
+[srcs]
+http://www.pmwiki.org/pub/%name/%name-%ver.tgz
+
+[build]
+install -d %dest/var/www/%name
+install -d -o www -m 700 %dest/var/www/%name/{wiki.d,uploads}
+cp -R %name-%ver/* %dest/var/www/%name
+mv %dest/var/www/%name/{docs/sample-config.php,local/config.php.sample}
+rm -r %dest/var/www/%name/docs
+find %dest -name 'README*' -delete

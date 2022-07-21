@@ -1,0 +1,19 @@
+ver=2.74.2
+
+[deps]
+glib-networking
+libpsl
+libxml2
+
+[srcs]
+https://ftp.gnome.org/pub/gnome/sources/%name/2.74/%name-%ver.tar.xz
+
+[build]
+meson setup build %name-%ver \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_pie=true
+sed -i 's|-R/usr/lib||g' build/build.ninja
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build
+rm -r %dest/share/locale

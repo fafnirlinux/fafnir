@@ -1,0 +1,13 @@
+ver=1.60
+
+[deps]
+fltk
+
+[srcs]
+http://xdiskusage.sourceforge.net/%name-%ver.tgz
+
+[build]
+%conf
+make CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS"
+install -D -m 0755 -o root -g root -s xdiskusage %dest/bin/xdiskusage
+install -D -m 0644 -o root -g root xdiskusage.1 %dest/share/man/man1/xdiskusage.1

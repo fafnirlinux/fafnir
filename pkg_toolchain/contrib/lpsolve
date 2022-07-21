@@ -1,0 +1,15 @@
+ver=5.5.2.11
+
+[srcs]
+https://downloads.sourceforge.net/project/lpsolve/lpsolve/%ver/lp_solve_"%ver"_source.tar.gz
+
+[build]
+cd lp_solve_${version:0:3}
+sed -e "s|^\(opts=\).*|\1'$CFLAGS'|" -i lpsolve55/ccc lp_solve/ccc
+sh -x ccc )
+( cd lp_solve
+sh -x ccc )
+install -dm755 %dest/{bin,lib,include/lpsolve}
+install -m755 -t %dest/bin lp_solve/bin/ux*/lp_solve
+install -m755 -t %dest/lib lpsolve55/bin/ux*/liblpsolve55.so
+install -m644 -t %dest/include/lpsolve lp*.h

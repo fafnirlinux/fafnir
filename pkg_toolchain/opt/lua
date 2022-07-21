@@ -1,0 +1,24 @@
+ver=5.4.4
+
+[deps]
+readline
+
+[srcs]
+https://www.lua.org/ftp/%name-%ver.tar.gz
+
+[build]
+sed "s/%VER%/${version:0:3}/g;s/%REL%/%ver/g" %files/lua.pc > lua.pc
+make MYCFLAGS="$CFLAGS -fPIC" MYLDFLAGS="$LDFLAGS" linux
+make \
+TO_LIB="liblua.a liblua.so liblua.so.${version:0:3} liblua.so.%ver" \
+INSTALL_DATA='cp -d' \
+INSTALL_TOP=%dest \
+INSTALL_MAN=%dest/share/man/man1 \
+install
+ln -s lua %dest/bin/lua${version:0:3}
+ln -s luac %dest/bin/luac${version:0:3}
+ln -s liblua.so.%ver %dest/lib/liblua${version:0:3}.so
+install -m 0644 -D lua.pc %dest/lib/pkgconfig/lua${version:0:1}${version:2:1}.pc
+ln -s lua${version:0:1}${version:2:1}.pc %dest/lib/pkgconfig/lua.pc
+ln -s lua${version:0:1}${version:2:1}.pc %dest/lib/pkgconfig/lua${version:0:3}.pc
+ln -s lua${version:0:1}${version:2:1}.pc %dest/lib/pkgconfig/lua-${version:0:3}.pc

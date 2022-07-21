@@ -1,0 +1,15 @@
+ver=0.0.28
+
+[deps]
+docbook-xsl
+
+[srcs]
+https://releases.pagure.org/%name/%name-%ver.tar.bz2
+
+[build]
+sed -i -e 's,4\.2,4\.5,g' doc/xmlif.xml
+sed -i -e 's,4\.2,4\.5,g' doc/xmlto.xml
+%conf \
+%make
+%inst
+}

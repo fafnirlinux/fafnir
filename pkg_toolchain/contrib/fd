@@ -1,0 +1,19 @@
+ver=8.4.0
+
+[deps]
+rust
+
+[srcs]
+https://github.com/sharkdp/fd/archive/v%ver/%name-v%ver.tar.gz
+
+[build]
+prt-get isinst sccache && export RUSTC_WRAPPER=/bin/sccache
+mkdir "%destMK_SOURCE_DIR/rust" || true
+export CARGO_HOME="%destMK_SOURCE_DIR/rust"
+cargo fetch
+cargo build --release --locked
+install -Dm755 target/release/fd %dest/bin/fd
+install -Dm644 target/release/build/fd-find-*/out/fd.bash %dest/share/bash-completion/completions/fd
+install -Dm644 target/release/build/fd-find-*/out/fd.fish %dest/share/fish/vendor_completions.d/fd.fish
+install -Dm644 contrib/completion/_fd %dest/share/zsh/site-functions/_fd
+install -Dm644 doc/fd.1 %dest/share/man/man1/fd.1

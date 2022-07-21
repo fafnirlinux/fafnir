@@ -1,0 +1,14 @@
+ver=2.15
+
+[deps]
+yubico-c
+help2man
+
+[srcs]
+https://github.com/Yubico/yubico-c-client/archive/ykclient-%ver.tar.gz
+
+[build]
+autoreconf --install
+%conf
+%make
+%inst

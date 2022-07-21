@@ -1,0 +1,12 @@
+ver=0.9
+
+[srcs]
+https://github.com/leahneukirchen/outils/archive/v%ver/outils-%ver.tar.gz
+
+[build]
+cd outils-%ver
+make PREFIX= src/usr.sbin/rdate/rdate
+install -d %dest/{usr/{bin,share/man/man8},etc/cron/daily}
+install -m 0755 src/usr.sbin/rdate/rdate %dest/bin
+install -m 0644 src/usr.sbin/rdate/rdate.8 %dest/share/man/man8
+install -m 0755 %files/rdate %dest/etc/cron/daily

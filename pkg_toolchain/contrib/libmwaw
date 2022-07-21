@@ -1,0 +1,13 @@
+ver=0.3.21
+
+[deps]
+librevenge
+
+[srcs]
+https://sourceforge.net/projects/%name/files/%name/%name-%ver/%name-%ver.tar.xz
+
+[build]
+%conf
+%make
+%inst
+rm -fr %dest/share

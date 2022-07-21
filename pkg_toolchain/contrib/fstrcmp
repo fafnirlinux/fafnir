@@ -1,0 +1,13 @@
+ver=0.7.D001
+
+[deps]
+ghostscript
+
+[srcs]
+http://fstrcmp.sourceforge.net/fstrcmp-%ver.tar.gz
+
+[build]
+%conf
+%make
+%inst
+rm -fr %dest/share/doc

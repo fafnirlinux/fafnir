@@ -1,0 +1,22 @@
+ver=8.1.8
+
+[deps]
+mysql
+
+[srcs]
+https://php.net/distributions/php-%ver.tar.xz
+
+[build]
+cd php-%ver
+%conf \
+	 --disable-all \
+	 --enable-pdo=shared \
+	 --enable-mysqlnd=shared \
+	 --with-mysqli=shared,mysqlnd \
+	 --with-pdo-mysql=shared,mysqlnd
+make build-modules
+install -d %dest/{etc/php/conf.d,usr/lib/php/extensions}
+install -m 755 modules/*mysql*.so %dest/lib/php/extensions
+printf 'extension=%s
+' {mysqlnd,mysqli,pdo_mysql}.so \
+> %dest/etc/php/conf.d/mysql.ini

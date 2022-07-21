@@ -1,0 +1,24 @@
+ver=1.80
+
+[deps]
+grub2
+
+[srcs]
+http://ftp.de.debian.org/debian/pool/main/o/%name/%name_%ver.tar.xz
+
+[build]
+sed -i -e "s:/lib/ld\*\.so\*:/lib*/ld*.so*:g" os-probes/mounted/common/90linux-distro
+rm -f Makefile
+make newns
+find . -iname "*.orig" -delete
+install -Dm755 linux-boot-prober %dest/bin/linux-boot-prober
+install -Dm755 %name %dest/bin/%name
+install -Dm755 newns %dest/lib/%name/newns
+install -Dm755 common.sh %dest/share/%name/common.sh
+for i in os-probes os-probes/mounted os-probes/init linux-boot-probes linux-boot-probes/mounted; do
+	 install -dm755 %dest/lib/$i
+	 install -m755 -t %dest/lib/$i $i/common/*
+	 [[ -d $i/x86 ]] && cp -r $i/x86/* %dest/lib/$i
+done
+install -Dm755 os-probes/mounted/powerpc/20macosx %dest/lib/os-probes/mounted/20macosx
+install -dm755 %dest/var/lib/%name

@@ -1,0 +1,18 @@
+ver=1.2.11
+
+[deps]
+boost
+
+[srcs]
+https://github.com/arvidn/libtorrent/releases/download/v%ver/%name-%ver.tar.gz
+
+[build]
+autoreconf -fi
+PYTHON='/usr/bin/python3' \
+%conf \
+	 --enable-python-binding \
+	 --with-libiconv \
+	 --enable-python-binding \
+	 --with-boost-python=boost_python3
+%make
+%inst

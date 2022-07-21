@@ -1,0 +1,22 @@
+ver=1.5.2
+
+[srcs]
+https://github.com/%name/%name/releases/download/v%ver/Linux-PAM-%ver.tar.xz
+
+[build]
+cd Linux-PAM-%ver
+CONFIG_SHELL=/bin/bash %conf \
+	 --libdir=/lib \
+	 --disable-nis \
+	 --disable-nls \
+	 --disable-prelude \
+	 --enable-db=no
+%make
+%inst
+mv %dest/lib/pkgconfig %dest/lib
+chmod u+s %dest/sbin/unix_chkpwd
+mkdir -p %dest/etc/pam.d
+install -o root -g root -m 0644 \
+%files/{common-*,other} \
+%dest/etc/pam.d/
+rm -r %dest/{lib/systemd,share/doc}

@@ -1,0 +1,7 @@
+ver=0.4.7
+
+[srcs]
+http://crux.nu/files/distfiles/%name-%ver.tar.gz
+
+[build]
+%inst

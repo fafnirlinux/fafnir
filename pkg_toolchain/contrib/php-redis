@@ -1,0 +1,21 @@
+ver=5.3.7
+
+[deps]
+liblzf
+php-igbinary
+
+[srcs]
+https://github.com/phpredis/phpredis/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cd phpredis-%ver
+echo -e "; this extension requires igbinary to be activated as well
+;extension=redis" > "redis.ini"
+phpize
+%conf \
+	 --enable-redis-igbinary \
+	 --enable-redis-lzf \
+	 --with-liblzf=/lib/
+%make
+make INSTALL_ROOT=%dest/ install
+install -vDm 644 redis.ini -t %dest/etc/php/conf.d/

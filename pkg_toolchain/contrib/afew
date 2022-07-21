@@ -1,0 +1,16 @@
+ver=3.0.1
+
+[deps]
+python3-chardet
+python3-dkim
+python3-setuptools-scm
+
+[srcs]
+https://files.pythonhosted.org/packages/source/a/%name/%name-%ver.tar.gz
+
+[build]
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install \
+	 --root=%dest \
+	 --optimize=1 \
+	 --skip-build

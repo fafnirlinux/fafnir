@@ -1,0 +1,14 @@
+ver=0.9.6.1
+
+[deps]
+python3-dateutil
+
+[srcs]
+https://github.com/eventable/vobject/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cd vobject-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --skip-build \
+	 --optimize=1 \
+	 --root=%dest

@@ -1,0 +1,13 @@
+ver=0.3
+
+[deps]
+python3-build
+python3-installer
+
+[srcs]
+https://pypi.org/packages/source/e/editables/editables-%ver.tar.gz
+
+[build]
+cd editables-%ver
+/usr/bin/python3 -m build --wheel --skip-dependency-check --no-isolation
+/usr/bin/python3 -m installer --compile-bytecode 2 --destdir=%dest dist/*.whl

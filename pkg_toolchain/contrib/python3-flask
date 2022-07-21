@@ -1,0 +1,19 @@
+ver=2.1.3
+
+[deps]
+python3-click
+python3-importlib_metadata
+python3-itsdangerous
+python3-jinja2
+python3-werkzeug
+
+[srcs]
+https://github.com/pallets/flask/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cd flask-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 -O1 \
+	 --skip-build

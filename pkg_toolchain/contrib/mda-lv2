@@ -1,0 +1,14 @@
+ver=1.2.6
+
+[deps]
+lv2
+python3
+
+[srcs]
+https://download.drobilla.net/%name-%ver.tar.bz2
+
+[build]
+sed -e 's/python/python3/g' -i waf
+./waf configure --prefix=%prefix
+./waf
+./waf install --destdir="%dest/"

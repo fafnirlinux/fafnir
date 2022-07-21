@@ -1,0 +1,11 @@
+ver=0.14
+
+[srcs]
+http://0pointer.de/lennart/projects/%name/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --disable-lynx
+%make
+%inst
+rm -r %dest/share

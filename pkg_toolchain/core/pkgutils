@@ -1,0 +1,10 @@
+ver=5.40.7
+
+[deps]
+libarchive
+
+[srcs]
+http://crux.nu/files/%name-%ver.tar.xz
+
+[build]
+%inst

@@ -1,0 +1,23 @@
+ver=73
+
+[deps]
+iniparser
+json-c
+keyutils
+meson
+ninja
+
+[srcs]
+https://github.com/pmem/ndctl/archive/v%ver/%name-%ver-$release.tar.gz
+
+[build]
+meson setup %name-%ver build \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D asciidoctor=disabled \
+	 -D docs=disabled \
+	 -D systemd=disabled
+meson compile -C build
+DESTDIR=%dest meson install -C build

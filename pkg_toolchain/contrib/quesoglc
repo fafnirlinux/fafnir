@@ -1,0 +1,13 @@
+ver=0.7.2
+
+[deps]
+fontconfig
+glu
+
+[srcs]
+http://downloads.sourceforge.net/project/quesoglc/%ver/quesoglc-%ver.tar.bz2
+
+[build]
+%conf
+%make
+%inst

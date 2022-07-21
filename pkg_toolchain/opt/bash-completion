@@ -1,0 +1,19 @@
+ver=2.11
+
+[deps]
+bash
+
+[srcs]
+https://github.com/scop/%name/releases/download/%ver/%name-%ver.tar.xz
+
+[build]
+sed -i -e 's,profiledir = .*,profiledir = /etc,g' Makefile.*
+%conf \
+	 --sysconfdir=/etc
+%make
+%inst
+mv %dest/etc/bash_completion{.sh,}
+chmod 0755 %dest/share/%name/bash_completion
+rm %dest/share/%name/completions/{apt-*,aptitude,dpkg*}
+rm %dest/share/%name/completions/{explode,install,make,remove,sbo,slack,upgrade}pkg
+rm %dest/share/%name/completions/{pkg-get,pkg_*,pkg{add,rm,tool,util},slapt-*}

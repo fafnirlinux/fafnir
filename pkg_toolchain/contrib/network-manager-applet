@@ -1,0 +1,26 @@
+ver=1.28.0
+
+[deps]
+consolekit
+libgudev
+libnma
+libnotify
+libsecret
+
+[srcs]
+https://gitlab.gnome.org/GNOME/network-manager-applet/-/archive/%ver/network-manager-applet-%ver.tar.bz2
+
+[build]
+prt-get isinst libappindicator-gtk3 && PKGMK_NMA+=' -D appindicator=yes' || PKGMK_NMA+=' -D appindicator=no'
+meson setup %name-%ver build %destMK_NMA \
+	 --sysconfdir=/etc \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D selinux=false \
+	 -D team=false \
+	 -D wwan=false
+meson compile -C build
+DESTDIR=%dest meson install -C build
+rm -r %dest/share/locale

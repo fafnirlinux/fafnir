@@ -1,0 +1,17 @@
+ver=1.118
+
+[deps]
+p5-class-inspector
+
+[srcs]
+https://cpan.metacpan.org/authors/id/R/RE/REHSACK/File-ShareDir-%ver.tar.gz
+
+[build]
+cd File-ShareDir-%ver
+PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest -name .packlist -o \
+	 -name perllocal.pod -o \
+	 -name README -o \
+	 -name '*.bs' | xargs rm

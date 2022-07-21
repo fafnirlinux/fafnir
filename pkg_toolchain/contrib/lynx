@@ -1,0 +1,20 @@
+ver=2.8.9
+
+[deps]
+ncurses
+openssl
+zlib
+
+[srcs]
+https://invisible-mirror.net/archives/lynx/tarballs/%name${_relver}.tar.bz2
+
+[build]
+cd %name${_relver}
+%conf \
+	 --disable-nls \
+	 --enable-color-style \
+	 --enable-ipv6 \
+	 --with-ssl=/lib \
+	 --with-zlib
+%make
+%inst

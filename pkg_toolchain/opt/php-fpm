@@ -1,0 +1,37 @@
+ver=8.1.8
+
+[deps]
+libpcre2
+libxml2
+
+[srcs]
+https://php.net/distributions/php-%ver.tar.xz
+
+[build]
+cd php-%ver
+local PHP_CONFIG="
+	 --sysconfdir=/etc/php \
+	 --localstatedir=/var \
+	 --with-config-file-path=/etc/php \
+	 --with-config-file-scan-dir=/etc/php/conf.d \
+	 --with-zlib \
+	 --with-external-pcre \
+	 --disable-static --disable-debug \
+	 --without-sqlite3 --without-pdo-sqlite \
+	 --without-pear"
+EXTENSION_DIR=/lib/php/extensions \
+%conf \
+$PHP_CONFIG \
+	 --enable-fpm \
+	 --disable-cli \
+	 --with-fpm-user=www \
+	 --with-fpm-group=www
+%make
+install -d %dest/{sbin,share/man/man8}
+install -d %dest/etc/{rc.d,php/php-fpm.d}
+install -m 755 sapi/fpm/php-fpm %dest/sbin/
+install -m 644 sapi/fpm/php-fpm.conf %dest/etc/php/
+install -m 644 sapi/fpm/www.conf %dest/etc/php/php-fpm.d/
+install -m 644 sapi/fpm/php-fpm.8 %dest/share/man/man8/
+install -m 755 %files/php-fpm %dest/etc/rc.d/
+sed '/;pid =/s/;//' -i %dest/etc/php/php-fpm.conf

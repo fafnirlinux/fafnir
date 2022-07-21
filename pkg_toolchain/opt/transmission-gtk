@@ -1,0 +1,22 @@
+ver=3.00
+
+[deps]
+gtk3
+libevent
+librsvg
+
+[srcs]
+https://github.com/transmission/transmission-releases/raw/master/transmission-%ver.tar.xz
+
+[build]
+cd transmission-%ver
+export LINGUAS=" "
+%conf \
+	 --with-gtk \
+	 --disable-cli \
+	 --disable-daemon
+%make
+%inst
+sed -ri '/\[.+\]=/d' %dest/share/applications/transmission-gtk.desktop
+rm %dest/{bin,share/man/man1}/transmission-{create,edit,show,remote}*
+rm -r %dest/share/transmission

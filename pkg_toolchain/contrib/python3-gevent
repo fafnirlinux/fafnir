@@ -1,0 +1,21 @@
+ver=21.12.0
+
+[deps]
+c-ares
+libev
+python3-greenlet
+python3-zope-event
+python3-zope-interface
+python3-cython
+
+[srcs]
+https://github.com/gevent/gevent/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cd gevent-%ver
+CYTHON=cython3 \
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 -O1 \
+	 --skip-build

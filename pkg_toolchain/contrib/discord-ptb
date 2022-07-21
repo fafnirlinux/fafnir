@@ -1,0 +1,29 @@
+ver=0.0.30
+
+[deps]
+alsa-lib
+graphite2
+gtk3
+nss
+xorg-libxinerama
+xorg-libxcomposite
+xorg-libxcursor
+xorg-libxscrnsaver
+cups
+
+[srcs]
+https://dl-ptb.discordapp.net/apps/linux/%ver/discord-ptb-%ver.tar.gz
+
+[build]
+install -d %dest/opt/%name
+cp -a DiscordPTB/. %dest/opt/%name
+chmod 755 %dest/opt/%name/DiscordPTB
+install -Dm 755 %name.sh %dest/bin/%name
+install -D %dest/opt/%name/%name.desktop \
+%dest/share/applications/%name.desktop
+sed \
+"s|^\(Exec=\).*|\1%name|" \
+	 -i %dest/share/applications/%name.desktop
+install -d %dest/share/pixmaps
+ln -s ../../..//opt/%name/discord.png \
+%dest/share/pixmaps/%name.png

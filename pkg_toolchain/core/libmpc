@@ -1,0 +1,14 @@
+ver=1.2.1
+
+[deps]
+libmpfr
+
+[srcs]
+https://ftp.gnu.org/gnu/mpc/mpc-%ver.tar.gz
+
+[build]
+cd mpc-%ver
+%conf
+%make
+%inst
+rm -r %dest/share

@@ -1,0 +1,23 @@
+ver=2.548
+
+[deps]
+p5-alien-build
+p5-alien-sdl
+p5-tie-simple
+sdl_gfx
+sdl_image
+sdl_mixer
+sdl_net
+sdl_pango
+sdl_ttf
+
+[srcs]
+https://cpan.metacpan.org/authors/id/${_author::1}/${_author::2}/$_author/SDL-%ver.tar.gz
+
+[build]
+cd SDL-%ver
+perl Build.PL installdirs=vendor
+perl Build
+perl Build install destdir=%dest
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete
+find %dest -depth -empty -delete

@@ -1,0 +1,16 @@
+ver=2.17.2
+
+[deps]
+python3-six
+
+[srcs]
+http://openvswitch.org/releases/openvswitch-%ver.tar.gzovsd
+
+[build]
+%conf \
+	 --sysconfdir=/etc \
+	 --localstatedir=/var \
+PYTHON=/bin/python3
+%make
+%inst
+install -D %files/ovsd %dest/etc/rc.d/ovsd

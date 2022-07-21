@@ -1,0 +1,5 @@
+# FINGERPRINT any value
+# openssl x509 -noout -sha256 -fingerprint < CERT.pem
+# OR
+# openssl x509 -outform DER -in CERT.pem | openssl dgst -sha256 -c
+

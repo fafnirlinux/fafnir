@@ -1,0 +1,30 @@
+README for Xfce 4.12
+
+REQUIREMENTS
+
+PRE-INSTALL
+
+POST-INSTALL
+
+PRECAUTION
+
+  Update/install ports in the following order:
+
+     - libxfce4util
+     - libxfce4ui (new in 4.8)
+     - xfconf
+     - exo (new in 4.8)
+     - garcon (new in 4.8)
+     - libxfcegui4 (deprecated since 4.8)
+     - xfce4-panel
+     - thunar
+     - xfce4-settings, xfce4-session, xfdesktop, xfwm4, xfwm4-themes, xfce4-appfinder, ...
+    
+  or use prt-get:
+
+    prt-get update `prt-get quickdep xfce4`
+
+NOTES
+
+  For information about theme customization:
+  https://wiki.xfce.org/howto/install_new_themes

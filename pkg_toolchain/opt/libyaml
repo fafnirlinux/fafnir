@@ -1,0 +1,10 @@
+ver=0.2.5
+
+[srcs]
+https://pyyaml.org/download/%name/yaml-%ver.tar.gz
+
+[build]
+cd yaml-%ver
+%conf
+%make
+%inst

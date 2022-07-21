@@ -1,0 +1,17 @@
+ver=1.2.2
+
+[deps]
+cairo
+mesa
+
+[srcs]
+https://github.com/sadko4u/lsp-plugins/releases/download/%ver/%name-src-%ver.tar.gz
+
+[build]
+prt-get isinst jack && PKGMK_LSP+=' jack'
+prt-get isinst ladspa && PKGMK_LSP+=' ladspa'
+prt-get isinst lv2 && PKGMK_LSP+=' lv2'
+make config PREFIX= SHARE_PATH=/share FEATURES="xdg %destMK_LSP"
+%make
+%inst
+rm -fr %dest/share/doc

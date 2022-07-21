@@ -1,0 +1,8 @@
+ver=3.3.19-1
+
+[srcs]
+https://github.com/smxi/%name/archive/%ver/%name-%ver.tar.gz
+
+[build]
+install -Dm755 inxi %dest/bin/inxi
+install -Dm644 inxi.1 %dest/share/man/man1/inxi.1

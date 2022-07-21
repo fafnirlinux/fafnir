@@ -1,0 +1,9 @@
+ver=1.11
+
+[srcs]
+http://ccrypt.sourceforge.net/download/%ver/%name-%ver.tar.gz
+
+[build]
+%conf --disable-nls
+%make
+%inst

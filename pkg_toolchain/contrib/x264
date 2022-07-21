@@ -1,0 +1,30 @@
+ver=148.20160808
+
+[deps]
+yasm
+
+[srcs]
+http://crux.ster.zone/downloads/%name/%name-%ver-a5e06b9.tar.xz
+
+[build]
+cp -al %name %name-10
+%conf \
+	 --libdir=/lib/libx264-10bit \
+	 --includedir=/lib/libx264-10bit/include \
+	 --enable-pic \
+	 --enable-shared \
+	 --bit-depth='10' \
+	 --disable-cli \
+	 --disable-interlaced \
+	 --extra-cflags="$CFLAGS"
+%make
+make DESTDIR=%dest install-lib-shared
+%conf \
+	 --enable-pic \
+	 --enable-shared \
+	 --bit-depth='8' \
+	 --disable-cli \
+	 --extra-cflags="$CFLAGS"
+%make
+%inst
+chmod a-x %dest/lib/*.so %dest/lib/libx264-10bit/*.so

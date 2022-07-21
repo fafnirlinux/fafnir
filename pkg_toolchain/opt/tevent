@@ -1,0 +1,14 @@
+ver=0.12.1
+
+[deps]
+cmocka
+talloc
+
+[srcs]
+https://www.samba.org/ftp/%name/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --bundled-libraries=NONE \
+%make
+%inst

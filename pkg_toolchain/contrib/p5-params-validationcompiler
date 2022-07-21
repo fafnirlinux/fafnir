@@ -1,0 +1,20 @@
+ver=0.30
+
+[deps]
+p5-eval-closure
+p5-exception-class
+p5-role-tiny
+
+[srcs]
+https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/Params-ValidationCompiler-%ver.tar.gz
+
+[build]
+cd Params-ValidationCompiler-%ver
+export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL="--skipdeps" \
+PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='%dest'" \
+PERL_MB_OPT="--installdirs vendor --destdir '%dest'" \
+MODULEBUILDRC=/dev/null
+perl Makefile.PL
+%make
+make install
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

@@ -1,0 +1,20 @@
+ver=7.92
+
+[deps]
+libpcap
+
+[srcs]
+https://nmap.org/dist/%name-%ver.tar.bz2
+
+[build]
+%conf \
+	 --libexecdir=/lib \
+	 --with-libpcre=included \
+	 --with-liblua=included \
+	 --without-zenmap \
+	 --without-ndiff \
+	 --disable-nls \
+	 --without-nmap-update
+%make
+%inst
+find %dest -iname '*readme*' -exec rm -fr '{}' \+

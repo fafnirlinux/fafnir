@@ -1,0 +1,13 @@
+ver=1.12
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://github.com/wummel/patool/archive/upstream/%ver/%name-%ver.tar.gz
+
+[build]
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --root=%dest \
+	 --optimize=1 \
+	 --skip-build

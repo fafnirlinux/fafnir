@@ -1,0 +1,16 @@
+ver=4.8.2
+
+[deps]
+glade
+vala
+
+[srcs]
+https://ftp.gnome.org/pub/gnome/sources/gtksourceview/${version:0:3}/gtksourceview-%ver.tar.xz
+
+[build]
+meson setup gtksourceview-%ver build \
+	 --buildtype=plain \
+	 -D glade_catalog=true
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build
+rm -r %dest/share/locale

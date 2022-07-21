@@ -1,0 +1,16 @@
+--- xbmc-19.1-Matrix.orig/xbmc/utils/StringUtils.h	2021-07-13 13:53:06.623129336 +0200
++++ xbmc-19.1-Matrix/xbmc/utils/StringUtils.h	2021-07-13 13:53:17.929007096 +0200
+@@ -31,8 +31,13 @@
+ #undef FMT_DEPRECATED
+ #define FMT_DEPRECATED
+ #endif
++
+ #include <fmt/format.h>
+ 
++#if FMT_VERSION >= 80000
++#include <fmt/xchar.h>
++#endif
++
+ #if FMT_VERSION >= 40000
+ #include <fmt/printf.h>
+ #endif

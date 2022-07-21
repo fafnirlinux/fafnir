@@ -1,0 +1,22 @@
+ver=0.6.0
+
+[deps]
+basu
+inih
+mesa
+pipewire
+wayland-protocols
+
+[srcs]
+https://github.com/emersion/xdg-desktop-portal-wlr/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+meson setup %name-%ver build \
+	 --libexecdir=lib \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D sd-bus-provider=basu
+meson compile -C build
+DESTDIR=%dest meson install -C build

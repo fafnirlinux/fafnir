@@ -1,0 +1,19 @@
+ver=3.14
+
+[deps]
+git
+jack
+ladspa
+libglvnd
+liblo
+lv2
+zita-convolver
+
+[srcs]
+https://github.com/zamaudio/zam-plugins/archive/%ver/%name-%ver.tar.gz
+
+[build]
+export HAVE_ZITA_CONVOLVER=true
+cp -r %files/DPF-08669d1bc30c6e971fde800eade4ca40104ba8b2/* dpf/
+%make
+make DESTDIR=%dest PREFIX='/usr/' install

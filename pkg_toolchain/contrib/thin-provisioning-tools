@@ -1,0 +1,15 @@
+ver=0.9.0
+
+[deps]
+boost
+expat
+libaio
+
+[srcs]
+https://github.com/jthornber/%name/archive/v%ver/%name-v%ver.tar.gz
+
+[build]
+autoconf
+%conf
+%make
+%inst

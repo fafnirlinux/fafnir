@@ -1,0 +1,13 @@
+diff -Naur cli-7.4.3.orig/node_modules/@npmcli/config/lib/index.js cli-7.4.3/node_modules/@npmcli/config/lib/index.js
+--- cli-7.4.3.orig/node_modules/@npmcli/config/lib/index.js	2021-01-26 00:33:07.581392623 +0100
++++ cli-7.4.3/node_modules/@npmcli/config/lib/index.js	2021-01-26 00:34:40.643350386 +0100
+@@ -296,6 +296,9 @@
+ 
+     if (this.env.PREFIX) {
+       this.globalPrefix = this.env.PREFIX
++      if (this.env.DESTDIR) {
++        this.globalPrefix = join(this.env.DESTDIR, this.globalPrefix)
++      }
+     } else if (this.platform === 'win32') {
+     // c:\node\node.exe --> prefix=c:\node\
+       this.globalPrefix = dirname(this.execPath)

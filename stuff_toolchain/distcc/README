@@ -1,0 +1,11 @@
+POST-INSTALL:
+
+To set up distcc as a client:
+1. Export DISTCC_HOSTS to include the compilation hosts
+2. Prepend /usr/lib/distcc to your $PATH environment variable.
+3. Export MAKEFLAGS=-j<n> where n is a number representing the number of
+   parallel jobs you want.
+
+To set up distcc as a server:
+1. Set the ALLOW or ZEROCONF option in /etc/distccd.conf
+2. Start the service with the /etc/rc.d/distccd startup script

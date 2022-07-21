@@ -1,0 +1,24 @@
+ver=1.20.0
+
+[deps]
+glu
+libglvnd
+harfbuzz
+libjpeg-turbo
+xorg-libxi
+
+[srcs]
+https://mupdf.com/downloads/archive/%name-%ver-source.tar.lz
+
+[build]
+export USE_SYSTEM_LIBS='yes'
+make install \
+prefix=%dest \
+mandir=%dest/share/man \
+XCFLAGS="-fpic -fcommon" \
+USE_SYSTEM_JBIG2DEC='no' \
+USE_SYSTEM_OPENJPEG='no' \
+USE_SYSTEM_GLUT='no' \
+USE_SYSTEM_GUMBO='no'
+ln -s mupdf-gl %dest/bin/mupdf
+rm -r %dest/share/doc

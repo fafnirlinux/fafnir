@@ -1,0 +1,33 @@
+ver=1.20
+
+[deps]
+e2fsprogs
+openssl
+
+[srcs]
+https://kerberos.org/dist/%name/${version::4}/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --localstatedir=/var \
+	 --runstatedir=/var/run \
+	 --enable-shared \
+	 --disable-rpath \
+	 --disable-nls \
+	 --without-tcl \
+	 --with-system-et \
+	 --with-system-ss \
+	 --without-system-verto \
+	 --enable-dns-for-realm
+%make
+%inst
+install -d %dest/{bin,lib}
+mv %dest/bin/ksu %dest/bin
+mv %dest/lib/libkrb5.so.3* %dest/lib
+mv %dest/lib/libk5crypto.so.3* %dest/lib
+mv %dest/lib/libkrb5support.so.0* %dest/lib
+ln -sf ../lib/$(readlink %dest/lib/libkrb5.so) %dest/lib/libkrb5.so
+ln -sf ../lib/$(readlink %dest/lib/libk5crypto.so) %dest/lib/libk5crypto.so
+ln -sf ../lib/$(readlink %dest/lib/libkrb5support.so) %dest/lib/libkrb5support.so
+rm -r %dest/share/{examples,man/cat*}
+install -D -m 0755 %files/krb5 %dest/etc/rc.d/krb5

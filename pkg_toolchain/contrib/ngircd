@@ -1,0 +1,22 @@
+ver=26.1
+
+[deps]
+openssl
+zlib
+
+[srcs]
+http://ngircd.sourceforge.net/pub/%name/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --sysconfdir=/etc \
+	 --with-openssl
+%make
+%inst
+install -d -m 0755 -o %name \
+%dest/var/run/%name
+install -D -m 0755 %files/%name \
+%dest/etc/rc.d/%name
+install -m 0600 %files/%name.conf \
+%dest/etc/%name.conf
+rm -r %dest/share/doc

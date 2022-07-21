@@ -1,0 +1,19 @@
+ver=0.3.9
+
+[deps]
+gobject-introspection
+snowball
+
+[srcs]
+https://people.freedesktop.org/~hughsient/releases/%name-%ver.tar.xz
+
+[build]
+meson setup %name-%ver build \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D stemmer=true \
+	 -D gtkdoc=false
+meson compile -C build
+DESTDIR=%dest meson install -C build

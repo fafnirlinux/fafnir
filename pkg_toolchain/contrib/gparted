@@ -1,0 +1,21 @@
+ver=1.4.0
+
+[deps]
+gtkmm3
+parted
+polkit
+
+[srcs]
+https://downloads.sourceforge.net/project/%name/%name/%name-%ver/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --libexecdir=/sbin \
+	 --enable-online-resize \
+	 --enable-libparted-dmraid \
+	 --enable-xhost-root \
+	 --disable-nls \
+	 --disable-dependency-tracking \
+	 --disable-doc
+%make
+%inst

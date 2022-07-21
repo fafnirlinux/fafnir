@@ -1,0 +1,14 @@
+ver=1.2.1
+
+[deps]
+libdvdnav
+
+[srcs]
+https://github.com/barak/vobcopy/archive/%ver/%name-%ver.tar.gz
+
+[build]
+autoreconf --install --force --symlink
+%conf
+%make
+make DESTDIR=%dest PREFIX=/ MANDIR=/share/man install
+rm -r %dest/share/{man/de,doc}

@@ -1,0 +1,19 @@
+ver=3.2
+
+[deps]
+bash
+
+[srcs]
+https://github.com/thkukuk/lsb-release_os-release/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd %name_os-release-%ver
+%make
+make INSTALL_ROOT=%dest install
+install -dm755 "%dest/etc"
+cat <<- EOF > %dest/etc/lsb-release
+DISTRIB_ID=CRUX
+DISTRIB_RELEASE=$(crux | awk '{ print $3 }')
+DISTRIB_CODENAME=CRUX
+DISTRIB_DESCRIPTION="CRUX is a lightweight Linux distribution for the x86-64 architecture targeted at experienced Linux users"
+	EOF

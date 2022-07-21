@@ -1,0 +1,15 @@
+ver=2.001000
+
+[deps]
+libxslt
+p5-xml-libxml
+
+[srcs]
+https://www.cpan.org/authors/id/S/SH/SHLOMIF/XML-LibXSLT-%ver.tar.gz
+
+[build]
+cd XML-LibXSLT-%ver
+perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

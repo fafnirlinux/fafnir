@@ -1,0 +1,103 @@
+ver=102.0
+
+[deps]
+alsa-lib
+autoconf-2.13
+brotli
+cbindgen
+dbus-glib
+ffmpeg4
+libevent
+libidl
+libnotify
+libvpx
+libwebp
+libxkbcommon
+lld
+nodejs
+nss
+unzip
+wasi-libc++
+xorg-libxcomposite
+xorg-libxcursor
+xorg-libxinerama
+xorg-libxt
+zip
+
+[srcs]
+https://archive.mozilla.org/pub/firefox/releases/%ver/source/%name-%ver.source.tar.xz
+
+[build]
+if [ "$(/usr/bin/python3 -c "import sys; print(sys.stdout.encoding)")" != 'utf-8' ]; then
+printf "[031mError: set an UTF-8 locale to compile this![0m
+"
+exit 1
+fi
+if [ -e '/usr/bin/ccache' ]; then
+export OS_CCACHE_COMPILERCHECK="$(/usr/bin/clang -dumpversion | sed -z 's/
+/ /g'; crux | cut -d' ' -f3)"
+export CCACHE_COMPILERCHECK="string:$OS_CCACHE_COMPILERCHECK"
+PATH=$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')
+fi
+prt-get isinst sccache && export RUSTC_WRAPPER='/usr/bin/sccache'
+mkdir "%destMK_SOURCE_DIR/rust" || true
+export CARGO_HOME="%destMK_SOURCE_DIR/rust"
+cat <<- EOF > .mozconfig
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-shared
+unset MOZ_TELEMETRY_REPORTING
+ac_add_options --prefix=%prefix
+ac_add_options --enable-application=browser
+ac_add_options --with-system-jpeg
+ac_add_options --with-system-zlib
+ac_add_options --with-system-png
+ac_add_options --with-system-nspr
+ac_add_options --with-system-nss
+ac_add_options --with-system-libevent
+ac_add_options --with-system-libvpx
+ac_add_options --with-system-webp
+ac_add_options --with-wasi-sysroot=/share/wasi-sysroot
+ac_add_options --enable-av1
+ac_add_options --enable-system-ffi
+ac_add_options --enable-system-pixman
+ac_add_options --enable-optimize
+ac_add_options --enable-release
+ac_add_options --enable-rust-simd
+ac_add_options --disable-debug-symbols
+ac_add_options --enable-official-branding
+ac_add_options --with-distribution-id=nu.crux
+ac_add_options --enable-linker=lld
+ac_add_options --enable-lto=thin
+ac_add_options --disable-tests
+ac_add_options --disable-debug
+ac_add_options --disable-updater
+ac_add_options --disable-crashreporter
+ac_add_options --disable-necko-wifi
+ac_add_options --disable-elf-hack
+EOF
+prt-get isinst alsa-lib && echo 'ac_add_options --enable-alsa' >> .mozconfig || echo 'ac_add_options --disable-alsa' >> .mozconfig
+prt-get isinst jack && echo 'ac_add_options --enable-jack' >> .mozconfig || echo 'ac_add_options --disable-jack' >> .mozconfig
+prt-get isinst pulseaudio && echo 'ac_add_options --enable-pulseaudio' >> .mozconfig || echo 'ac_add_options --disable-pulseaudio' >> .mozconfig
+prt-get isinst wayland-protocols && \
+echo 'ac_add_options --enable-default-toolkit=cairo-gtk3-wayland' >> .mozconfig || \
+echo 'ac_add_options --enable-default-toolkit=cairo-gtk3' >> .mozconfig
+[[ -e '/usr/bin/ccache' ]] && echo 'ac_add_options --enable-ccache' >> .mozconfig
+export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
+export MOZ_MAKE_FLAGS="-j %threads"
+export MOZBUILD_STATE_PATH="%destMK_SOURCE_DIR/.mozbuild"
+export MOZ_NOSPAM=1
+export MACH_USE_SYSTEM_PYTHON=1
+echo "Current BINDGEN_CFLAGS:	${BINDGEN_CFLAGS:-no value set}"
+echo "Current CFLAGS:		${CFLAGS:-no value set}"
+echo "Current CXXFLAGS:		${CXXFLAGS:-no value set}"
+echo "Current LDFLAGS:		${LDFLAGS:-no value set}"
+echo "Current RUSTFLAGS:		${RUSTFLAGS:-no value set}"
+export SHELL='/usr/bin/bash'
+./mach build
+DESTDIR=%dest ./mach install
+install -d %dest/share/pixmaps
+ln -s /usr/lib/firefox/browser/chrome/icons/default/default48.png %dest/share/pixmaps/firefox_default48.png
+install -D -m 0644 %files/firefox.desktop %dest/share/applications/firefox.desktop
+rm -r %dest/lib/firefox/browser/features
+rm %dest/lib/firefox/removed-files
+install -d %dest/etc/revdep.d
+echo "/usr/lib/firefox" > %dest/etc/revdep.d/firefox

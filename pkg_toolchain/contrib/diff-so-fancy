@@ -1,0 +1,14 @@
+ver=1.4.3
+
+[deps]
+perl
+
+[srcs]
+https://github.com/so-fancy/%name/archive/refs/tags/v%ver/%name-%ver.tar.gz
+
+[build]
+install -o root -g root -m 0755 -D %name %dest/bin/%name
+install -o root -g root -m 0644 -D lib/DiffHighlight.pm \
+%dest/share/diff-so-fancy/DiffHighlight.pm
+sed -i -e 's,^\(use lib\) .*$,\1 "/usr/share/diff-so-fancy";,' \
+%dest/bin/%name

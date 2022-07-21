@@ -1,0 +1,29 @@
+ver=1.8.0
+
+[deps]
+intltool
+libxml2
+pango
+python-setuptools
+
+[srcs]
+https://github.com/oetiker/rrdtool-1.x/releases/download/v%ver/rrdtool-%ver.tar.gz
+
+[build]
+%conf \
+	 --enable-shared \
+	 --enable-perl-site-install \
+	 --enable-ruby-site-install \
+	 --disable-libwrap \
+	 --disable-rpath
+%make
+%inst
+rm -r \
+%dest/share/doc \
+%dest/share/locale \
+%dest/share/rrdtool/examples
+find %dest \( \
+	 -name '.packlist' -o \
+	 -name '*.bs' -o \
+	 -name 'perllocal.pod' \) -delete
+find %dest -depth -empty -delete

@@ -1,0 +1,14 @@
+ver=1.7.6
+
+[deps]
+libpcre
+texlive
+
+[srcs]
+http://download.savannah.gnu.org/releases/%name/%name-%ver.tar.gz
+
+[build]
+./autogen.sh
+%conf
+%make
+%inst

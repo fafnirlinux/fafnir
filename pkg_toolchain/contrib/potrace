@@ -1,0 +1,16 @@
+ver=1.16
+
+[deps]
+zlib
+
+[srcs]
+http://potrace.sourceforge.net/download/%ver/%name-%ver.tar.gz
+
+[build]
+export CC=gcc
+%conf \
+	 --mandir=/share/man \
+	 --with-libpotrace
+%make
+%inst
+rm -r %dest/share/doc

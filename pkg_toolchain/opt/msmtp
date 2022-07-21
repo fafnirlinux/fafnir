@@ -1,0 +1,15 @@
+ver=1.8.20
+
+[srcs]
+https://marlam.de/msmtp/releases/%name-%ver.tar.xz
+
+[build]
+PKGMK_MSMTP="--with-tls=none"
+prt-get isinst openssl && PKGMK_MSMTP="--with-tls=openssl"
+prt-get isinst gnutls && PKGMK_MSMTP="--with-tls=gnutls"
+%conf \
+%destMK_MSMTP \
+	 --disable-nls
+%make
+%inst
+rm -r %dest/share/info

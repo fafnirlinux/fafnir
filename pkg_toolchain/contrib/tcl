@@ -1,0 +1,36 @@
+ver=8.6.12
+
+[srcs]
+https://downloads.sourceforge.net/project/%name/Tcl/%ver/%name%ver-src.tar.gz
+
+[build]
+%conf \
+	 --mandir=/share/man \
+	 --enable-threads \
+	 --enable-64bit
+%make
+make INSTALL_ROOT=%dest install install-private-headers
+install -d %dest/include/tcl/{generic,unix,compat}
+cp ../generic/*.h %dest/include/tcl/generic
+cp ../unix/*.h %dest/include/tcl/unix
+cp ../compat/*.h %dest/include/tcl/compat
+ln -s tclsh8.6 %dest/bin/tclsh
+ln -s libtcl8.6.so %dest/lib/libtcl.so
+ln -s libtclstub8.6.a %dest/lib/libtclstub.a
+sed \
+"s|%files/tcl%ver/unix|/usr/lib|g" \
+"s|%files/tcl%ver|/usr/include|g" \
+	 -i %dest/lib/tclConfig.sh
+local tdbcver=tdbc1.1.3
+sed \
+"s|%files/tcl%ver/unix/pkgs/$tdbcver|/usr/lib/$tdbcver|g" \
+"s|%files/tcl%ver/pkgs/$tdbcver/generic|/usr/include|g" \
+"s|%files/tcl%ver/pkgs/$tdbcver/library|/usr/lib/tcl8.6|g" \
+"s|%files/tcl%ver/pkgs/$tdbcver|/usr/include|g" \
+	 -i %dest/lib/$tdbcver/tdbcConfig.sh
+local itclver=itcl4.2.2
+sed \
+"s|%files/tcl%ver/unix/pkgs/$itclver|/usr/lib/$itclver|g" \
+"s|%files/tcl%ver/pkgs/$itclver/generic|/usr/include|g" \
+"s|%files/tcl%ver/pkgs/$itclver|/usr/include|g" \
+	 -i %dest/lib/$itclver/itclConfig.sh

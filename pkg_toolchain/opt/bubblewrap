@@ -1,0 +1,19 @@
+ver=0.6.2
+
+[deps]
+libcap
+
+[srcs]
+https://github.com/projectatomic/bubblewrap/releases/download/v%ver/%name-%ver.tar.xz
+
+[build]
+if [ ! -e '/usr/share/xml/docbook/xsl-stylesheets' ]; then
+PKGMK_BUBBLEWRAP+=' --disable-man'
+install -Dm644 %files/bwrap.1 %dest/share/man/man1/bwrap.1
+fi
+%conf ${PKGMK_BUBBLEWRAP} \
+	 --with-priv-mode=setuid
+%make
+%inst
+prt-get isinst bash-completion || rm -r %dest/share/bash-completion
+prt-get isinst zsh || rm -r %dest/share/zsh

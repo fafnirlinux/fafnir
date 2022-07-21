@@ -1,0 +1,31 @@
+ver=3.0.6
+
+[deps]
+freeglut
+libjpeg-turbo
+xorg-libxmu
+
+[srcs]
+https://github.com/jasper-software/jasper/releases/download/version-%ver/jasper-%ver.tar.gz
+
+[build]
+local config="
+	-D CMAKE_INSTALL_PREFIX=
+	-D CMAKE_INSTALL_LIBDIR=lib
+	-D CMAKE_BUILD_TYPE=Release
+	-D CMAKE_SKIP_BUILD_RPATH=ON
+	-D JAS_ENABLE_OPENGL=ON
+	-D JAS_ENABLE_LIBJPEG=ON
+	-D CMAKE_SKIP_RPATH=ON
+	-D OpenGL_GL_PREFERENCE=GLVND"
+( cmake -S %name-%ver -B build-static -G Ninja $config \
+	 -D JAS_ENABLE_SHARED=OFF
+cmake --build build-static
+)
+( cmake -S %name-%ver -B build-shared -G Ninja $config \
+	 -D JAS_ENABLE_SHARED=ON
+cmake --build build-shared
+)
+DESTDIR=%dest cmake --install build-static
+DESTDIR=%dest cmake --install build-shared
+rm -r %dest/share/doc

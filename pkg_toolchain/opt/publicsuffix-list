@@ -1,0 +1,10 @@
+ver=20190531.806.6f03f42
+
+[srcs]
+https://github.com/publicsuffix/list/archive/$commit.tar.gz#/%name-$commit.tar.gz
+
+[build]
+cd list-$commit
+install -D -m 644 -t %dest/share/publicsuffix \
+public_suffix_list.dat tests/test_psl.txt
+ln -s public_suffix_list.dat %dest/share/publicsuffix/effective_tld_names.dat

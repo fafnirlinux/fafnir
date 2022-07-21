@@ -1,0 +1,12 @@
+ver=3.6
+
+[srcs]
+http://dist.schmorp.de/%name/%name-%ver.tar.gz
+
+[build]
+chmod +x bootstrap.sh
+./bootstrap.sh
+%conf \
+	 --disable-static
+%make
+%inst

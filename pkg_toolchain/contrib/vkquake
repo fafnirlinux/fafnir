@@ -1,0 +1,21 @@
+ver=1.20.3
+
+[deps]
+libmad
+libsdl2
+libvorbis
+vulkan-loader
+xorg-libx11
+
+[srcs]
+https://github.com/Novum/vkQuake/archive/%ver/%name-%ver.tar.gz
+
+[build]
+make -C vkQuake-%ver/Quake clean
+make -C vkQuake-%ver/Quake \
+DO_USERDIRS=1
+make -C vkQuake-%ver/Misc/vq_pak
+install -Dm755 vkQuake-%ver/Quake/vkquake %dest/bin/vkquake
+install -Dm644 vkQuake-%ver/Misc/vq_pak/vkquake.pak %dest/share/games/vkquake/vkquake.pak
+install -Dm644 %files/%name.desktop %dest/share/applications/vkquake.desktop
+install -Dm644 %files/%name.png %dest/share/pixmaps/vkquake.png

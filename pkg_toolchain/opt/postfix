@@ -1,0 +1,35 @@
+ver=3.7.2
+
+[deps]
+cyrus-sasl
+
+[srcs]
+http://ftp.porcupine.org/mirrors/postfix-release/official/%name-%ver.tar.gz
+
+[build]
+make tidy
+make makefiles \
+DEBUG="" \
+OPT="${CFLAGS}" \
+pie=yes \
+shared=yes \
+dynamicmaps=yes \
+CCARGS="-DUSE_SASL_AUTH -DUSE_CYRUS_SASL -DUSE_TLS -I/usr/include/sasl" \
+AUXLIBS="-lsasl2 -lssl -lcrypto"
+%make
+make non-interactive-package install_root=%dest \
+config_directory=/etc/postfix \
+daemon_directory=/lib/postfix \
+mail_owner=mail \
+manpage_directory=/share/man \
+shlib_directory=/lib/postfix
+chown mail %dest/var/spool/postfix/* \
+%dest/var/lib/postfix
+chgrp postdrop %dest/var/spool/postfix/{maildrop,public} \
+%dest/usr/sbin/post{drop,queue}
+chmod g+s %dest/usr/sbin/post{drop,queue}
+install -D -m 0644 %files/aliases %dest/etc/postfix/aliases
+install -D -m 0755 %files/postfix.rc %dest/etc/rc.d/postfix
+touch %dest/etc/postfix/{aliases,access,canonical,relocated,transport,virtual}.db
+touch %dest/etc/postfix/{relay_domains,body_checks,mime_header_checks}
+}

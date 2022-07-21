@@ -1,0 +1,10 @@
+ver=14.0.04
+
+[srcs]
+https://unifoundry.com/pub/unifont/unifont-%ver/unifont-%ver.tar.gz
+
+[build]
+find unifont-%ver/font/precompiled \
+	 -iname "*.ttf" \
+	 -execdir install -Dm644 {} %dest/share/fonts/TTF/unifont/{} \;
+cd

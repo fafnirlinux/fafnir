@@ -1,0 +1,15 @@
+ver=1.6b15
+
+[srcs]
+http://www.mathopd.org/dist/%name-%ver.tar.gz
+
+[build]
+%make
+install -d %dest/{var/log,etc/rc.d,usr/{bin,sbin,share/man/man{8,5}}}
+install -m 755 mathopd %dest/sbin
+install -m 644 %files/mathopd.conf %dest/etc
+install -m 755 %files/mathopd %dest/etc/rc.d
+install -m 644 %files/mathopd.8.gz %dest/share/man/man8
+install -m 644 %files/mathopd.conf.5.gz %dest/share/man/man5
+install -d -o www -g www %dest/var/log/mathopd
+%inst

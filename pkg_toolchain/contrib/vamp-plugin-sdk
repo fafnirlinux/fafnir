@@ -1,0 +1,12 @@
+ver=2.10.0
+
+[deps]
+libsndfile
+
+[srcs]
+https://code.soundsoftware.ac.uk/attachments/download/2691/%name-%ver.tar.gz
+
+[build]
+%conf
+%make
+%inst

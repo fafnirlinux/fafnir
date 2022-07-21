@@ -1,0 +1,12 @@
+#!/usr/bin/python3
+
+import json
+
+with open('@SRC@/scripts/known_good.json', 'r') as myfile:
+    data=myfile.read()
+
+obj = json.loads(data)
+
+print (str(obj['repos'][0]['name']) + ': ' + str(obj['repos'][0]['commit']))
+print (str(obj['repos'][1]['name']) + ': ' + str(obj['repos'][1]['commit']))
+print (str(obj['repos'][2]['name']) + ': ' + str(obj['repos'][2]['commit']))

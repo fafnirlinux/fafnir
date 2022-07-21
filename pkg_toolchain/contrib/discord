@@ -1,0 +1,31 @@
+ver=0.0.18
+
+[deps]
+alsa-lib
+avahi
+cups
+graphite2
+gtk3
+nss
+util-linux
+xorg-libxcomposite
+xorg-libxcursor
+xorg-libxinerama
+xorg-libxscrnsaver
+
+[srcs]
+https://dl.discordapp.net/apps/linux/%ver/%name-%ver.tar.gz
+
+[build]
+install -d %dest/opt/%name
+cp -a Discord/. %dest/opt/%name
+chmod 755 %dest/opt/%name/Discord
+install -d %dest/share/applications
+install %dest/opt/%name/%name.desktop %dest/share/applications
+sed -i s%/usr/share%/opt% %dest/share/applications/%name.desktop
+mkdir -p %dest/bin
+ln -s /opt/%name/Discord %dest/bin/%name
+install -d %dest/share/pixmaps
+ln -s /opt/%name/discord.png %dest/share/pixmaps/%name.png
+install -d %dest/lib
+ln -s /opt/discord/libffmpeg.so %dest/lib/libffmpeg.so

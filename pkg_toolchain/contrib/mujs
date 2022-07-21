@@ -1,0 +1,9 @@
+ver=1.2.0
+
+[srcs]
+https://mujs.com/downloads/%name-%ver.tar.xz
+
+[build]
+make CFLAGS="-std=c99 -O2 -pipe -march=x86-64" release
+make prefix= DESTDIR=%dest install-static install-shared
+sed -i -e "s/^Version:.*/Version: %ver/" %dest/lib/pkgconfig/%name.pc

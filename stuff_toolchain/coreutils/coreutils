@@ -1,0 +1,18 @@
+ver=9.1
+
+[deps]
+acl
+libcap
+libgmp
+
+[srcs]
+https://ftpmirror.gnu.org/gnu/%name/%name-%ver.tar.xz
+
+[build]
+FORCE_UNSAFE_CONFIGURE=1 \
+%conf \
+	--libexecdir=/lib \
+	--disable-nls \
+	--disable-assert \
+	--enable-no-install-program=uptime,kill,chcon,runcon,groups
+%mk

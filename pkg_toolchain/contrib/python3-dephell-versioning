@@ -1,0 +1,15 @@
+ver=0.1.2
+
+[deps]
+python3-packaging
+
+[srcs]
+https://files.pythonhosted.org/packages/source/d/dephell_versioning/dephell_versioning-%ver.tar.gz
+
+[build]
+cd dephell_versioning-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 --skip-build \
+	 -O1

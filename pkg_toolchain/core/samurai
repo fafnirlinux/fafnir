@@ -1,0 +1,11 @@
+ver=1.2
+
+[srcs]
+https://github.com/michaelforney/samurai/releases/download/%ver/%name-%ver.tar.gz
+
+[build]
+%make
+make PREFIX=%prefix DESTDIR=%dest install
+
+ln -sf samu %dest/bin/ninja
+ln -sf samu.1 %dest/share/man/man1/ninja.1

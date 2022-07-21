@@ -1,0 +1,15 @@
+ver=3.15.1
+
+[deps]
+python3-cython
+
+[srcs]
+https://github.com/coleifer/peewee/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cd peewee-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 --skip-build \
+	 -O1

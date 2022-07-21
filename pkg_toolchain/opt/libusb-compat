@@ -1,0 +1,17 @@
+ver=0.1.7
+
+[deps]
+libusb
+
+[srcs]
+https://github.com/libusb/libusb-compat-0.1/releases/download/v0.1.7/%name-%ver.tar.bz2
+
+[build]
+
+%conf
+%make
+%inst
+
+install -d %dest/lib
+mv %dest/lib/libusb*.so.* %dest/lib
+ln -sf ../lib/$(readlink %dest/lib/libusb-0.1.so.4) %dest/lib/libusb.so

@@ -1,0 +1,13 @@
+ver=1.3.1
+
+[deps]
+xorg-libxrandr
+xorg-font-misc-misc
+xorg-font-alias
+
+[srcs]
+http://www.6809.org.uk/%name/dl/%name-%ver.tar.gz
+
+[build]
+make CFLAGS="$CFLAGS"
+%inst

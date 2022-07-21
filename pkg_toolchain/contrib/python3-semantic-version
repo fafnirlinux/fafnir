@@ -1,0 +1,12 @@
+ver=2.10.0
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://github.com/rbarrois/python-semanticversion/archive/%ver/python-semanticversion-%ver.tar.gz
+
+[build]
+cd python-semanticversion-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix --root=%dest --optimize=1 --skip-build

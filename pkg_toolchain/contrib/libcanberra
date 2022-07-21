@@ -1,0 +1,22 @@
+ver=0.30
+
+[deps]
+alsa-lib
+gtk
+gtk3
+libvorbis
+
+[srcs]
+http://0pointer.de/lennart/projects/libcanberra/libcanberra-%ver.tar.xz
+
+[build]
+%conf \
+	 --enable-alsa \
+	 --disable-oss \
+	 --disable-static \
+	 --with-builtin=dso \
+	 --with-pic
+%make
+make -j1 DESTDIR=%dest install
+rm -r %dest/share/{doc,gtk-doc,gnome,gdm}
+rm -r %dest/lib/gnome-settings-daemon*

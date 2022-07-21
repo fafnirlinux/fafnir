@@ -1,0 +1,21 @@
+ver=1.12
+
+[deps]
+libdrm
+intltool
+python3-pyxdg
+python3-gobject
+xorg-libxxf86vm
+
+[srcs]
+https://github.com/jonls/%name/archive/v%ver/%name-v%ver.tar.gz
+
+[build]
+./bootstrap
+%conf \
+	 --enable-drm \
+	 --enable-randr \
+	 --enable-vidmode
+%make
+%inst
+rm -fr %dest/share/locale

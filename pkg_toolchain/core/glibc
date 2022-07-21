@@ -1,0 +1,36 @@
+ver=2.32
+
+[srcs]
+https://ftp.gnu.org/gnu/glibc/glibc-%ver.tar.xz
+
+[build]
+cd linux-5.4.72
+make mrproper
+make headers_check
+make INSTALL_HDR_PATH=%dest headers_install
+chown root:root %dest
+mkdir %files/build
+.%conf \
+	 --libexecdir=/lib \
+	 --with-headers=%dest/include \
+	 --enable-kernel=4.9 \
+	 --enable-add-ons \
+	 --enable-static-nss \
+	 --enable-stack-protector=strong \
+	 --disable-profile \
+	 --disable-werror \
+	 --without-gd \
+	 --enable-multi-arch
+make
+make install_root=%dest install
+install -m 0644 %files/%name-${version:0:4}/nscd/nscd.conf %dest/etc
+install -d %dest/var/{db,run}/nscd
+install -m 0644 %files/{hosts,resolv.conf,nsswitch.conf,host.conf,ld.so.conf} %dest/etc
+ln -sf ../usr/share/zoneinfo/UTC %dest/etc/localtime
+install -d %dest/etc/ld.so.conf.d %dest/lib/locale
+touch %dest/etc/ld.so.cache
+rm -rf %dest/share/{info,locale} \
+%dest/bin/tzselect \
+%dest/sbin/z{dump,ic}
+find %dest -name "*install.cmd" -delete
+find %dest -name ".\install" -delete

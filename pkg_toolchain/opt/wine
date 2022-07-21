@@ -1,0 +1,56 @@
+ver=7.3
+
+[deps]
+fontconfig-32
+freeglut-32
+gnutls-32
+lcms2-32
+mpg123-32
+openal-32
+prelink
+vkd3d-32
+xorg-libxcomposite-32
+xorg-libxcursor-32
+xorg-libxinerama-32
+xorg-libxxf86dga-32
+mingw-w64-gcc
+
+[srcs]
+https://dl.winehq.org/wine/source/7.x/%name-%ver.tar.xz
+
+[build]
+mv %name-%ver %name
+export CFLAGS="${CFLAGS/-fno-plt/}"
+export LDFLAGS="${LDFLAGS/,-z,now/}"
+install -d wine32 wine64
+export CPPFLAGS="${CPPFLAGS/-D_FORTIFY_SOURCE=2/} -D_FORTIFY_SOURCE=0"
+../%name/configure \
+	 --libdir=/lib \
+	 --enable-win64
+make depend
+%make
+%inst
+cd ../wine32
+CFLAGS="${CFLAGS} -m32"
+CXXFLAGS="${CXXFLAGS} -m32"
+LDFLAGS="${LDFLAGS} -m32"
+export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+../%name/configure \
+	 --libdir=/lib32 \
+	 --x-includes=/include/X11 \
+	 --x-libraries=/lib32 \
+	 --cache-file=config.cache \
+	 --with-wine64=../wine64
+make depend
+%make
+%inst
+install -d %dest/etc/revdep.d
+echo "/usr/lib/wine/x86_64-unix" > %dest/etc/revdep.d/%name
+echo "/usr/lib32/wine/i386-unix" >> %dest/etc/revdep.d/%name
+install -d %dest/share/wine/gecko
+install -d %dest/share/wine/mono
+install -t %dest/share/wine/gecko/ \
+%files/wine-gecko-2.47.2-x86.msi \
+%files/wine-gecko-2.47.2-x86_64.msi
+install %files/wine-mono-7.1.1-x86.msi %dest/share/wine/mono/
+rm -r %dest/share/man/??.UTF-8

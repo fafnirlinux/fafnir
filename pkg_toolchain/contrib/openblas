@@ -1,0 +1,29 @@
+ver=0.3.20
+
+[deps]
+gcc-fortran
+
+[srcs]
+https://github.com/xianyi/OpenBLAS/archive/v%ver/OpenBLAS-%ver.tar.gz
+
+[build]
+cd OpenBLAS-%ver
+make NO_LAPACK=1 NO_LAPACKE=1 NO_STATIC=1 NO_AFFINITY=1 \
+USE_OPENMP=1 DYNAMIC_ARCH=1 NUM_THREADS=64 MAJOR_VERSION=3 \
+CFLAGS="$CFLAGS $CPPFLAGS" libs netlib shared
+make PREFIX=%dest install
+cd %dest/lib/
+local _lapackver='3.10.0'
+ln -sf libopenblasp-r%ver.so libblas.so
+ln -sf libopenblasp-r%ver.so libblas.so.${_lapackver:0:1}
+ln -sf libopenblasp-r%ver.so libblas.so.${_lapackver}
+ln -sf libopenblasp-r%ver.so libcblas.so
+ln -sf libopenblasp-r%ver.so libcblas.so.${_lapackver:0:1}
+ln -sf libopenblasp-r%ver.so libcblas.so.${_lapackver}
+rm -r %dest/include/lapack*
+%make
+sed -i 's|'%dest'||g' %dest/lib/pkgconfig/openblas.pc
+sed -i '/#define OPENBLAS_NEEDBUNDERSCORE/,/#define OPENBLAS_VERSION/{//!d}' \
+%dest/include/openblas_config.h
+ln -s openblas.pc %dest/lib/pkgconfig/blas.pc
+ln -s openblas.pc %dest/lib/pkgconfig/cblas.pc

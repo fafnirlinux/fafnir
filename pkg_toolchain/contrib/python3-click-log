@@ -1,0 +1,16 @@
+ver=0.4.0
+
+[deps]
+python3-click
+python3-setuptools
+
+[srcs]
+https://github.com/click-contrib/click-log/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cd click-log-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install \
+	 --optimize=1 \
+	 --skip-build \
+	 --root=%dest

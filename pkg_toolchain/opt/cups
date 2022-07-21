@@ -1,0 +1,37 @@
+ver=2.4.2
+
+[deps]
+acl
+libusb
+zlib
+linux-pam
+
+[srcs]
+https://github.com/OpenPrinting/cups/releases/download/v%ver/%name-%ver-source.tar.gz
+
+[build]
+prt-get isinst gnutls || PKGMK_CUPS+=' --without-tls'
+CC=cc CXX=c++ \
+%conf %destMK_CUPS \
+	 --sysconfdir=/etc \
+	 --libdir=/lib \
+	 --localstatedir=/var \
+	 --with-docdir=/share/cups/doc \
+	 --with-logdir=/var/log/cups \
+	 --with-cups-user=daemon \
+	 --with-cups-group=lp \
+	 --with-languages="" \
+	 --without-rcdir \
+	 --with-optim="$CFLAGS" \
+	 --enable-acl \
+	 --without-systemd
+%make
+make BUILDROOT=%dest install
+rm -r %dest/share/cups/{banners,data}
+rm -rf %dest/share/{applications,icons}
+chmod 0755 %dest/var/{cache,spool}
+chmod -R +w %dest
+install -D -m 755 %files/cups.rc %dest/etc/rc.d/cups
+install -D -m 644 %files/cups.pam %dest/etc/pam.d/cups
+install -d %dest/etc/modprobe.d
+echo 'blacklist usblp' > %dest/etc/modprobe.d/cups.conf

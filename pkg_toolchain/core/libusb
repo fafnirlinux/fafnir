@@ -1,0 +1,15 @@
+ver=1.0.26
+
+[deps]
+eudev
+
+[srcs]
+https://github.com/libusb/libusb/releases/download/v%ver/%name-%ver.tar.bz2
+
+[build]
+%conf
+%make
+%inst
+install -d %dest/lib
+mv %dest/lib/libusb-1.0.so.* %dest/lib
+ln -sf ../lib/$(readlink %dest/lib/libusb-1.0.so.0) %dest/lib/libusb-1.0.so

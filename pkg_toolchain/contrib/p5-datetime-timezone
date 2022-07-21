@@ -1,0 +1,17 @@
+ver=2.52
+
+[deps]
+p5-class-load
+p5-class-singleton
+p5-list-allutils
+p5-params-validate
+
+[srcs]
+https://www.cpan.org/authors/id/D/DR/DROLSKY/DateTime-TimeZone-%ver.tar.gz
+
+[build]
+cd DateTime-TimeZone-%ver
+PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

@@ -1,0 +1,20 @@
+ver=1.27
+
+[deps]
+p5-clone
+p5-json
+
+[srcs]
+https://cpan.metacpan.org/authors/id/D/DC/DCANTRELL/Data-Compare-%ver.tar.gz
+
+[build]
+cd Data-Compare-%ver
+unset PERL5LIB PERL_MM_OPT PERL_MB_OPT PERL_LOCAL_LIB_ROOT
+export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps
+perl Makefile.PL
+%make
+make install INSTALLDIRS=vendor DESTDIR=%dest
+find %dest -name .packlist -o \
+	 -name perllocal.pod -o \
+	 -name README -o \
+	 -name '*.bs' | xargs rm

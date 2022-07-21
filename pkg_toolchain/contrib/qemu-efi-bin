@@ -1,0 +1,13 @@
+ver=202205-1
+
+[build]
+[ -d usr ] || # TODO pkgmk native support
+bsdtar -xf $(basename "$source")
+mkdir -p %dest/usr/share/%name
+cp -r usr/share/${realn}/ia32/OVMF.fd \
+%dest/usr/share/%name/i386.fd
+cp -r usr/share/${realn}/x64/OVMF.fd %dest/usr/share/%name/x86_64.fd
+cp -r qemu-aarch64-efi-${lindate}.fd %dest/usr/share/%name/aarch64.fd
+cp -r qemu-arm-efi-${lindate}.fd %dest/usr/share/%name/arm.fd
+chmod 0644 %dest/usr/share/%name/*.*
+}

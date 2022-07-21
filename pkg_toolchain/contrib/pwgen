@@ -1,0 +1,9 @@
+ver=2.08
+
+[srcs]
+http://download.sourceforge.net/%name/%name-%ver.tar.gz
+
+[build]
+%conf
+%make
+%inst

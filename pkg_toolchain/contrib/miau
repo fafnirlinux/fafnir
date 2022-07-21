@@ -1,0 +1,22 @@
+ver=0.6.6
+
+[srcs]
+http://downloads.sourceforge.net/project/%name/%name/%ver/%name-%ver.tar.bz2
+
+[build]
+%conf \
+	 --enable-dccbounce \
+	 --enable-mkpasswd \
+	 --enable-uptime \
+	 --enable-chanlog \
+	 --enable-privlog \
+	 --enable-onconnect \
+	 --enable-empty-awaymsg \
+	 --disable-ascii-art \
+	 --disable-qlogstamp \
+	 --enable-pingstat \
+	 --enable-dumpstatus
+%make
+%inst
+mv %dest/share/doc/miau %dest/share
+rm -r %dest/share/{doc,info}

@@ -1,0 +1,15 @@
+ver=8.12.51
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://github.com/daviddrysdale/python-phonenumbers/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd python-phonenumbers-%ver/python
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 -O1 \
+	 --skip-build

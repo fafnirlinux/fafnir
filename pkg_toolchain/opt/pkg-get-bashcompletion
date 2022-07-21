@@ -1,0 +1,13 @@
+ver=0.4.5
+
+[deps]
+bash-completion
+pkg-get
+
+[srcs]
+http://www.varlock.com/files/pkg-get-%ver.tar.gz
+
+[build]
+cd pkg-get-%ver/scripts
+install -D -m 755 pkg-get_completion.sh \
+%dest/etc/bash_completion.d/pkg-get

@@ -1,0 +1,21 @@
+ver=0.9.1
+
+[deps]
+dbus-python3
+python3-gobject
+python3-mpd2
+libnotify
+python3-mutagen
+
+[srcs]
+https://github.com/eonpatapon/mpDris2/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cd mpDris2-%ver
+NOCONFIGURE=1 ./autogen.sh
+PYTHON=/bin/python3 %conf \
+	 --sysconfdir=/etc \
+	 --disable-nls
+%make
+%inst
+rm -r %dest/{share/doc,lib}

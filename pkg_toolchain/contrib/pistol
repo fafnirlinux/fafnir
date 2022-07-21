@@ -1,0 +1,20 @@
+ver=0.3.2
+
+[deps]
+go
+
+[srcs]
+https://github.com/doronbehar/pistol/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+export CGO_CPPFLAGS="${CPPFLAGS}"
+export CGO_CFLAGS="${CFLAGS}"
+export CGO_CXXFLAGS="${CXXFLAGS}"
+export CGO_LDFLAGS="${LDFLAGS}"
+export GO111MODULE=on
+export CGO_ENABLED=1
+export GO111MODULE=on
+mkdir "%destMK_SOURCE_DIR/gopath" || true
+export GOPATH="%destMK_SOURCE_DIR/gopath"
+go build -ldflags "-X 'main.Version=%ver-git'" ./cmd/pistol
+install -Dm755 pistol %dest/bin/pistol

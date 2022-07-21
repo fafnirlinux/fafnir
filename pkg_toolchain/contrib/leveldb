@@ -1,0 +1,34 @@
+ver=1.23
+
+[deps]
+snappy
+cmake
+ninja
+
+[srcs]
+https://github.com/google/leveldb/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cmake -S %name-%ver -B build -G Ninja \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_INSTALL_LIBDIR=lib \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D BUILD_SHARED_LIBS=ON \
+	 -DLEVELDB_BUILD_TESTS=OFF \
+	 -DLEVELDB_BUILD_BENCHMARKS=OFF \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build
+cat <<- EOF > leveldb.pc
+prefix=
+exec_prefix=\${prefix}
+includedir=\${prefix}/include
+libdir=\${exec_prefix}/lib
+Name: %name
+Description: A fast and lightweight key/value database library
+Version: %ver
+Libs: -L\${libdir} -lleveldb
+EOF
+install -Dm644 leveldb.pc %dest/lib/pkgconfig/leveldb.pc

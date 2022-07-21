@@ -1,0 +1,18 @@
+ver=3.3
+
+[deps]
+libpcap
+
+[srcs]
+https://ee.lbl.gov/downloads/%name/%name-%ver.tar.gz
+
+[build]
+sed -i 's|ARPDIR = $(prefix)/arpwatch|ARPDIR = /var/lib/arpwatch|' Makefile.in
+sed -i 's/-\(o\|g\) bin/-\1 root/g' Makefile.in
+%conf \
+	 --sbindir=/bin \
+	 --mandir=/share/man
+install -d %dest/{bin,share/man/man8,sbin,etc/rc.d}
+make SENDMAIL=/bin/sendmail
+%inst
+rm -r %dest/etc

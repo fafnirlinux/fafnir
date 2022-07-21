@@ -1,0 +1,13 @@
+ver=3.3
+
+[srcs]
+https://github.com/martinh/%name/releases/download/v%ver/${name#lib}-%ver.tar.xz
+
+[build]
+cd ${name#lib}-%ver
+%conf \
+	 --disable-nls
+%make
+%inst
+rm -r %dest/share/doc
+rmdir %dest/share

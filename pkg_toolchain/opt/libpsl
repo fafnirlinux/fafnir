@@ -1,0 +1,19 @@
+ver=0.21.1
+
+[deps]
+libidn2
+meson
+ninja
+publicsuffix-list
+
+[srcs]
+https://github.com/rockdaboot/%name/releases/download/%ver/%name-%ver.tar.lz
+
+[build]
+meson setup build %name-%ver --prefix=%prefix \
+	 -D runtime=libidn2 \
+	 -D builtin=libidn2 \
+	 -D psl_file=/share/publicsuffix/effective_tld_names.dat \
+	 -D psl_testfile=/share/publicsuffix/test_psl.txt
+ninja -j %threads -C build
+DESTDIR=%dest meson install -C build

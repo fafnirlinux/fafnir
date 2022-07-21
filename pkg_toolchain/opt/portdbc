@@ -1,0 +1,14 @@
+ver=1.2
+
+[deps]
+curl
+libxml2
+
+[srcs]
+https://github.com/sepen/portdbc/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+autoreconf -fvi
+%conf
+%make
+make DESTDIR=%dest MANDIR=/share/man install

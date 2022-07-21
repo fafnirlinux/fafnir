@@ -1,0 +1,11 @@
+ver=0.4.0
+
+[srcs]
+http://downloads.sourceforge.net/project/%name/%name/%name-%ver/%name-%ver.tar.bz2
+
+[build]
+%conf \
+	 --enable-extra-optimization
+%make
+%inst
+rm -r %dest/share

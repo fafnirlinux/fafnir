@@ -1,0 +1,43 @@
+ver=4.16.2
+
+[deps]
+linux-pam
+libarchive
+libcap
+dbus
+popt
+tdb
+tevent
+ldb
+python3
+gnutls
+p5-json
+p5-parse-yapp
+rpcsvc-proto
+
+[srcs]
+https://www.samba.org/samba/ftp/stable/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --enable-fhs \
+	 --libexecdir=/lib \
+	 --localstatedir=/var \
+	 --sysconfdir=/etc \
+	 --with-privatedir=/etc/samba/private \
+	 --with-pammodulesdir=/lib/security \
+	 --bundled-libraries=!tdb,!talloc,!tevent,!popt,!ldb,!cmocka \
+	 --without-{ad-dc,ads,ldap} \
+	 --without-json
+%make
+%inst
+local p
+for p in docs/manpages/*; do
+	 install -D -m 644 $p %dest/share/man/man${p##*.}/${p##*/}
+done
+chmod 1777 %dest/var/lock
+install -d %dest/etc/{samba,rc.d}
+install -m 0600 examples/smb.conf.default %dest/etc/samba
+install -m 0755 %files/samba %dest/etc/rc.d
+install -d %dest/etc/revdep.d
+echo '/usr/lib/samba' > %dest/etc/revdep.d/samba

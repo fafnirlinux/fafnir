@@ -1,0 +1,27 @@
+ver=1.17.1
+
+[deps]
+gpgme
+qt5
+
+[srcs]
+https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-%ver.tar.bz2
+
+[build]
+cd gpgme-%ver
+%conf \
+	 --enable-languages='cpp qt'
+%make
+%inst
+install -d %dest/etc/gpgme
+echo qt > %dest/etc/gpgme/qt
+rm \
+%dest/bin/{gpgme-config,gpgme-tool,gpgme-json} \
+%dest/include/gpgme.h \
+%dest/lib/libgpgme.* \
+%dest/lib/pkgconfig/gpgme.pc \
+%dest/lib/pkgconfig/gpgme-glib.pc \
+%dest/share/aclocal/gpgme.m4
+rm %dest/lib/libgpgmepp.*
+rm -r %dest/include/gpgme++ %dest/lib/cmake/Gpgmepp
+rm -r %dest/share/info

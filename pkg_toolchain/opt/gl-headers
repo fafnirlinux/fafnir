@@ -1,0 +1,16 @@
+ver=2019.1.0
+
+[deps]
+meson
+ninja
+libglvnd
+
+[srcs]
+https://gitlab.freedesktop.org/gstreamer/meson-ports/gl-headers/-/archive/$_commit/gl-headers-$_commit.tar.bz2
+
+[build]
+meson setup %name-$_commit build \
+	 --buildtype=plain \
+	 -D wglext=enabled
+meson compile -C build
+DESTDIR=%dest meson install -C build

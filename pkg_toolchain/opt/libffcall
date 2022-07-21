@@ -1,0 +1,11 @@
+ver=2.4
+
+[srcs]
+https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --with-pic
+%make
+%inst
+rm -r %dest/share/html

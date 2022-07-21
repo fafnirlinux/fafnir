@@ -1,0 +1,17 @@
+ver=0.16.6
+
+[deps]
+neon
+
+[srcs]
+https://www.manyfish.co.uk/sitecopy/sitecopy-0.16.6.tar.gz
+
+[build]
+autoconf
+%conf \
+	 --with-neon= \
+	 --disable-nls \
+	 --disable-debug
+%make
+%inst
+rm -r %dest/{doc,share/man/fr}

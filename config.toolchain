@@ -4,3 +4,4 @@ pkgdir=%pwd/pkg_toolchain
 stuff_dir=%pwd/stuff_toolchain
 
 no-package=yes
+no-deps=yes

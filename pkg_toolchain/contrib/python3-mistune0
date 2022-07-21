@@ -1,0 +1,12 @@
+ver=0.8.4
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://github.com/lepture/mistune/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd mistune-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --optimize=1 --root=%dest

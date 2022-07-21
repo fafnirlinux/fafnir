@@ -1,0 +1,10 @@
+ver=0.1.5
+
+[srcs]
+https://downloads.sourceforge.net/project/%name/%name/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --disable-dependency-tracking
+%make
+%inst

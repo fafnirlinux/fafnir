@@ -1,0 +1,22 @@
+ver=3.24.6
+
+[deps]
+atkmm
+cairomm
+gtk3
+pangomm
+
+[srcs]
+https://download.gnome.org/sources/gtkmm/3.24/gtkmm-%ver.tar.xz
+
+[build]
+meson setup gtkmm-%ver build \
+	 --sysconfdir=/etc \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D build-demos=false \
+	 -D build-tests=false
+meson compile -C build
+DESTDIR=%dest meson install -C build

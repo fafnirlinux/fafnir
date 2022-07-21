@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+/usr/bin/getent group distcc > /dev/null 2>&1 || /usr/sbin/groupadd --system distcc
+/usr/bin/getent passwd distcc > /dev/null 2>&1 || /usr/sbin/useradd --system --gid distcc --home-dir /var/empty --shell /bin/false distcc && passwd --lock distcc

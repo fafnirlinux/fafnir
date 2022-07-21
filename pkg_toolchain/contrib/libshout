@@ -1,0 +1,16 @@
+ver=2.4.6
+
+[deps]
+libtheora
+openssl
+speex
+
+[srcs]
+https://downloads.us.xiph.org/releases/%name/%name-%ver.tar.gz
+
+[build]
+%conf
+%make
+%inst
+rm -r %dest/share/doc
+}

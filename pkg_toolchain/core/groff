@@ -1,0 +1,23 @@
+ver=1.22.4
+
+[srcs]
+http://ftpmirror.gnu.org/gnu/%name/%name-%ver.tar.gz
+
+[build]
+sed -r -e '/^EURO\|/s/N/Y/' \
+'/^[A-Z]+\|N/d' \
+'/\(gs\)/d' \
+	 -i font/devpdf/Foundry.in
+%conf \
+	 --without-x \
+	 --with-doc=no
+make -j1
+%inst
+sed -e 's|^\(papersize\).*|\1 /etc/papersize|' \
+	 -i %dest/share/groff/current/font/*/DESC
+install -d %dest/etc
+echo 'letter' > %dest/etc/papersize
+rm -rf %dest/share/{info,doc}
+ln -s eqn %dest/bin/geqn
+ln -s tbl %dest/bin/gtbl
+ln -s soelim %dest/bin/zsoelim

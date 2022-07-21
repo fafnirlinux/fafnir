@@ -1,0 +1,18 @@
+ver=3.00
+
+[deps]
+curl
+libevent
+
+[srcs]
+https://github.com/transmission/transmission-releases/raw/master/transmission-%ver.tar.xz
+
+[build]
+%conf \
+	 --disable-nls \
+	 --enable-cli \
+	 --enable-daemon \
+	 --without-gtk
+%make
+%inst
+rm %dest/share/transmission/web/LICENSE

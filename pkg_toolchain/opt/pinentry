@@ -1,0 +1,19 @@
+ver=1.2.0
+
+[deps]
+libassuan
+libcap
+util-linux
+
+[srcs]
+https://gnupg.org/ftp/gcrypt/%name/%name-%ver.tar.bz2
+
+[build]
+%conf \
+	 --disable-pinentry-{gtk2,qt,qt5} \
+	 --enable-pinentry-curses
+%make
+%inst
+rm -rf %dest/share
+rm %dest/bin/pinentry
+install -m 755 %files/pinentry %dest/bin/pinentry

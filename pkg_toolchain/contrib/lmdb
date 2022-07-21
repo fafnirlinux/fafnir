@@ -1,0 +1,6 @@
+ver=20210501
+
+[build]
+cd %name-${gitver}/libraries/liblmdb/
+make prefix= DESTDIR=%dest install
+}

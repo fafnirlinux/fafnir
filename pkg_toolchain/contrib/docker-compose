@@ -1,0 +1,15 @@
+ver=2.6.1
+
+[deps]
+go
+
+[srcs]
+https://github.com/docker/compose/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+export CGO_CFLAGS="${CFLAGS}"
+export CGO_CPPFLAGS="${CXXFLAGS}"
+export CGO_CXXFLAGS="${CXXFLAGS}"
+cd compose-%ver
+go build -trimpath -o %name ./cmd
+install -Dm0755 %name %dest/usr/bin/%name

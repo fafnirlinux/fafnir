@@ -1,0 +1,19 @@
+ver=0.88
+
+[deps]
+p5-config-autoconf
+p5-extutils-libbuilder
+p5-module-build
+
+[srcs]
+https://cpan.metacpan.org/authors/id/A/AM/AMBS/Text-BibTeX-%ver.tar.gz
+
+[build]
+cd Text-BibTeX-%ver
+sed -i s,lib64,lib,g Build.PL
+unset PERL5LIB PERL_MM_OPT PERL_MB_OPT PERL_LOCAL_LIB_ROOT
+export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps
+perl Build.PL
+./Build
+./Build install installdirs=vendor destdir=%dest
+find %dest \( -iname '*.packlist' -o -iname '*.pod' -o -iname 'BibTex.bs' \) -delete

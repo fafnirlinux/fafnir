@@ -1,0 +1,18 @@
+ver=1.4.0
+
+[deps]
+pango
+wayland-protocols
+
+[srcs]
+https://github.com/emersion/grim/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+prt-get isinst bash-completion && PKGMK_GRIM+=' -D bash-completions=true'
+meson setup %name-%ver build %destMK_GRIM \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true
+meson compile -C build
+DESTDIR=%dest meson install -C build

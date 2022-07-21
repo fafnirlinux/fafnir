@@ -1,0 +1,12 @@
+ver=2022a
+
+[srcs]
+https://data.iana.org/time-zones/releases/tzdb-%ver.tar.lz
+
+[build]
+cd tzdb-%ver
+make CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS"
+%inst
+rm -r %dest/share/man/man{5,8}
+rm %dest/etc/localtime
+rmdir %dest/etc

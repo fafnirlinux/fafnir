@@ -1,0 +1,25 @@
+ver=4.06
+
+[deps]
+e2fsprogs
+libtirpc
+rpcsvc-proto
+
+[srcs]
+https://downloads.sourceforge.net/sourceforge/linuxquota/%name-%ver.tar.gz
+
+[build]
+CONFIG_SHELL=/bin/bash %conf \
+	 --sysconfdir=/etc \
+	 --disable-nls \
+	 --disable-libwrap \
+	 --disable-netlink \
+	 --disable-ldapmail
+%make
+%inst
+rm -r %dest/{include,share/doc}
+install -d %dest/etc %dest/sbin
+mv %dest/sbin/quotacheck %dest/sbin
+mv %dest/sbin/{quotaon,quotaoff} %dest/sbin
+install -m 644 warnquota.conf %dest/etc
+install -m 644 quotagrpadmins %dest/etc

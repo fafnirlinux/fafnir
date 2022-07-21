@@ -1,0 +1,14 @@
+ver=2.15.2
+
+[deps]
+python3
+
+[srcs]
+https://pypi.python.org/packages/source/p/pyPEG2/pyPEG2-%ver.tar.gz
+
+[build]
+cd pyPEG2-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --root=%dest \
+	 --optimize=1 \
+	 --skip-build

@@ -1,0 +1,15 @@
+ver=8.0.0
+
+[srcs]
+https://sourceforge.net/projects/mingw-w64/files/mingw-w64/mingw-w64-release/mingw-w64-v%ver.tar.bz2
+
+[build]
+for T in {i686,x86_64}-w64-mingw32; do
+	 mkdir build-$T
+	 cd build-$T
+	 ../mingw-w64-v%ver/mingw-w64-headers/configure --prefix=%prefix/$T --host=$T
+%inst
+	 cd ..
+done
+ln -sv x86_64-w64-mingw32 %dest/mingw
+ln -sv lib %dest/x86_64-w64-mingw32/lib64

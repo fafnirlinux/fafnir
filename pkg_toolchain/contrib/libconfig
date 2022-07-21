@@ -1,0 +1,14 @@
+ver=1.7.3
+
+[srcs]
+https://github.com/hyperrealm/libconfig/archive/v%ver/%name-v%ver.tar.gz
+
+[build]
+autoreconf -i
+sed -i 's|all: all-am|all:|1' doc/Makefile.in
+sed -i 's|install: install-am|install:|1' doc/Makefile.in
+%conf \
+	 --disable-static \
+	 --disable-examples
+%make
+%inst

@@ -1,0 +1,15 @@
+ver=2.20.2
+
+[deps]
+gtk
+intltool
+
+[srcs]
+http://ftp.gnome.org/pub/GNOME/sources/%name/2.20/%name-%ver.tar.bz2
+
+[build]
+sed -i 's|<glib/.*\.h>|<glib.h>|' engines/clearlooks/src/animation.c
+%conf --enable-animation
+%make
+%inst
+rm -r %dest/share/{locale,gtk-engines}

@@ -1,0 +1,13 @@
+ver=2.4.7
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://files.pythonhosted.org/packages/source/${name:8:1}/${name#*-}/${name#*-}-%ver.tar.gz
+
+[build]
+cd ${name#*-}-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install \
+find %dest/lib/python*/site-packages -type f -exec chmod go-w {} +

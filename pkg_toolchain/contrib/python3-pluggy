@@ -1,0 +1,16 @@
+ver=1.0.0
+
+[deps]
+python3-importlib_metadata
+python3-setuptools-scm
+
+[srcs]
+https://files.pythonhosted.org/packages/source/p/pluggy/pluggy-%ver.tar.gz
+
+[build]
+cd pluggy-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 --skip-build \
+	 -O1

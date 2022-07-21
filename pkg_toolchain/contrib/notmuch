@@ -1,0 +1,30 @@
+ver=0.36
+
+[deps]
+gmime3
+talloc
+xapian-core
+
+[srcs]
+https://notmuchmail.org/releases/%name-%ver.tar.xz
+
+[build]
+%conf \
+	 --sysconfdir=/etc \
+	 --includedir=/include \
+	 --zshcompletiondir=/share/zsh/site-functions
+make DESTDIR=%dest LIBDIR_IN_LDCONFIG=0 WITH_EMACS=0 install
+pushd bindings/python
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --root=%dest --optimize=1 --skip-build
+popd
+make -C vim DESTDIR=%dest prefix=/share/vim install
+install -Dm755 notmuch-shared %dest/bin/notmuch
+if [ -n "$(pkginfo -i | grep '^ruby ')" ]; then
+make ruby-bindings
+sed -i 's:INSTALL = .*[^D]$:& -D:' bindings/ruby/Makefile
+make -C bindings/ruby exec_prefix=%dest install
+fi
+[[ -n "$(pkginfo -i | grep '^mutt \|^neomutt ')" ]] && make -C contrib/notmuch-mutt ; install -Dm755 contrib/notmuch-mutt/notmuch-mutt %dest/bin/notmuch-mutt || true
+[[ -n "$(pkginfo -i | grep '^zsh ')" ]] && true || rm -fr %dest/share/zsh
+[[ -n "$(pkginfo -i | grep '^bash-completion ')" ]] && make DESTDIR=%dest WITH_BASH=1 install-completion || true

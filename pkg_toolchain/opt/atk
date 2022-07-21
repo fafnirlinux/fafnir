@@ -1,0 +1,19 @@
+ver=2.38.0
+
+[deps]
+gobject-introspection
+meson
+ninja
+
+[srcs]
+http://download.gnome.org/sources/%name/${version:0:4}/%name-%ver.tar.xz
+
+[build]
+meson setup build %name-%ver \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build
+rm -r %dest/share/locale

@@ -1,0 +1,17 @@
+ver=3.18
+
+[deps]
+iptables
+libmnl
+
+[srcs]
+https://inai.de/files/%name/%name-%ver.tar.xz
+
+[build]
+./autogen.sh
+%conf \
+	 --libexecdir=/lib \
+	 --with-xtlibdir=/lib/xtables \
+	 --disable-dependency-tracking
+%make
+%inst

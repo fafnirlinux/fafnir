@@ -1,0 +1,20 @@
+ver=1.50.8
+
+[deps]
+fribidi
+gobject-introspection
+harfbuzz
+xorg-libsm
+xorg-libxft
+
+[srcs]
+http://download.gnome.org/sources/%name/${version:0:4}/%name-%ver.tar.xz
+
+[build]
+meson build %name-%ver \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build

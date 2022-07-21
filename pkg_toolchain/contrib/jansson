@@ -1,0 +1,9 @@
+ver=2.14
+
+[srcs]
+https://github.com/akheron/jansson/releases/download/v%ver/%name-%ver.tar.bz2
+
+[build]
+%conf
+%make
+%inst

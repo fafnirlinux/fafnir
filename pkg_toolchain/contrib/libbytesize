@@ -1,0 +1,16 @@
+ver=2.7
+
+[deps]
+python3
+libpcre2
+
+[srcs]
+https://github.com/storaged-project/%name/archive/%ver/%name-%ver.tar.gz
+
+[build]
+NO_CONFIGURE=1 ./autogen.sh
+sed -i 's/==/=/g' docs/Makefile.in
+%conf
+%make
+%inst
+rm -r %dest/share/{locale,gtk-doc} || true

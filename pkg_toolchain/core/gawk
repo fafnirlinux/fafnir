@@ -1,0 +1,18 @@
+ver=5.1.1
+
+[deps]
+readline
+libmpfr
+
+[srcs]
+http://ftpmirror.gnu.org/gnu/%name/%name-%ver.tar.xz
+
+[build]
+export ac_cv_libsigsegv=no
+%conf \
+	 --libexecdir=/lib \
+	 --disable-nls
+%make
+%inst
+rm -r %dest/{etc,share/info}
+rm %dest/bin/gawk-%ver

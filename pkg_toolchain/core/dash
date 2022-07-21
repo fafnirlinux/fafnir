@@ -1,0 +1,11 @@
+ver=0.5.11.5
+
+[srcs]
+http://gondor.apana.org.au/~herbert/dash/files/%name-%ver.tar.gz
+
+[build]
+%conf --prefix=/ --mandir=/share/man
+%make
+%inst
+ln -s dash %dest/bin/sh
+ln -s dash.1 %dest/share/man/man1/sh.1

@@ -1,0 +1,18 @@
+ver=2.46
+
+[deps]
+expat
+perl
+
+[srcs]
+http://search.cpan.org/CPAN/authors/id/T/TO/TODDR/XML-Parser-%ver.tar.gz
+
+[build]
+cd XML-Parser-%ver
+perl Makefile.PL
+make OPTIMIZE="$CFLAGS"
+%inst
+find %dest -name .packlist -o \
+	 -name perllocal.pod -o \
+	 -name README -o \
+	 -name '*.bs' | xargs rm

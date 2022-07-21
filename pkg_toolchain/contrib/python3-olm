@@ -1,0 +1,14 @@
+ver=3.2.12
+
+[deps]
+libolm
+python3-cffi
+python3-future
+
+[srcs]
+https://gitlab.matrix.org/matrix-org/olm/-/archive/%ver/olm-%ver.tar.bz2
+
+[build]
+cd olm-%ver/python
+make olm-python3
+/usr/bin/python3 setup.py install --root=%dest --optimize=1 --skip-build

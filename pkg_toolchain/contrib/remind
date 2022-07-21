@@ -1,0 +1,9 @@
+ver=04.00.01
+
+[srcs]
+https://dianne.skoll.ca/projects/%name/download/%name-%ver.tar.gz
+
+[build]
+%conf
+%make
+%inst

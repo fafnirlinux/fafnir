@@ -1,0 +1,9 @@
+ver=0.1.11
+
+[srcs]
+https://libestr.adiscon.com/files/download/%name-%ver.tar.gz
+
+[build]
+%conf
+%make
+%inst

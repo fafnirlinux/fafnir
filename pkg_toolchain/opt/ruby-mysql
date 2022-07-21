@@ -1,0 +1,20 @@
+ver=0.5.3
+
+[deps]
+ruby
+mysql
+
+[srcs]
+https://rubygems.org/downloads/mysql2-%ver.gem
+
+[build]
+gem install mysql2 \
+	 --ignore-dependencies \
+	 --no-user-install \
+	 --no-document \
+	 --local \
+	 --build-root %dest
+cd %dest/$(gem env gemdir)
+rm -r cache doc build_info
+cd gems/mysql2-%ver
+rm CHANGELOG.md LICENSE README.md

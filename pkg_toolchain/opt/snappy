@@ -1,0 +1,39 @@
+ver=1.1.9
+
+[deps]
+cmake
+
+[srcs]
+https://github.com/google/snappy/archive/%ver/%name-%ver.tar.gz
+
+[build]
+prt-get isinst ninja && PKGMK_SNAPPY+=' -G Ninja'
+CXXFLAGS+=\ -DNDEBUG
+cmake -S %name-%ver -B build %destMK_SNAPPY \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_INSTALL_LIBDIR=lib \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D BUILD_SHARED_LIBS=ON \
+	 -D SNAPPY_BUILD_TESTS=OFF \
+	 -D SNAPPY_BUILD_BENCHMARKS=OFF \
+	 -D HAVE_LIBZ=NO \
+	 -D HAVE_LIBLZO2=NO \
+	 -D HAVE_LIBLZ4=NO \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build
+cat <<- EOF > snappy.pc
+prefix=
+exec_prefix=\${prefix}
+includedir=\${prefix}/include
+libdir=\${exec_prefix}/lib
+Name: %name
+Description: A fast compression/decompression library
+Version: %ver
+Cflags: -I\${includedir}
+Libs: -L\${libdir} -lsnappy
+EOF
+
+install -Dm644 snappy.pc %dest/lib/pkgconfig/snappy.pc

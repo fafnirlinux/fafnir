@@ -1,0 +1,29 @@
+ver=4.3.2.1
+
+[deps]
+sdl2_image
+sdl2_mixer
+sdl2_net
+
+[srcs]
+https://www.artsoft.org/RELEASES/unix/rocksndiamonds/%name-%ver.tar.gz
+
+[build]
+make \
+RO_GAME_DIR='/usr/share/rocksndiamonds' \
+RW_GAME_DIR='/var/lib/games/rocksndiamonds' \
+EXTRA_CFLAGS="$CFLAGS" \
+EXTRA_LDFLAGS="$LDFLAGS"
+install -d \
+%dest/share/rocksndiamonds/graphics \
+%dest/share/rocksndiamonds/levels \
+%dest/share/rocksndiamonds/music \
+%dest/share/rocksndiamonds/sounds \
+%dest/var/lib/games/rocksndiamonds
+cp -r graphics %dest/share/rocksndiamonds
+cp -r levels %dest/share/rocksndiamonds
+cp -r music %dest/share/rocksndiamonds
+cp -r sounds %dest/share/rocksndiamonds
+install -D -m 0755 rocksndiamonds %dest/bin/rocksndiamonds
+install -D -m 0644 %files/rocksndiamonds.desktop %dest/share/applications/rocksndiamonds.desktop
+rm %dest/share/rocksndiamonds/levels/Tutorials/rnd_tutorial_niko_boehm/README

@@ -1,0 +1,20 @@
+ver=1.2.18
+
+[deps]
+dbus-glib
+
+[srcs]
+https://dbus.freedesktop.org/releases/dbus-python/dbus-python-%ver.tar.gz
+
+[build]
+cd dbus-python-%ver
+autoreconf -vfi
+%conf \
+PYTHON=/bin/python3 \
+PYTHON_EXTRA_LIBS=' '
+%make
+%inst
+/usr/bin/python3 setup.py install --root=%dest \
+	 --optimize=1 \
+	 --skip-build
+find %dest -name '*.la' -type f -delete

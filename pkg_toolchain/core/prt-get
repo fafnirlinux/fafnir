@@ -1,0 +1,11 @@
+ver=5.19.5
+
+[srcs]
+http://crux.nu/files/prt-get-%ver.tar.xz
+
+[build]
+cd %name-%ver
+%conf
+%make
+%inst
+install -m 644 %files/prt-get.{conf,aliases} %dest/etc/

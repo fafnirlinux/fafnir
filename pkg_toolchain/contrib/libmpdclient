@@ -1,0 +1,15 @@
+ver=2.20
+
+[deps]
+meson
+ninja
+
+[srcs]
+https://www.musicpd.org/download/libmpdclient/2/libmpdclient-%ver.tar.xz
+
+[build]
+meson build --prefix=%prefix \
+	 --buildtype=plain \
+	 -D documentation=false
+DESTDIR=%dest ninja -C build -j %threads install
+rm -r %dest/share/doc

@@ -1,0 +1,25 @@
+ver=3.2.4
+
+[deps]
+acl
+openssl
+zlib
+zstd
+
+[srcs]
+https://download.samba.org/pub/rsync/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --with-rsh=ssh \
+	 --with-included-zlib=no \
+	 --with-included-popt=yes \
+	 --disable-xxhash \
+	 --disable-lz4
+%make
+%inst
+install -d %dest/etc/{rc.d,ports/drivers} %dest/var/log
+install -m 755 %files/rsyncd %dest/etc/rc.d
+install -m 644 %files/rsyncd.conf %dest/etc
+install -m 755 %files/rsync.driver %dest/etc/ports/drivers/rsync
+touch %dest/var/log/rsyncd.log

@@ -1,0 +1,26 @@
+ver=20211215
+
+[deps]
+libcap
+openssl
+meson
+ninja
+
+[srcs]
+https://github.com/iputils/iputils/archive/%ver/%name-%ver.tar.gz
+
+[build]
+meson setup build . \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D BUILD_RARPD=true \
+	 -D BUILD_MANS=false
+meson compile -C build -j %threads
+install -d %dest/{{sbin,bin},usr/{bin,sbin,share/man/man8}}
+install build/ping/ping %dest/bin/
+install build/arping %dest/sbin/
+install build/{tracepath,clockdiff,rdisc,rarpd} %dest/sbin/
+install build/ninfod/ninfod %dest/sbin/
+chmod u+s %dest/bin/ping

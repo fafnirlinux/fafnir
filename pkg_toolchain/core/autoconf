@@ -1,0 +1,10 @@
+ver=2.71
+
+[srcs]
+http://ftpmirror.gnu.org/gnu/%name/%name-%ver.tar.xz
+
+[build]
+%conf
+%make
+make prefix=%dest install
+rm -r %dest/share/info

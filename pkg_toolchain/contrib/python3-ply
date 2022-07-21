@@ -1,0 +1,20 @@
+ver=3.11
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://github.com/dabeaz/ply/archive/%ver/ply-%ver.tar.gz
+
+[build]
+cd ply-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 --skip-build \
+	 --optimize=1
+find %dest/lib/python*/site-packages/ \
+	 -maxdepth 1 \
+	 -type f \
+	 -name "${name#*-}-%ver-py*.egg-info" \
+	 -delete

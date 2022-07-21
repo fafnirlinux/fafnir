@@ -1,0 +1,19 @@
+ver=2.2.8
+
+[deps]
+cmake
+glib
+
+[srcs]
+https://github.com/FluidSynth/fluidsynth/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cmake -S%name-%ver -Bbuild -GNinja \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D LIB_SUFFIX= \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build

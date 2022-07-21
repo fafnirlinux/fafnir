@@ -1,0 +1,20 @@
+ver=2.5.2
+
+[deps]
+asciidoc
+python3-attrs
+python3-jinja2
+python3-pygments
+python3-pypeg2
+python3-pyqtwebengine
+python3-yaml
+
+[srcs]
+https://github.com/qutebrowser/qutebrowser/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+make -f misc/Makefile all
+make -f misc/Makefile DESTDIR=%dest PREFIX= install
+find %dest \
+	 -iname "*README*" \
+	 -delete

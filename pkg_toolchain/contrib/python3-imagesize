@@ -1,0 +1,13 @@
+ver=1.4.1
+
+[deps]
+python3-setuptools
+
+[srcs]
+#https://github.com/shibukawa/imagesize_py/archive/%ver/${name#*-}-%ver.tar.gz
+
+[build]
+cd ${name#*-}-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix --root=%dest --optimize=1
+chmod -R go-w,a+r,u+w %dest

@@ -1,0 +1,10 @@
+ver=2.14
+
+[srcs]
+http://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --enable-shared
+%make
+%inst

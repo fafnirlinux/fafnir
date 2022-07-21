@@ -1,0 +1,14 @@
+ver=0.20.6
+
+[deps]
+rust
+
+[srcs]
+https://github.com/tree-sitter/tree-sitter/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cargo fetch --locked
+%make
+cargo build --release --locked --offline --all-features --manifest-path cli/Cargo.toml
+make DESTDIR=%dest PREFIX= install
+install -Dm 755 target/release/%name -t %dest/bin

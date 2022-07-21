@@ -1,0 +1,9 @@
+ver=1.18.1
+
+[srcs]
+https://c-ares.haxx.se/download/%name-%ver.tar.gz
+
+[build]
+%conf
+%make
+%inst

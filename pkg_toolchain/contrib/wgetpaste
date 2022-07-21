@@ -1,0 +1,8 @@
+ver=2.32
+
+[srcs]
+https://github.com/zlin/%name/archive/%ver/%name-%ver.tar.gz
+
+[build]
+install -Dm755 wgetpaste %dest/bin/wgetpaste
+[ ! -e '/usr/bin/zsh' ] || install -Dm644 _wgetpaste %dest/share/zsh/site-functions/_wgetpaste

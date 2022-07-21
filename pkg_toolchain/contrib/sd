@@ -1,0 +1,16 @@
+ver=0.7.6
+
+[deps]
+rust
+
+[srcs]
+https://github.com/chmln/sd/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+prt-get isinst sccache && export RUSTC_WRAPPER=/bin/sccache
+mkdir "%destMK_SOURCE_DIR/rust" || true
+export CARGO_HOME="%destMK_SOURCE_DIR/rust"
+cargo update
+cargo fetch
+cargo build --release --locked
+install -Dt %dest/bin target/release/sd

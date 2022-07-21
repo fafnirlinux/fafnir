@@ -1,0 +1,107 @@
+ver=20220321
+
+[deps]
+clisp
+ghostscript
+graphite2
+harfbuzz
+icu
+libgd
+libmpfr
+paper
+xorg-libxaw
+xorg-libxi
+zziplib
+
+[srcs]
+ftp://tug.org/historic/systems/texlive/${version:0:4}/%name-%ver-texmf.tar.xz
+
+[build]
+find %files -type l -xtype l -exec rm '{}' \+
+sed -i \
+'s|selfautoparent:|/usr/share/|g' \
+'s|\(TEXMFLOCAL[ ]*=[ ]*\)[^,]*|\1"/usr/share/texmf-local"|' \
+'/selfautodir/d' \
+'/texmflocal/d' \
+%dest/share/texmf-dist/web2c/texmfcnf.lua
+chmod -R a-s %files
+find %files \
+\( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+	 -exec chmod 755 {} \; -o \
+\( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+	 -exec chmod 644 {} \;
+sed -i 's/SELFAUTOPARENT/TEXMFROOT/' texk/tex4htk/t4ht.c
+sed -i 's|TEXMFROOT = .*|TEXMFROOT = $SELFAUTODIR/share|g' texk/kpathsea/texmf.cnf
+sed -i 's|TEXMFLOCAL = .*|TEXMFLOCAL = $TEXMFROOT/texmf-local|g' texk/kpathsea/texmf.cnf
+export TEXMFCNF=""
+export KPATHSEA_WARNING=0
+sed -i 's|-lXp ||' texk/xdvik/configure
+mkdir build
+cd build
+.%conf \
+	 --with-banner-add=" $(crux)" \
+	 --with-clisp-runtime=system \
+	 --enable-{dvipdfm-x,gc=system,libtool-hack,luatex,pdftex,pdftex-syncex,shared,makeindexk,tex,texlive,tex-synctex,web2c,xindy} \
+	 --with-system-{cairo,freetype2,gd,graphite2,gmp,harfbuzz,icu,libpaper,libpng,mpfr,ncurses,pixman,potrace,t1lib,zlib,zziplib} \
+	 --with-x \
+	 --with-xdvi-x-toolkit=xaw \
+	 --disable-{all-pkgs,aleph,native-texlive-build,xetex,xindy-docs,xindy-rules}
+%make
+%inst
+cd ..
+perl_sitelib=$(perl -V:sitelib | sed -e "s|sitelib=[']\(.*\)['].*$|\1|")
+install -d %dest/$perl_sitelib/TeXLive
+install texk/tests/TeXLive/TL{Config,Utils}.pm %dest/$perl_sitelib/TeXLive
+sed \
+'s/^aleph/#! aleph/g' \
+'s/^lamed/#! lamed/g' \
+'s/^amstex/#! amstex/g' \
+'s/^cont-en xetex/#! cont-en xetex/g' \
+'s/^pdfcs/#! pdfcs/g' \
+'s/^luacs/#! luacs/g' \
+'s/^pdfcs/#! pdfcs/g' \
+'s/^csplain/#! csplain/g' \
+'s/^eplain/#! eplain/g' \
+'s/^pdfjadetex/#! pdfjadetex/g' \
+'s/^jadetex/#! jadetex/g' \
+'s/^pdfmex/#! pdfmex/g' \
+'s/^utf8mex/#! utf8mex/g' \
+'s/^mex/#! mex/g' \
+'s/^mllatex/#! mllatex/g' \
+'s/^mltex/#! mltex/g' \
+'s/^mptopdf/#! mptopdf/g' \
+'s/^platex/#! platex/g' \
+'s/^eptex/#! eptex/g' \
+'s/^ptex/#! ptex/g' \
+'s/^texsis/#! texsis/g' \
+'s/^euptex/#! euptex/g' \
+'s/^uplatex/#! uplatex/g' \
+'s/^uptex/#! uptex/g' \
+'s/^xelatex/#! xelatex/g' \
+'s/^xetex/#! xetex/g' \
+'s/^cslatex/#! cslatex/g' \
+'s/^lollipop/#! lollipop/g' \
+	 -i %dest/share/texmf-dist/web2c/fmtutil.cnf
+PATH="%dest/bin:$PATH" LD_LIBRARY_PATH+="%dest/lib:$LD_LIBRARY_PATH" \
+texlinks -f %dest/share/texmf-dist/web2c/fmtutil.cnf %dest/bin
+sed \
+'s|TEXMFROOT = .*|TEXMFROOT = $SELFAUTODIR/share|g' \
+'s|TEXMFLOCAL = .*|TEXMFLOCAL = $TEXMFROOT/texmf-local|g' \
+'s|^OSFONTDIR.*|OSFONTDIR = ~/.fonts:/usr/share/fonts|' \
+	 -i %dest/share/texmf-dist/web2c/texmf.cnf
+%conf
+%make
+%inst
+rm -r %dest/share/{info,locale,texmf-dist/doc}
+rm -r %dest/bin/{tlmgr,man}
+rm -r %dest/share/texmf-dist/scripts/texlive/tlmgr{,gui}.pl
+find %dest/share/texmf-dist \
+	 -regex '.*/\(COPYING\|README\|AUTHORS\|INSTALL\|ChangeLog\|NEWS\|TODO\|fonts_README.md\|BUGS\).*' \
+	 -exec rm '{}' \+
+find %dest/share/texi2html \
+	 -regex '.*/\(README\|COPYING\).*' \
+	 -exec rm '{}' \+
+rm -f %dest/lib/*.la
+( cd %dest/share/texmf-dist/tex/latex/tabu
+cat %files/tabu.sty.diff | patch -p1 --verbose || exit 1
+)

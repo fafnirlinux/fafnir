@@ -1,0 +1,29 @@
+ver=1.02.185
+
+[deps]
+util-linux
+
+[srcs]
+https://mirrors.kernel.org/sourceware/lvm2/LVM2.2.03.16.tgz
+
+[build]
+cd LVM2.2.03.16
+sed 's/libaio.h//' -i configure
+CONFIG_SHELL=/bin/bash \
+%conf \
+	 --exec-prefix= \
+	 --datarootdir= \
+	 --with-udev-prefix= \
+	 --mandir=/share/man \
+	 --disable-readline \
+	 --disable-selinux \
+	 --enable-pkgconfig \
+	 --enable-static_link \
+	 --enable-udev_sync \
+	 --enable-udev_rules \
+	 --with-{user,group}=root
+make device-mapper
+make -j1 DESTDIR=%dest install_device-mapper
+install -m0644 -D udev/12-dm-permissions.rules %dest/etc/udev/rules.d/12-dm-permissions.rules.example
+ln -sf dmsetup %dest/sbin/dmstats
+sed -i '/^libdir=/s|${exec_prefix}|/usr|' %dest/lib/pkgconfig/devmapper.pc

@@ -1,0 +1,22 @@
+ver=0.40.0
+
+[deps]
+glib
+dbus
+meson
+
+[srcs]
+https://gitlab.gnome.org/GNOME/dconf/-/archive/%ver/dconf-%ver.tar.bz2
+
+[build]
+prt-get isinst bash-completion || PKGMK_DCONF+=' -D bash_completion=false'
+prt-get isinst vala || PKGMK_DCONF+=' -D vapi=false'
+prt-get isinst docbook-xsl || PKGMK_DCONF+=' -D man=false'
+meson setup %name-%ver build %destMK_DCONF \
+	 --libexecdir=lib/%name \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true
+meson compile -C build
+DESTDIR=%dest meson install -C build

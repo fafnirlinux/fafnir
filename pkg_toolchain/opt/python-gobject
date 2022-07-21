@@ -1,0 +1,16 @@
+ver=3.34.0
+
+[deps]
+gobject-introspection
+python-cairo
+
+[srcs]
+https://ftp.gnome.org/pub/GNOME/sources/pygobject/${version::4}/pygobject-%ver.tar.xz
+
+[build]
+meson pygobject-%ver build --prefix /usr -D python=/bin/python
+ninja -C build -j %threads
+DESTDIR=%dest meson install -C build
+/usr/bin/python -m compileall -d /usr/lib %dest/lib
+/usr/bin/python -O -m compileall -d /usr/lib %dest/lib
+rm -r %dest/{include,lib/pkgconfig}

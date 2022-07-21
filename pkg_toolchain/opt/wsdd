@@ -1,0 +1,13 @@
+ver=0.7.0
+
+[srcs]
+https://github.com/christgau/wsdd/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+install -D -m 0755 src/wsdd.py %dest/sbin/wsdd
+install -D -m 0644 man/wsdd.1 %dest/share/man/man1/wsdd.1
+install -D -m 0755 %files/wsdd.rc %dest/etc/rc.d/wsdd
+install -d %dest/run/wsdd
+install -d %dest/var/lib
+install -d -m 0755 -o nobody -g nobody %dest/var/lib/wsdd
+install -d %dest/var/log

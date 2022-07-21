@@ -1,0 +1,15 @@
+ver=5.0.1
+
+[deps]
+python3-zope-deferredimport
+python3-zope-deprecation
+python3-zope-event
+python3-zope-hookable
+
+[srcs]
+https://github.com/zopefoundation/zope.component/archive/%ver/%name-%ver.tar.gz
+
+[build]
+cd zope.component-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --root=%dest --optimize=1

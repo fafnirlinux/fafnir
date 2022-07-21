@@ -1,0 +1,21 @@
+ver=2.2.2
+
+[deps]
+cmake
+ninja
+
+[srcs]
+https://github.com/schuhschuh/gflags/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cmake -S %name-%ver -B build -G Ninja \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D REGISTER_INSTALL_PREFIX=OFF \
+	 -D BUILD_SHARED_LIBS=ON \
+	 -D BUILD_STATIC_LIBS=ON \
+	 -D BUILD_TESTING=ON \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build

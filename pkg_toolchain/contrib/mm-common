@@ -1,0 +1,18 @@
+ver=1.0.4
+
+[deps]
+meson
+ninja
+
+[srcs]
+https://download.gnome.org/sources/%name/1.0/%name-%ver.tar.xz
+
+[build]
+meson setup %name-%ver build \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 -D b_lto=true \
+	 -D b_pie=true
+meson compile -C build -j %threads
+DESTDIR=%dest meson install -C build
+rm -r %dest/share/doc

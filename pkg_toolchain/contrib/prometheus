@@ -1,0 +1,35 @@
+ver=2.37.0
+
+[deps]
+go
+typescript
+yamllint
+yarn
+
+[srcs]
+https://github.com/prometheus/prometheus/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+export NPM_CONFIG_PREFIX="%files/npm"
+export PATH+=":$NPM_CONFIG_PREFIX/bin"
+export CGO_LDFLAGS="${LDFLAGS}"
+export CGO_CPPFLAGS="${CPPFLAGS}"
+export CGO_CFLAGS="${CFLAGS}"
+export CGO_CXXFLAGS="${CXXFLAGS}"
+export GOFLAGS="-buildmode=pie -trimpath -modcacherw"
+mkdir "%destMK_SOURCE_DIR/gopath" || true
+export GOPATH="%destMK_SOURCE_DIR/gopath"
+LDFLAGS="-X github.com/prometheus/common/version.Version=%ver \
+	 -X github.com/prometheus/common/version.Revision=CRUX \
+	 -X github.com/prometheus/common/version.Branch=master \
+	 -X github.com/prometheus/common/version.BuildUser=$USER@$HOSTNAME \
+	 -X github.com/prometheus/common/version.BuildDate=$(date -u +%Y%m%d-%H:%M:%S)"
+make build -j1
+install -Dm755 -t %dest/bin prometheus promtool
+install -Dm640 -g prometheus -t %dest/etc/prometheus documentation/examples/prometheus.yml
+install -dm750 -o prometheus -g prometheus %dest/var/lib/prometheus
+install -dm755 %dest/share/prometheus/web/ui
+cp -R web/ui/static %dest/share/prometheus/web/ui/
+install -Dm644 %files/prometheus.conf %dest/etc/conf.d/prometheus
+install -Dm 755 %files/prometheus.service %dest/etc/rc.d/prometheus
+}

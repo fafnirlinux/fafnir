@@ -1,0 +1,41 @@
+ver=11.6.2
+
+[deps]
+nvidia
+lsb-release
+
+[srcs]
+https://developer.download.nvidia.com/compute/cuda/%ver/local_installers/cuda_%ver_${_driverver}_linux.run
+
+[build]
+sh cuda_%ver_${_driverver}_linux.run --target %files --noexec
+cd builds
+rm -r NVIDIA*.run bin
+mkdir -p "%dest/opt/cuda/extras"
+mv cuda_samples "%dest/opt/cuda/samples"
+mv integration nsight_compute nsight_systems EULA.txt "%dest/opt/cuda"
+mv cuda_sanitizer_api/compute-sanitizer "%dest/opt/cuda/extras/compute-sanitizer"
+rmdir cuda_sanitizer_api
+for lib in *; do
+	 if [[ "$lib" =~ .*"version.json".* ]]; then
+	 continue
+	 fi
+	 cp -r $lib/* "%dest/opt/cuda/"
+done
+rm -r %dest/opt/cuda/{bin/cuda-uninstaller,samples/bin/cuda-uninstaller}
+rm -r %dest/opt/cuda/nsight_compute/target/linux-desktop-glibc_2_19_0-ppc64le
+rm -r %dest/opt/cuda/nsight_compute/target/linux-desktop-t210-a64
+ln -s /usr/bin/gcc "%dest/opt/cuda/bin/gcc"
+ln -s /usr/bin/g++ "%dest/opt/cuda/bin/g++"
+install -Dm755 "%files/cuda.sh" "%dest/etc/profile.d/cuda.sh"
+install -Dm644 "%files/cuda.conf" "%dest/etc/ld.so.conf.d/cuda.conf"
+mkdir -p %dest/usr/lib/pkgconfig
+cp %files/*.pc %dest/usr/lib/pkgconfig
+sed -i "/.*unsupported GNU version.*/d" %dest/opt/cuda/targets/x86_64-linux/include/crt/host_config.h
+sed -i "/.*unsupported clang version.*/d" %dest/opt/cuda/targets/x86_64-linux/include/crt/host_config.h
+for f in $(find %dest/opt/cuda -name Makefile); do
+	 sed -i "s|/usr/local/cuda|/opt/cuda|g" "$f"
+done
+install -d %dest/etc/revdep.d
+install -m644 %files/%name.revdep %dest/etc/revdep.d/%name
+find %dest -iname 'README' -iname 'README.txt' -exec rm '{}' \+

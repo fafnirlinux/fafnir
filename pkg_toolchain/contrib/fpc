@@ -1,0 +1,26 @@
+ver=3.2.2
+
+[srcs]
+https://sourceforge.net/projects/freepascal/files/Source/%ver/fpcbuild-%ver.tar.gz
+
+[build]
+JOBS='-j1'
+tar -xf fpc-%ver.x86_64-linux/binary.x86_64-linux.tar
+tar -xzf base.x86_64-linux.tar.gz
+tar -xzf utils-fpcm.x86_64-linux.tar.gz
+[ ! -e /usr/bin/fpc ] && PATH="%files/bin:$PATH"
+make $JOBS PP=%files/lib/fpc/%ver/ppcx64 build
+cp %files/fpcbuild-%ver/fpcsrc/compiler/ppcx64 \
+%files/fpcbuild-%ver/fpcsrc/compiler/ppcx64.new
+make $JOBS PP=%files/fpcbuild-%ver/fpcsrc/compiler/ppcx64.new build
+rm %files/fpcbuild-%ver/fpcsrc/compiler/ppcx64.new
+make $JOBS PP=%files/fpcbuild-%ver/fpcsrc/compiler/ppcx64 rtl_clean
+make $JOBS PP=%files/fpcbuild-%ver/fpcsrc/compiler/ppcx64 rtl packages_all utils
+set -- PP=%files/fpcbuild-%ver/fpcsrc/compiler/ppcx64 \
+INSTALL_PREFIX=%dest \
+INSTALL_DOCDIR=%dest/share/doc/fpcbuild \
+INSTALL_MANDIR=%dest/share/man \
+INSTALL_SOURCEDIR=%dest/lib/fpc/fpcbuild-%ver/source
+make $JOBS "$@" compiler_install rtl_install packages_install utils_install
+ln -sf /usr/lib/fpc/%ver/ppcx64 %dest/bin/ppcx64
+rm -r %dest/share/doc

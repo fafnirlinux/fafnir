@@ -1,0 +1,16 @@
+ver=0.1.7
+
+[deps]
+python3-attrs
+python3-requests
+
+[srcs]
+https://pypi.io/packages/source/d/dephell-licenses/dephell-licenses-%ver.tar.gz
+
+[build]
+cd dephell-licenses-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 --skip-build \
+	 -O1

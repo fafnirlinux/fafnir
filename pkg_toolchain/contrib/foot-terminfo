@@ -1,0 +1,11 @@
+ver=1.12.1
+
+[srcs]
+https://codeberg.org/dnkl/foot/archive/%ver.tar.gz
+
+[build]
+cd foot
+sed 's/@default_terminfo@/foot/g' foot.info | \
+tic -x -o build -e foot,foot-direct -
+install -dm 755 %dest/share/terminfo/f/
+cp build/f/* %dest/share/terminfo/f/

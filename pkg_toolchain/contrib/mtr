@@ -1,0 +1,15 @@
+ver=0.95
+
+[deps]
+ncurses
+
+[srcs]
+https://github.com/traviscross/mtr/archive/v%ver/%name-v%ver.tar.gz
+
+[build]
+./bootstrap.sh
+%conf \
+	 --sbindir=/bin \
+	 --without-gtk
+%make
+%inst

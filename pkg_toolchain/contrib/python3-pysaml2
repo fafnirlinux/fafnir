@@ -1,0 +1,24 @@
+ver=7.1.2
+
+[deps]
+python3-dateutil
+python3-defusedxml
+python3-future
+python3-importlib_resources
+python3-pycryptodomex
+python3-pytz
+python3-requests
+python3-xmlschema
+python3-zope-interface
+xmlsec
+
+[srcs]
+https://pypi.org/packages/source/p/pysaml2/pysaml2-%ver.tar.gz
+
+[build]
+cd pysaml2-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 -O1 \
+	 --skip-build

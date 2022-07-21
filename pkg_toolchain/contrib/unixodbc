@@ -1,0 +1,14 @@
+ver=2.3.11
+
+[deps]
+libtool
+readline
+
+[srcs]
+ftp://ftp.unixodbc.org/pub/unixODBC/unixODBC-%ver.tar.gz
+
+[build]
+cd unixODBC-%ver
+%conf \
+%make
+%inst

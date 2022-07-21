@@ -1,0 +1,15 @@
+ver=2.5.3
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://github.com/sissaschool/elementpath/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+cd elementpath-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix \
+	 --root=%dest \
+	 -O1 \
+	 --skip-build

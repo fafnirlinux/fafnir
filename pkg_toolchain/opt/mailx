@@ -1,0 +1,22 @@
+ver=14.9.24
+
+[deps]
+openssl
+ncurses
+
+[srcs]
+https://www.sdaoden.eu/downloads/s-nail-%ver.tar.xz
+
+[build]
+cd s-nail-%ver
+make config \
+VAL_SID= \
+VAL_MAILX=mailx \
+VAL_PREFIX= \
+VAL_LIBEXECDIR=/lib/mailx \
+OPT_AUTOCC=no
+%inst
+chmod -R u+w %dest
+ln -s mailx %dest/bin/Mail
+ln -s mailx %dest/bin/mail
+ln -s mailx.1 %dest/share/man/man1/mail.1

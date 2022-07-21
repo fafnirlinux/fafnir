@@ -1,0 +1,21 @@
+ver=2.4.2
+
+[deps]
+meson
+ninja
+nss
+
+[srcs]
+https://github.com/cisco/libsrtp/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+meson setup %name-%ver build %destMK_SRTP \
+	 --buildtype=plain \
+	 --wrap-mode nodownload \
+	 --auto-features disabled \
+	 -D b_pie=true \
+	 -D crypto-library=nss \
+	 -D crypto-library-kdf=disabled \
+	 -D doc=disabled
+meson compile -C build
+DESTDIR=%dest meson install -C build

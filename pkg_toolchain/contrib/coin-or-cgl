@@ -1,0 +1,23 @@
+ver=0.60.6
+
+[deps]
+coin-or-clp
+
+[srcs]
+https://github.com/coin-or/Cgl/archive/releases/%ver/%name-%ver.tar.gz
+
+[build]
+cd Cgl-releases-%ver/Cgl
+COIN_SKIP_PROJECTS="Sample" \
+%conf \
+	 --with-osi-lib="$(pkg-config --libs osi)" \
+	 --with-osi-incdir="/usr/include/coin/" \
+	 --with-clp-lib="$(pkg-config --libs clp)" \
+	 --with-clp-incdir="/usr/include/coin/" \
+	 --with-coinutils-lib="$(pkg-config --libs coinutils)" \
+	 --with-coinutils-incdir="/usr/include/coin/" \
+	 --enable-dependency-linking
+%make
+PKG_CONFIG_LIBDIR=%dest/usr/lib/pkgconfig/ \
+make DESTDIR=%dest install
+rm -fr %dest/share/coin/doc

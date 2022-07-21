@@ -1,0 +1,18 @@
+ver=0.18.0
+
+[deps]
+python3-atomicwrites
+python3-click-log
+python3-click-threading
+python3-requests-toolbelt
+python3-setuptools-scm
+
+[srcs]
+https://pypi.io/packages/source/v/%name/%name-%ver.tar.gz
+
+[build]
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install \
+	 --skip-build \
+	 --optimize=1 \
+	 --root=%dest

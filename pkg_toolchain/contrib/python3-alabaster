@@ -1,0 +1,13 @@
+ver=0.7.12
+
+[deps]
+python3-setuptools
+
+[srcs]
+https://github.com/bitprophet/${name#*-}/archive/%ver/${name#*-}-%ver.tar.gz
+
+[build]
+cd ${name#*-}-%ver
+/usr/bin/python3 setup.py build
+/usr/bin/python3 setup.py install --prefix=%prefix --root=%dest --optimize=1
+find %dest -perm -g+w | xargs chmod g-w

@@ -1,0 +1,27 @@
+ver=0.8.0
+
+[deps]
+gtk3
+json-glib
+keyutils
+libsoup
+libyaml
+
+[srcs]
+https://people.freedesktop.org/~hughsient/appstream-glib/releases/%name-%ver.tar.xz
+
+[build]
+prt-get isinst snowball && PKGMK_APPSTREAM_GLIB+=' -D stemmer=true' || PKGMK_APPSTREAM_GLIB+=' -D stemmer=false'
+prt-get isinst docbook-xsl && PKGMK_APPSTREAM_GLIB+=' -D man=true' || PKGMK_APPSTREAM_GLIB+=' -D man=false'
+meson setup %name-%ver build %destMK_APPSTREAM_GLIB \
+	 -D prefix= \
+	 -D buildtype=plain \
+	 --wrap-mode nodownload \
+	 --auto-features disabled \
+	 -D b_lto=true \
+	 -D b_pie=true \
+	 -D rpm=false \
+	 -D gtk-doc=false
+meson compile -C build
+DESTDIR=%dest meson install -C build
+rm -fr %dest/share/locale

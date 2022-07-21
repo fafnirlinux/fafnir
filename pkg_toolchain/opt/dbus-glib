@@ -1,0 +1,16 @@
+ver=0.112
+
+[deps]
+dbus
+glib
+
+[srcs]
+https://dbus.freedesktop.org/releases/%name/%name-%ver.tar.gz
+
+[build]
+%conf \
+	 --disable-static \
+	 --enable-bash-completion=no
+%make
+%inst
+rm -r %dest/share/gtk-doc

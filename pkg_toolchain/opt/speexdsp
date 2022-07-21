@@ -1,0 +1,11 @@
+ver=1.2.1
+
+[srcs]
+https://gitlab.xiph.org/xiph/speexdsp/-/archive/SpeexDSP-%ver/speexdsp-SpeexDSP-%ver.tar.bz2
+
+[build]
+NO_CONFIGURE=1 ./autogen.sh
+%conf \
+sed -i -e '/^SUBDIRS *=/s|doc||' Makefile
+%make
+%inst

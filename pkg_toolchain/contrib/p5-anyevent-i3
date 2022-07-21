@@ -1,0 +1,15 @@
+ver=0.17
+
+[deps]
+p5-anyevent
+p5-json-xs
+
+[srcs]
+https://cpan.metacpan.org/authors/id/M/MS/MSTPLBG/AnyEvent-I3-%ver.tar.gz
+
+[build]
+cd AnyEvent-I3-%ver
+PERL_USE_UNSAFE_INC=1 perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

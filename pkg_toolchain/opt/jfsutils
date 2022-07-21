@@ -1,0 +1,16 @@
+ver=1.1.15
+
+[deps]
+util-linux
+
+[srcs]
+http://jfs.sourceforge.net/project/pub/%name-%ver.tar.gz
+
+[build]
+%conf --prefix=/ --mandir=/share/man
+make CFLAGS="$CFLAGS -fcommon"
+%inst
+ln -sf jfs_mkfs %dest/sbin/mkfs.jfs
+ln -sf jfs_fsck %dest/sbin/fsck.jfs
+ln -sf jfs_mkfs.8 %dest/share/man/man8/mkfs.jfs.8
+ln -sf jfs_fsck.8 %dest/share/man/man8/fsck.jfs.8

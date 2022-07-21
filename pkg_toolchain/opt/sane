@@ -1,0 +1,24 @@
+ver=1.1.1
+
+[deps]
+libusb
+libtiff
+libpng
+xz
+
+[srcs]
+https://gitlab.com/sane-project/backends/uploads/7d30fab4e115029d91027b6a58d64b43/%name-backends-%ver.tar.gz
+
+[build]
+%conf \
+	 --localstatedir=/var \
+	 --sysconfdir=/etc \
+	 --disable-translations \
+	 --disable-locking \
+	 --disable-latex \
+	 --with-group=scanner \
+	 --with-usb
+%make
+make -j1 DESTDIR=%dest install
+install -D -m 644 tools/udev/libsane.rules %dest/etc/udev/rules.d/85-libsane.rules
+rm -r %dest/share/{doc,locale,sane}

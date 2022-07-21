@@ -1,0 +1,9 @@
+ver=2.0.15
+
+[srcs]
+https://github.com/rbsec/sslscan/archive/%ver/%name-%ver.tar.gz
+
+[build]
+%make
+install -m 755 -d %dest/bin %dest/share/man/man1
+make install DESTDIR=%dest MANDIR=/share/man

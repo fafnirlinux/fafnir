@@ -1,0 +1,26 @@
+From 7b51f1adbdfd71180b8da9b1462552db32350b1d Mon Sep 17 00:00:00 2001
+From: Jonas Witschel <diabonas@archlinux.org>
+Date: Wed, 22 Jul 2020 20:37:56 +0200
+Subject: [PATCH] setup.py: make ordering of requires.txt reproducible
+
+Dependencies are stored in unordered sets, leading to a varying requires.txt
+between different builds. Order the entries to make sure that the file is
+reproducible bit for bit.
+---
+ setup.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/setup.py b/setup.py
+index 2f2a5e3..dd00a0c 100644
+--- a/setup.py
++++ b/setup.py
+@@ -176,6 +176,9 @@ def status_msgs(*msgs):
+ 
+ extras_require['all'] = set(chain.from_iterable(extras_require.values()))
+ 
++# sort items to make requires.txt reproducible
++extras_require = { key: sorted(value) for key, value in extras_require.items() }
++
+ 
+ def run_setup(with_cext):
+     kwargs = {}

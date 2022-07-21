@@ -1,0 +1,14 @@
+ver=1.45
+
+[deps]
+p5-algorithm-diff
+
+[srcs]
+https://cpan.metacpan.org/authors/id/N/NE/NEILB/Text-Diff-%ver.tar.gz
+
+[build]
+cd Text-Diff-%ver
+PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+%make
+%inst
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

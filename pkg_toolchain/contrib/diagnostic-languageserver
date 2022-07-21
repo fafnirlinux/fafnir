@@ -1,0 +1,19 @@
+ver=1.14.2
+
+[deps]
+npm
+yarn
+
+[srcs]
+https://registry.npmjs.org/%name/-/%name-%ver.tgz
+
+[build]
+npm install -g \
+	 --user root \
+%destMK_SOURCE_DIR/%name-%ver.tgz
+find %dest -type d -exec chmod 755 {} +
+find %dest \(\
+	 -iname "*README.md*" -o \
+	 -iname "*README.markdown*" -o \
+	 -iname "*CHANGELOG.md*" -o \
+	 -iname "*LICENSE*" \) -delete

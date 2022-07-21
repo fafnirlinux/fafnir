@@ -1,0 +1,13 @@
+ver=4.2.0
+
+[deps]
+rust
+
+[srcs]
+https://github.com/latex-lsp/texlab/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+prt-get isinst sccache && export RUSTC_WRAPPER=/bin/sccache
+[[ ! -e %destMK_SOURCE_DIR/rust ]] && mkdir %destMK_SOURCE_DIR/rust
+cargo build --release --manifest-path %name-%ver/Cargo.toml
+install -Dt %dest/bin %name-%ver/target/release/%name

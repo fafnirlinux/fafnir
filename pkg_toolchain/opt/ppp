@@ -1,0 +1,14 @@
+ver=2.4.9
+
+[deps]
+openssl
+libpcap
+
+[srcs]
+https://ftp.samba.org/pub/ppp/%name-%ver.tar.gz
+
+[build]
+%conf --sysconfdir=/etc --cflags="$CFLAGS"
+%make
+make DESTDIR=%dest INSTROOT=%dest install install-etcppp
+chmod +w -R %dest

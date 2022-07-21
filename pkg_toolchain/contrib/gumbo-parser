@@ -1,0 +1,10 @@
+ver=0.10.1
+
+[srcs]
+https://github.com/google/gumbo-parser/archive/v%ver/%name-%ver.tar.gz
+
+[build]
+./autogen.sh
+%conf
+%make
+%inst

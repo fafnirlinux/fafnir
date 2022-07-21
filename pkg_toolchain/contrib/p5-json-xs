@@ -1,0 +1,17 @@
+ver=4.03
+
+[deps]
+p5-common-sense
+p5-types-serialiser
+p5-canary-stability
+
+[srcs]
+https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/JSON-XS-%ver.tar.gz
+
+[build]
+cd JSON-XS-%ver
+PERL_CANARY_STABILITY_NOPROMPT=1 \
+perl Makefile.PL INSTALLDIRS=vendor
+%make
+make DESTDIR=%dest install
+find %dest \( -name '.packlist' -o -name '*.pod' \) -delete

@@ -1,0 +1,9 @@
+ver=40.0
+
+[srcs]
+https://unicode.org/Public/cldr/40/cldr-common-%ver.zip
+
+[build]
+cd common
+install -dm755 %dest/share/unicode/cldr/common
+cp -r bare CMLFS contrib convert_all.sh convert.sh core cports jhalfs KSLinux opt out pkg2 qwf_files qwf.html stuff2 xfce xorg %dest/share/unicode/cldr/common/

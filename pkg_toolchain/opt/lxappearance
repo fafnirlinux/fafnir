@@ -1,0 +1,16 @@
+ver=0.6.3
+
+[deps]
+gtk
+intltool
+
+[srcs]
+http://downloads.sourceforge.net/sourceforge/lxde/%name-%ver.tar.xz
+
+[build]
+export LINGUAS=" "
+%conf \
+	 --sysconfdir=/etc \
+	 --disable-nls
+%make
+%inst

@@ -1,0 +1,18 @@
+ver=20.15.1
+
+[deps]
+python3-appdirs
+python3-backports_entry-points-selectable
+python3-distlib
+python3-filelock
+python3-pip
+python3-platformdirs
+python3-six
+
+[srcs]
+https://pypi.org/packages/source/v/virtualenv/virtualenv-%ver.tar.gz
+
+[build]
+cd virtualenv-%ver
+/usr/bin/python3 setup.py build egg_info
+/usr/bin/python3 setup.py install --prefix=%prefix --root=%dest --skip-build
