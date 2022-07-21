@@ -1,2 +1,0 @@
-You need to rebuild qt5 with an optional dependency:
- - xorg-xcb-util-renderutil

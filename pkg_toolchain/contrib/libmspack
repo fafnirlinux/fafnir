@@ -1,9 +1,0 @@
-ver=0.10.1alpha
-
-[srcs]
-http://www.cabextract.org.uk/libmspack/libmspack-%ver.tar.gz
-
-[build]
-%conf
-%make
-%inst

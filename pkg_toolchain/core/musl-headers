@@ -1,7 +1,0 @@
-ver=%musl:ver%
-
-[srcs]
-http://www.musl-libc.org/releases/musl-%ver.tar.gz
-
-[build]
-make ARCH=%arch prefix=%prefix DESTDIR=%dest install-headers

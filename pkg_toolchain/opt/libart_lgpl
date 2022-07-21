@@ -1,9 +1,0 @@
-ver=2.3.21
-
-[srcs]
-https://ftp.gnome.org/pub/gnome/sources/%name/2.3/%name-%ver.tar.bz2
-
-[build]
-%conf
-%make
-%inst

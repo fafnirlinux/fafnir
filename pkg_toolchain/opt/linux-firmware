@@ -1,8 +1,0 @@
-ver=20220610
-
-[srcs]
-https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/%name-%ver.tar.gz
-
-[build]
-make DESTDIR=%dest FIRMWAREDIR=/lib/firmware install
-find %dest \( -name 'ChangeLog' -or -name 'README' \) -delete

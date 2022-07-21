@@ -1,9 +1,0 @@
-ver=42.0
-
-[srcs]
-https://ftp.gnome.org/pub/gnome/sources/adwaita-icon-theme/42/adwaita-icon-theme-%ver.tar.xz
-
-[build]
-%conf
-%make
-%inst

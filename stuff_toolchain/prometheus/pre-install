@@ -1,9 +1,0 @@
-#!/bin/sh -e
-
-_USER=prometheus
-_HOME=/var/lib/prometheus
-_GROUP=prometheus
-
-/usr/bin/getent group $_GROUP > /dev/null 2>&1 || /usr/sbin/groupadd $_GROUP
-/usr/bin/getent passwd $_USER > /dev/null 2>&1 || /usr/sbin/useradd -c 'prometheus system user' -g $_GROUP -d $_HOME -s /bin/false $_USER
-passwd -l $_USER > /dev/null

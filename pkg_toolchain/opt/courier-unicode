@@ -1,9 +1,0 @@
-ver=2.2.4
-
-[srcs]
-http://download.sourceforge.net/project/courier/%name/%ver/%name-%ver.tar.bz2
-
-[build]
-%conf
-%make
-%inst

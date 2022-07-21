@@ -1,9 +1,0 @@
-ver=2.7.0
-
-[srcs]
-https://duktape.org/%name-%ver.tar.xz
-
-[build]
-export CFLAGS="$CFLAGS -DDUK_USE_FASTINT"
-make -f Makefile.sharedlibrary
-make -f Makefile.sharedlibrary INSTALL_PREFIX= DESTDIR=%dest install

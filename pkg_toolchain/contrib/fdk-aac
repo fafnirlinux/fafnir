@@ -1,9 +1,0 @@
-ver=2.0.2
-
-[srcs]
-https://downloads.sourceforge.net/project/opencore-amr/%name/%name-%ver.tar.gz
-
-[build]
-%conf
-%make
-%inst

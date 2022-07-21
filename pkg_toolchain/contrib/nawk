@@ -1,8 +1,0 @@
-ver=20220530
-
-[build]
-cd ${realn}-${gitver}
-%make
-install -D a.out %dest/usr/bin/%name
-install -D -m 0644 awk.1 %dest/usr/share/man/man1/%name.1
-}

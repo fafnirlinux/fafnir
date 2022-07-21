@@ -1,9 +1,0 @@
-ver=0.8.9.0
-
-[srcs]
-http://downloads.sourceforge.net/project/modplug-xmms/%name/%ver/%name-%ver.tar.gz
-
-[build]
-%conf
-%make
-%inst

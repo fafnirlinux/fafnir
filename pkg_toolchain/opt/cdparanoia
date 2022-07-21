@@ -1,9 +1,0 @@
-ver=10.2
-
-[srcs]
-https://downloads.xiph.org/releases/%name/%name-III-%ver.src.tgz
-
-[build]
-%conf
-make -j1
-make prefix=%dest MANDIR=%dest/share/man install

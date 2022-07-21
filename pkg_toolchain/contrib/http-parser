@@ -1,9 +1,0 @@
-ver=2.9.4
-
-[srcs]
-https://github.com/nodejs/http-parser/archive/v%ver/%name-v%ver.tar.gz
-
-[build]
-sed -e 's|-Werror||' -i Makefile
-make library
-make PREFIX=%dest install

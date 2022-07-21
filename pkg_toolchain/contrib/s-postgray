@@ -1,9 +1,0 @@
-ver=0.7.0
-
-[srcs]
-https://ftp.sdaoden.eu/%name-%ver.tar.gz
-
-[build]
-cd %name-%ver
-make install DESTDIR=%dest PREFIX=
-}

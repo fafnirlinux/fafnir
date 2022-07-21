@@ -1,9 +1,0 @@
-ver=3.4.6
-
-[srcs]
-https://dev-www.libreoffice.org/src/%name/%name-%ver.tar.xz
-
-[build]
-%conf
-%make
-%inst

@@ -1,9 +1,0 @@
-ver=3.4
-
-[srcs]
-https://download.savannah.gnu.org/releases/%name/%name-%ver.tar.xz
-
-[build]
-make prefix= CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}"
-make prefix= DESTDIR=%dest install
-rm -r %dest/share/doc

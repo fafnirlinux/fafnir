@@ -1,9 +1,0 @@
-#!/bin/sh -e
-
-_USER=postgres
-_HOME=/var/pgsql/data
-_GROUP=postgres
-
-/usr/bin/getent group $_GROUP > /dev/null 2>&1 || /usr/sbin/groupadd $_GROUP
-/usr/bin/getent passwd $_USER > /dev/null 2>&1 || /usr/sbin/useradd -c 'postgres system user' -g $_GROUP -d $_HOME -s /bin/false $_USER
-passwd -l $_USER > /dev/null

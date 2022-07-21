@@ -1,8 +1,0 @@
-ver=1.4
-
-[srcs]
-https://github.com/tianon/%name/archive/%ver/%name-%ver.tar.gz
-
-[build]
-install -D -m 755 cgroupfs-mount %dest/bin/cgroupfs-mount
-install -D -m 755 cgroupfs-umount %dest/bin/cgroupfs-umount

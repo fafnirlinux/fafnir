@@ -1,9 +1,0 @@
-POST-INSTALL:
-
-Once adwaita-icon-theme is installed you need to update gdk-pixbuf and gtk
-cache with these commands:
-
-gdk-pixbuf-query-loaders --update-cache
-gtk-update-icon-cache -q -t -f /usr/share/icons/Adwaita
-
-A post-install script is provided for convenience.

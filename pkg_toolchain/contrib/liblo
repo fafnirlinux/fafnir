@@ -1,9 +1,0 @@
-ver=0.31
-
-[srcs]
-http://downloads.sourceforge.net/%name/%name-%ver.tar.gz
-
-[build]
-%conf
-%make
-%inst

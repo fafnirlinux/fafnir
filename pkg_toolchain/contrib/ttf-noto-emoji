@@ -1,8 +1,0 @@
-ver=2.034
-
-[srcs]
-https://github.com/googlefonts/noto-emoji/archive/v%ver/%name-%ver.tar.gz
-
-[build]
-mkdir -p %dest/share/fonts/noto
-install -m644 noto-emoji-%ver/fonts/NotoColorEmoji.ttf %dest/share/fonts/noto

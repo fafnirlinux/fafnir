@@ -1,8 +1,0 @@
-ver=20220414
-
-[srcs]
-servicesprotocolsupdate.sh
-
-[build]
-install -d -m 755 %dest/etc
-install -m 644 {services,protocols} %dest/etc

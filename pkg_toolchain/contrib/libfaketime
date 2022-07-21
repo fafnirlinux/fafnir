@@ -1,9 +1,0 @@
-ver=0.9.10
-
-[srcs]
-https://github.com/wolfcw/%name/archive/v%ver/%name-v%ver.tar.gz
-
-[build]
-make PREFIX=
-make PREFIX= DESTDIR=%dest install
-rm -r %dest/share/doc

@@ -1,4 +1,0 @@
-ver=20220426
-
-[build]
-install -Dm 644 %files/cacert.pem %dest/etc/ssl/cert.pem

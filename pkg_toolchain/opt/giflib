@@ -1,9 +1,0 @@
-ver=5.2.1
-
-[srcs]
-http://download.sourceforge.net/%name/%name-%ver.tar.gz
-
-[build]
-%make
-make PREFIX=%dest install
-rm -rf %dest/share

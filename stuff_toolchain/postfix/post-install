@@ -1,9 +1,0 @@
-#!/bin/sh
-
-/usr/sbin/postalias /etc/postfix/aliases
-
-for hashfile in virtual relocated access transport; do
-    /usr/sbin/postmap hash:/etc/postfix/"$hashfile"
-done
-
-# set ts=4 et:

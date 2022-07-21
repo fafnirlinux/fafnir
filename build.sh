@@ -21,4 +21,16 @@ if [[ ! -f nya ]]; then
 	exit 1
 fi
 
+if [[ ! -d src ]]; then
+	mkdir -p src
+	cd src
+	git clone https://github.com/fafnirlinux/repo pkg
+	mv pkg/stuff .
+	cd ..
+fi
+
+if [[ ! -d src ]]; then
+	exit 1
+fi
+
 ./toolchain.sh

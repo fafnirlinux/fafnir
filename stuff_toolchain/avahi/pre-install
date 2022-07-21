@@ -1,4 +1,0 @@
-#!/bin/sh
-getent group avahi > /dev/null 2>&1 || groupadd avahi
-getent passwd avahi > /dev/null 2>&1 || useradd -c 'avahi system user' -g avahi -d /var/run/avahi -s /bin/false avahi
-passwd -l avahi > /dev/null

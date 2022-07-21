@@ -1,2 +1,0 @@
-#!/bin/bash
-mkdir -p /usr/share/glib-2.0/gettext

@@ -1,8 +1,0 @@
-ver=0.8.0
-
-[srcs]
-https://github.com/koalaman/shellcheck/releases/download/v%ver/shellcheck-v%ver.linux.x86_64.tar.xz
-
-[build]
-cd shellcheck-v%ver
-install -Dm775 shellcheck %dest/bin/shellcheck

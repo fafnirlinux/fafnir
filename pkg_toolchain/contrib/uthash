@@ -1,8 +1,0 @@
-ver=2.3.0
-
-[srcs]
-https://github.com/troydhanson/%name/archive/v%ver/%name-v%ver.tar.gz
-
-[build]
-install -d %dest/include/
-install -m 0644 -t %dest/include/ *.h

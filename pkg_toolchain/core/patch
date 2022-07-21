@@ -1,9 +1,0 @@
-ver=2.7.6.17-9c98
-
-[srcs]
-https://crux.nu/files/distfiles/%name-%ver.tar.xz
-
-[build]
-%conf
-%make
-%inst

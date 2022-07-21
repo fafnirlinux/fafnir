@@ -1,9 +1,0 @@
-ver=11.1.5.1
-
-[srcs]
-https://github.com/FFmpeg/nv-codec-headers/archive/n%ver/%name-n%ver.tar.gz
-
-[build]
-sed -i -e 's|/include|/include/ffnvcodec|g' ffnvcodec.pc.in
-make PREFIX= LIBDIR=/share
-make PREFIX= LIBDIR=/share DESTDIR=%dest install

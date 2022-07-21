@@ -1,7 +1,0 @@
-#!/bin/sh
-
-getent group rtkit || /usr/sbin/groupadd rtkit
-
-getent passwd rtkit || /usr/sbin/useradd -g rtkit -d /var/empty -s /bin/false -c "rtkit User" rtkit
-
-/usr/bin/passwd -l rtkit

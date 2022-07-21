@@ -1,9 +1,0 @@
-ver=0.8.0
-
-[srcs]
-https://ftp.sdaoden.eu/%name-%ver.tar.gz
-
-[build]
-cd %name-%ver
-%inst
-}

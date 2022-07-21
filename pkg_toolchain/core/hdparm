@@ -1,8 +1,0 @@
-ver=9.64
-
-[srcs]
-https://downloads.sourceforge.net/project/%name/%name/%name-%ver.tar.gz
-
-[build]
-%make
-%inst

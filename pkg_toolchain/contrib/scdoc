@@ -1,8 +1,0 @@
-ver=1.11.2
-
-[srcs]
-https://git.sr.ht/~sircmpwn/%name/archive/%ver.tar.gz
-
-[build]
-CC="gcc" make PREFIX=
-DESTDIR=%dest make PREFIX= install

@@ -1,5 +1,0 @@
-#!/bin/sh
-prt-get isinst gtk && /usr/bin/gtk-query-immodules-2.0 --update-cache || true
-prt-get isinst gtk3 && /usr/bin/gtk-query-immodules-3.0 --update-cache || true
-prt-get isinst glib && /usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas || true
-prt-get isinst desktop-file-utils && /usr/bin/update-desktop-database || true
