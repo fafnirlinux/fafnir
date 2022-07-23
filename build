@@ -24,12 +24,7 @@ init() {
 	fi
 
 	if [[ ! -d src/pkg ]]; then
-		mkdir -p src
-		cd src
-		git clone https://github.com/fafnirlinux/repo pkg
-		[[ -d stuff ]] && rm -rf stuff
-		mv pkg/stuff .
-		cd ..
+		update_repo
 	fi
 }
 
@@ -41,6 +36,16 @@ build_nya() {
 	make -j$(nproc)
 	cp nya ../../
 	cd ../../
+}
+
+update_repo() {
+	mkdir -p src
+	cd src
+	[[ -d pkg ]] && rm -rf pkg
+	git clone https://github.com/fafnirlinux/repo pkg
+	[[ -d stuff ]] && rm -rf stuff
+	mv pkg/stuff .
+	cd ..
 }
 
 build_toolchain() {
@@ -159,6 +164,7 @@ main() {
 		init) init ;;
 		toolchain) build_toolchain ;;
 		nya) build_nya ;;
+		repo) update_repo ;;
 		chroot) enter_chroot ;;
 		iso) iso ;;
 		run) run ;;
