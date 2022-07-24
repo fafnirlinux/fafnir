@@ -58,23 +58,23 @@ clone_repo() {
 	cd ..
 }
 
-build_stage1() {
-	build kernel-headers
-	build gcc3
-	build make
-	build patch
-	build musl
-	build libedit
-	build netbsd-curses
-	build bash
-	build libz
-	build libressl
-	build libarchive
-	build curl
-	build nya
+build_stage0() {
+	emerge kernel-headers
+	emerge gcc3
+	emerge make
+	emerge patch
+	emerge musl
+	emerge libedit
+	emerge netbsd-curses
+	emerge bash
+	emerge libz
+	emerge libressl
+	emerge libarchive
+	emerge curl
+	emerge nya
 }
 
-build() {
+emerge() {
 	./nya emerge $@
 }
 
@@ -154,7 +154,7 @@ main() {
 
 	case "$1" in
 		init) init ;;
-		stage1) build_stage1 ;;
+		stage0) build_stage0 ;;
 		get-nya) get_nya ;;
 		build-nya) build_nya ;;
 		repo) clone_repo ;;
@@ -166,7 +166,7 @@ main() {
 		build) shift; ./nya build $@ ;;
 		install) shift; ./nya install $@ ;;
 		remove) shift; ./nya remove $@ ;;
-		*|build) build $@ ;;
+		*) emerge $@ ;;
 	esac
 
 	shift $((OPTIND -1))
