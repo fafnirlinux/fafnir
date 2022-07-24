@@ -1,8 +1,0 @@
-rootfs=%pwd/toolchain
-src=%pwd/src
-
-no-package=yes
-no-deps=yes
-
-# comment for auto-detect
-make_threads=2

@@ -3,6 +3,8 @@ src=%pwd/src
 
 #no-package=yes
 no-deps=yes
+no-root=yes
+silent=no
 
 # comment for auto-detect
 make_threads=2

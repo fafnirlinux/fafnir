@@ -3,19 +3,7 @@
 memory=1G
 
 init() {
-	if [[ -f nya ]]; then
-		exit 1
-	fi
-
-	if [[ ! -d nya_src ]]; then
-		git clone https://github.com/fafnirlinux/nya nya_src
-	fi
-
-	if [[ ! -d nya_src ]]; then
-		echo "couldn't clone nya"
-		exit 1
-	fi
-
+	get_nya
 	build_nya
 
 	if [[ ! -f nya ]]; then
@@ -23,12 +11,26 @@ init() {
 		exit 1
 	fi
 
-	if [[ ! -d src/pkg ]]; then
-		update_repo
+	clone_repo
+}
+
+get_nya() {
+	[[ -f nya ]] && rm nya
+	[[ -d nya_src ]] && rm -rf nya_src
+
+	git clone https://github.com/fafnirlinux/nya nya_src
+
+	if [[ ! -d nya_src ]]; then
+		echo "couldn't clone nya"
 	fi
 }
 
 build_nya() {
+	if [[ ! -d nya_src ]]; then
+		echo "nya source doesn't exist"
+		exit 1
+	fi
+
 	cd nya_src
 	mkdir -p build
 	cd build
@@ -38,73 +40,48 @@ build_nya() {
 	cd ../../
 }
 
-update_repo() {
+clone_repo() {
 	mkdir -p src
 	cd src
+
 	[[ -d pkg ]] && rm -rf pkg
+
 	git clone https://github.com/fafnirlinux/repo pkg
+
+	if [[ ! -d pkg ]]; then
+		echo "couldn't clone repo"
+		exit 1
+	fi
+
 	[[ -d stuff ]] && rm -rf stuff
 	mv pkg/stuff .
 	cd ..
 }
 
-build_toolchain() {
-	if [[ ! -d src ]]; then
-		exit 1
-	fi
-
-	[[ ! -f built ]] && touch built
-
-	build() {
-		grep -q $1 built && return
-		./nya build $1 --config config.toolchain && echo $1 >> built && echo "" >> built
-	}
-
-	build openssl
-	build curl
-	build expat
-	build attr
-	build acl
-	build bzip2
-	build lzo
-	build zstd
-	build libarchive
-	build ncurses
-	build cmake
-	build libffi
-	build zlib
-	build xz
-	build libxml2
-	build ninja
-	build python3-setuptools
-	build llvm
-	build gettext
-	build bmake
+build_stage1() {
 	build kernel-headers
-	build musl-headers
-	build binutils
-	build autoconf
-	build automake
-	build gawk
-	build perl
-	build samurai
-	build bc
-	build kmod
-	build gperf
-	build m4
-	build pkgconf
+	build gcc3
+	build make
+	build patch
 	build musl
-	build python3
-	build bison
-	build gdbm
-	build libnsl
-	build libtirpc
-	build mpdecimal
-	build sqlite3
+	build libedit
+	build netbsd-curses
+	build bash
+	build libz
+	build libressl
+	build libarchive
+	build curl
+	build nya
 }
 
 build() {
 	./nya emerge $@
+}
+
+create_fs() {
+	check_root
+
+	./nya build filesystem
 }
 
 run() {
@@ -115,17 +92,23 @@ run() {
 	qemu-system-x86_64 -boot d -cdrom fafnirlinux.iso -m $memory
 }
 
+boot() {
+	qemu-system-x86_64 -s -kernel iso/kernel -boot c -m $memory -hda iso/rootfs.gz -append "ro root=/dev/sr0"
+}
+
 iso() {
 	if [[ ! -d rootfs ]]; then
 		exit 1
 	fi
 
+	check_root
+
 	mkdir -p iso
 	cd rootfs
 
-	[[ -f ../iso/rootfs.zst ]] && rm ../iso/rootfs.zst
+	[[ -f ../iso/rootfs.gz ]] && rm ../iso/rootfs.gz
 
-	find . | cpio -H newc -o | zstd -T$(nproc) -19 > ../iso/rootfs.zst
+	find . | cpio -R root:root -H newc -o | gzip > ../iso/rootfs.gz
 
 	cd ..
 
@@ -151,6 +134,13 @@ iso() {
 	cd ..
 }
 
+check_root() {
+	if [ "$EUID" -ne 0 ]; then
+		echo "run as root"
+		exit 1
+	fi
+}
+
 enter_chroot() {
 	sudo chroot rootfs /bin/ash
 }
@@ -160,14 +150,22 @@ help() {
 }
 
 main() {
+	export STAGE=0
+
 	case "$1" in
 		init) init ;;
-		toolchain) build_toolchain ;;
-		nya) build_nya ;;
-		repo) update_repo ;;
+		stage1) build_stage1 ;;
+		get-nya) get_nya ;;
+		build-nya) build_nya ;;
+		repo) clone_repo ;;
 		chroot) enter_chroot ;;
 		iso) iso ;;
 		run) run ;;
+		boot) boot ;;
+		root) create_fs ;;
+		build) shift; ./nya build $@ ;;
+		install) shift; ./nya install $@ ;;
+		remove) shift; ./nya remove $@ ;;
 		*|build) build $@ ;;
 	esac
 
