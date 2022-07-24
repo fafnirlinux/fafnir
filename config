@@ -1,3 +1,5 @@
+# settings
+
 rootfs=%pwd/rootfs
 src=%pwd/src
 
@@ -8,3 +10,14 @@ silent=no
 
 # comment for auto-detect
 make_threads=2
+
+# packages
+
+# musl or glibc
+#libc=musl
+
+# netbsd-curses or ncurses
+#curses=netbsd-curses
+
+# suckless-userland or busybox or gnu-userland
+#userland=suckless-userland
