@@ -142,7 +142,7 @@ check_root() {
 }
 
 enter_chroot() {
-	sudo chroot rootfs /bin/ash
+	sudo chroot rootfs $1
 }
 
 help() {
@@ -158,7 +158,7 @@ main() {
 		get-nya) get_nya ;;
 		build-nya) build_nya ;;
 		repo) clone_repo ;;
-		chroot) enter_chroot ;;
+		chroot) shift; enter_chroot $1 ;;
 		iso) iso ;;
 		run) run ;;
 		boot) boot ;;

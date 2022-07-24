@@ -16,6 +16,9 @@ make_threads=2
 # musl or glibc
 #libc=musl
 
+# libressl or openssl
+#libssl=libressl
+
 # netbsd-curses or ncurses
 #curses=netbsd-curses
 
