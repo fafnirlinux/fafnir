@@ -59,12 +59,16 @@ clone_repo() {
 }
 
 build_toolchain() {
-	export HOST=($CC -dumpmachine)
-	export TARGET="x86_64-pc-linux-musl"
+	#export HOST=($CC -dumpmachine)
+	#export TARGET="x86_64-pc-linux-musl"
 
-	export PATH=$PWD/toolchain/bin:/bin:/usr/bin
+	#export PATH=$PWD/toolchain/bin:/bin:/usr/bin
 
 	e="./nya emerge --config config.toolchain"
+
+	$e gcc5
+
+	return
 
 	$e kernel-headers
 	$e binutils
