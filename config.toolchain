@@ -1,0 +1,14 @@
+# settings
+
+rootfs=%pwd/toolchain
+src=%pwd/toolchain_src
+pkgdir=%pwd/toolchain_pkgs
+stuff=%pwd/toolchain_stuff
+
+#no-package=yes
+no-deps=yes
+no-root=yes
+silent=no
+
+# comment for auto-detect
+make_threads=2

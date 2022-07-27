@@ -4,4 +4,6 @@
 /built
 /src
 /iso
+/toolchain
+/toolchain_src
 /fafnirlinux.iso

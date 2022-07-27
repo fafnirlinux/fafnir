@@ -1,0 +1,33 @@
+ver=1.2.2
+
+[srcs]
+https://www.musl-libc.org/releases/%name-%ver.tar.gz
+
+[build]
+./configure \
+	CROSS_COMPILE=${TARGET}- \
+	--prefix=/ \
+	--target=${TARGET}
+
+%make
+%inst
+
+mkdir %dest/usr
+ln -s ../include %dest/usr/include
+
+rm %dest/lib/ld-musl-$(uname -m).so.1
+ln -s libc.so %dest/lib/ld-musl-$(uname -m).so.1
+
+mkdir %dest/bin
+ln -s ../lib/libc.so %dest/bin/ldd
+
+mkdir %dest/etc
+
+cat > %dest/etc/ld-musl-$(uname -m).path << EOF
+%rootfs/lib
+%rootfs/${TARGET}/lib
+/usr/lib64
+/lib64
+/usr/lib
+/lib
+EOF

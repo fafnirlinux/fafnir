@@ -58,6 +58,21 @@ clone_repo() {
 	cd ..
 }
 
+build_toolchain() {
+	export HOST=($CC -dumpmachine)
+	export TARGET="x86_64-pc-linux-musl"
+
+	export PATH=$PWD/toolchain/bin:/bin:/usr/bin
+
+	e="./nya emerge --config config.toolchain"
+
+	$e kernel-headers
+	$e binutils
+	$e gcc-static
+	$e musl
+	$e gcc
+}
+
 build_stage0() {
 	emerge kernel-headers
 	emerge gcc3
@@ -154,6 +169,7 @@ main() {
 
 	case "$1" in
 		init) init ;;
+		toolchain) build_toolchain ;;
 		stage0) build_stage0 ;;
 		get-nya) get_nya ;;
 		build-nya) build_nya ;;
