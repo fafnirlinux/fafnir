@@ -1,4 +1,5 @@
 ver=5.3.0
+workdir=gcc-%ver
 
 [srcs]
 http://ftpmirror.gnu.org/gcc/gcc-%ver/gcc-%ver.tar.bz2
@@ -62,7 +63,7 @@ make DESTDIR=%dest \
   install-target-libstdc++-v3
 [ ! -e %dest/${machine} ] && ( cd %dest ; ln -sf . ${machine} )
 rm %dest/lib/gcc/$machine/%ver/include/stddef.h
-[ -e "$dest"/libexec/gcc/$machine/%ver/liblto_plugin.so ] && {
+[ -e %dest/libexec/gcc/$machine/%ver/liblto_plugin.so ] && {
 mkdir -p %dest/lib/bfd-plugins
 ln -sf ../../libexec/gcc/$machine/%ver/liblto_plugin.so \
    %dest/lib/bfd-plugins/liblto_plugin.so

@@ -1,0 +1,10 @@
+ver=1.6.2
+
+[srcs]
+https://download.savannah.gnu.org/releases/%name/%name-%ver.tar.gz
+
+[build]
+%conf --enable-documentation
+sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+%make
+%inst
