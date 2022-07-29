@@ -1,0 +1,7 @@
+ver=3.7.6
+
+[srcs]
+&autoconf:srcs
+
+[build]
+&autoconf:build

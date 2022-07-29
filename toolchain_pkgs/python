@@ -1,0 +1,12 @@
+ver=3.9.5
+
+[srcs]
+https://www.python.org/ftp/python/%ver/Python-%ver.tar.xz
+
+[build]
+&autoconf:build
+
+ln -sf python3 %dest/bin/python
+ln -sf python3-config %dest/bin/python-config
+ln -sf idle3 %dest/bin/idle
+ln -sf pydoc3 %dest/bin/pydoc

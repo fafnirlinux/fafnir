@@ -62,11 +62,28 @@ build_toolchain() {
 	#export HOST=($CC -dumpmachine)
 	#export TARGET="x86_64-pc-linux-musl"
 
-	#export PATH=$PWD/toolchain/bin:/bin:/usr/bin
+	export PATH=$PWD/toolchain/bin:/bin:/usr/bin
+
+	export XHOST="$(echo $(clang -dumpmachine) | sed -e 's/-[^-]*/-cross/')"
+	export TARGET="x86_64-linux-musl"
+	export XTARGET=$TARGET
+	export HOST=$XHOST
+
+	export BUILDFLAGS="--build=$XHOST --host=$XTARGET"
+	export TOOLFLAGS="--build=$XHOST --host=$XTARGET --target=$XTARGET"
+	export PERLFLAGS="--target=$XTARGET"
 
 	e="./nya emerge --config config.toolchain"
 
+	$e python
+
+	return
+
+	$e llvm
+	$e clang
+	$e compiler-rt
 	$e lld
+	$e libunwind
 
 	return
 

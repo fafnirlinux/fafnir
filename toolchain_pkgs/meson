@@ -1,0 +1,33 @@
+ver=0.57.2
+
+[srcs]
+https://github.com/mesonbuild/meson/releases/download/%ver/%name-%ver.tar.gz
+
+[build]
+cpu="x86_64"
+cpuextra="$cpu"
+endian="little"
+
+python3 setup.py build
+python3 setup.py install --prefix=%dest --optimize=1
+
+mkdir -p %dest/share/meson
+cat > %dest/share/meson/meson.config <<-EOF
+	[host_machine]
+	system = 'linux'
+	cpu_family = '$cpu'
+	cpu = '$cpuextra'
+	endian = '$endian'
+
+	[binaries]
+	c = '%rootfs/bin/$TARGET-clang'
+	cpp = '%rootfs/bin/$TARGET-clang++'
+	ar = '%rootfs/bin/$TARGET-ar'
+	ld = '%rootfs/bin/$TARGET-ld'
+	strip = '%rootfs/bin/$TARGET-strip'
+	objcopy = '%rootfs/bin/$TARGET-objcopy'
+	pkgconfig = '%rootfs/bin/$TARGET-pkg-config'
+EOF
+
+cp %files/cross-script %dest/bin/fafnir-meson
+sed -i "s|crossfile|%rootfs/share/meson/meson.config|" %dest/bin/fafnir-meson

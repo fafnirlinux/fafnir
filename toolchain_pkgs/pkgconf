@@ -1,0 +1,15 @@
+ver=1.6.3
+
+[srcs]
+http://distfiles.dereferenced.org/%name/%name-%ver.tar.xz
+
+[build]
+LDFLAGS="-static" \
+./configure \
+	--prefix=%dest
+%make
+make install
+
+cp pkgconf %dest/bin/pkg-config
+cp pkgconf %dest/bin/$TARGET-pkg-config
+cp pkgconf %dest/bin/$TARGET-pkgconf

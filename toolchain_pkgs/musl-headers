@@ -1,0 +1,7 @@
+ver=1.2.2
+
+[srcs]
+http://www.musl-libc.org/releases/musl-%ver.tar.gz
+
+[build]
+make ARCH="x86_64" prefix=%prefix DESTDIR=%dest install-headers

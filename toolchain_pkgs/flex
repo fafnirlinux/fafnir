@@ -1,0 +1,17 @@
+ver=2.6.4
+
+[srcs]
+https://github.com/westes/flex/releases/download/v%ver/%name-%ver.tar.gz
+
+[build]
+autoreconf -i
+
+HELP2MAN=true \
+./configure \
+	--prefix=%dest
+%make
+
+touch doc/flex.1
+make install
+
+ln -sf flex %dest/bin/lex

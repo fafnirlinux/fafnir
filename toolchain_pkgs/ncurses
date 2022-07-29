@@ -1,0 +1,19 @@
+ver=6.2
+
+[srcs]
+https://ftp.gnu.org/pub/gnu/%name/%name-%ver.tar.gz
+
+[build]
+./configure \
+	--prefix=%dest \
+	--without-debug
+
+%make -C include
+%make -C progs tic
+
+install -m755 progs/tic %dest/bin
+
+chmod +x misc/ncurses-config
+cp misc/ncurses-config %dest/bin/$TARGET-ncursesw6-config
+
+sed -i "s|%dest|%rootfs|" %dest/bin/$TARGET-ncursesw6-config

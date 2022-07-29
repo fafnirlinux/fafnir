@@ -8,14 +8,29 @@ mkdir build && cd build
 
 ../configure \
 	--prefix=%dest \
+	--build=$XHOST \
+	--host=$XHOST \
 	--target=$TARGET \
-	--with-sysroot=%rootfs/$TARGET \
+	--enable-targets=x86_64-pep \
+	--enable-default-hash-style=gnu \
+	--with-sysroot=%rootfs \
+	--with-lib-path=%rootfs/lib \
 	--disable-compressed-debug-sections \
+	--with-pic \
+	--with-system-zlib \
+	--enable-64-bit-bfd \
 	--enable-deterministic-archives \
+	--enable-lto \
+	--enable-plugins \
+	--enable-relro \
+	--enable-threads \
+	--disable-nls \
 	--disable-multilib \
-	--disable-static \
-	--disable-werror \
-	--disable-nls
+	--disable-werror
 
-make configure-host
-%make && make install
+%make MAKEINFO="true" all-ld all-gas all-binutils
+make MAKEINFO="true" install-ld install-gas
+
+rm %dest/bin/$TARGET-ld
+
+install -Dm755 binutils/elfedit %dest/bin/$TARGET-elfedit

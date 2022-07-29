@@ -1,0 +1,16 @@
+ver=%llvm:ver%
+
+[srcs]
+https://github.com/llvm/llvm-project/releases/download/llvmorg-%ver/%name-%ver.src.tar.xz
+
+[build]
+cmake -B build -G Ninja \
+	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_BUILD_TYPE=Release \
+	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	 -D LLVM_TARGETS_TO_BUILD='X86;AMDGPU;BPF;NVPTX;WebAssembly' \
+	 -D LLVM_LINK_LLVM_DYLIB=ON \
+	 -Wno-dev
+cmake --build build
+DESTDIR=%dest cmake --install build

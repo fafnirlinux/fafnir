@@ -22,3 +22,9 @@ apply_patch() {
     echo "applying patch $(basename $1)"
     patch -p1 < $1
 }
+
+apply_patches() {
+	for patch in $1/*; do
+		apply_patch $patch
+	done
+}

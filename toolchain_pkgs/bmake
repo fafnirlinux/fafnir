@@ -1,0 +1,12 @@
+ver=20210420
+
+[srcs]
+http://www.crufty.net/ftp/pub/sjg/%name-%ver.tar.gz
+
+[build]
+sed -i 's/op_test() {/& return 0;/' boot-strap
+sed -i '1s,:,#!/bin/sh,g' install-sh
+sed -i 's|${STRIP_FLAG} ||g' mk/prog.mk
+
+./boot-strap --prefix=%dest op=build
+./boot-strap --prefix=%dest op=install

@@ -1,0 +1,19 @@
+ver=0.7.1
+snapshot=r3933
+
+[srcs]
+https://gitlab.com/ataraxialinux/storage/-/raw/master/%name-code-%snapshot-trunk.zip
+
+[build]
+mkdir -p common/sys
+cp %stuff/include/sys/queue.h common/sys
+
+bmake WITH_TESTS=no
+
+install -m755 cxxfilt/c++filt %dest/bin/$TARGET-c++filt
+install -m755 elfcopy/elfcopy %dest/bin/$TARGET-objcopy
+install -m755 elfcopy/strip %dest/bin/$TARGET-strip
+
+for i in addr2line readelf size strings; do
+	install -m755 $i/$i %dest/bin/$TARGET-$i
+done

@@ -1,0 +1,11 @@
+ver=1.4.19
+
+[srcs]
+&autoconf:srcs
+
+[build]
+./configure \
+	--prefix=%dest
+LDFLAGS="-rtlib=compiler-rt" \
+%make
+make install
