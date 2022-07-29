@@ -1,46 +1,91 @@
 ver=14.0.6
 
-[deps]
-cmake
-libffi
-libxml2
-ninja
-python3-setuptools
-
 [srcs]
 https://github.com/llvm/llvm-project/releases/download/llvmorg-%ver/llvm-%ver.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-%ver/clang-%ver.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-%ver/clang-tools-extra-%ver.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-%ver/lld-%ver.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-%ver/compiler-rt-%ver.src.tar.xz
 
 [build]
-cmake -B build -G Ninja -D LLVM_CCACHE_BUILD=OFF \
-	 -D CMAKE_INSTALL_PREFIX= \
-	 -D CMAKE_BUILD_TYPE=Release \
-	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
-	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
-	 -D LLVM_TARGETS_TO_BUILD='X86;AMDGPU;BPF;NVPTX;WebAssembly' \
-	 -D LLVM_BINUTILS_INCDIR=/include \
-	 -D LLVM_BUILD_LLVM_DYLIB=ON \
-	 -D LLVM_LINK_LLVM_DYLIB=ON \
-	 -D LLVM_PARALLEL_COMPILE_JOBS="%threads" \
-	 -D LLVM_INCLUDE_EXAMPLES=OFF \
-	 -D LLVM_INCLUDE_TESTS=OFF \
-	 -D LLVM_ENABLE_FFI=ON \
-	 -D LLVM_ENABLE_RTTI=ON \
-	 -D LLVM_ENABLE_OCAMLDOC=OFF \
-	 -D LLVM_INSTALL_UTILS=ON \
-	 -D LLVM_ENABLE_LIBCXX=OFF \
-	 -D LLVM_ENABLE_LLD=OFF \
-	 -D LLVM_OPTIMIZED_TABLEGEN=ON \
-	 -D LLVM_INCLUDE_BENCHMARKS=OFF \
-	 -Wno-dev
-cmake --build build
-DESTDIR=%dest cmake --install build
-mv %dest/include/llvm/Config/llvm-config{,-64}.h
-install -m 0644 %files/llvm-config.h %dest/include/llvm/Config/
-install -d %dest/lib/bfd-plugins
-ln -s ../LLVMgold.so %dest/lib/bfd-plugins/
-ln -s ../libLTO.so %dest/lib/bfd-plugins/
-/usr/bin/python3 %name-%ver.src/utils/lit/setup.py build
-/usr/bin/python3 %name-%ver.src/utils/lit/setup.py install --prefix=%prefix --root=%dest
-/usr/bin/python3 -m compileall -d %name-%ver.src/utils/lit %dest
-/usr/bin/python3 -O -m compileall -d %name-%ver.src/utils/lit %dest
-/usr/bin/python3 -OO -m compileall -d %name-%ver.src/utils/lit %dest
+LARCH="x86_64"
+LTARGET="X86"
+
+cd llvm-%ver.src
+apply_patches %stuff/llvm/patches
+
+cd clang-%ver.src
+apply_patches %stuff/clang/patches
+
+cd clang-tools-extra-%ver.src
+apply_patches %stuff/clang-tools_extra/patches
+
+cd lld-%ver.src
+apply_patches %stuff/lld/patches
+
+cd compiler-rt-%ver.src
+apply_patches %stuff/compiler-rt/patches
+
+cd ../llvm-%ver.src
+cp -a ../clang-%ver.src tools/clang
+cp -a ../clang-tools-extra-%ver.src tools/clang/tools/extra
+cp -a ../lld-%ver.src tools/lld
+cp -a ../compiler-rt-%ver.src projects/compiler-rt
+
+mkdir -p build
+cd build
+
+cmake %src/llvm-%ver.src \
+	-DCMAKE_C_COMPILER="$HOSTCC" \
+	-DCMAKE_CXX_COMPILER="$HOSCCXX" \
+	-DCMAKE_INSTALL_PREFIX=%tools \
+	-DCMAKE_BUILD_TYPE=MinSizeRel \
+	-DCLANG_BUILD_EXAMPLES=OFF \
+	-DCLANG_DEFAULT_CXX_STDLIB=libc++ \
+	-DCLANG_DEFAULT_LINKER=lld \
+	-DCLANG_DEFAULT_OPENMP_RUNTIME=libomp \
+	-DCLANG_DEFAULT_RTLIB=compiler-rt \
+	-DCLANG_DEFAULT_UNWINDLIB=libunwind \
+	-DCLANG_INCLUDE_DOCS=OFF \
+	-DCLANG_INCLUDE_TESTS=OFF \
+	-DCLANG_PLUGIN_SUPPORT=ON \
+	-DCLANG_VENDOR=Fafnir \
+	-DCOMPILER_RT_BUILD_LIBFUZZER=OFF \
+	-DCOMPILER_RT_DEFAULT_TARGET_TRIPLE="$HOST" \
+	-DLLVM_EXTERNAL_CLANG_TOOLS_EXTRA_SOURCE_DIR="%src/clang-tools-extra-%ver.src" \
+	-DENABLE_LINKER_BUILD_ID=ON \
+	-DLLVM_BUILD_EXAMPLES=OFF \
+	-DLLVM_BUILD_DOCS=OFF \
+	-DLLVM_BUILD_TESTS=OFF \
+	-DLLVM_ENABLE_DOXYGEN=OFF \
+	-DLLVM_ENABLE_SPHINX=OFF \
+	-DLLVM_DEFAULT_TARGET_TRIPLE=$TARGET \
+	-DLLVM_TARGET_ARCH=$LARCH \
+	-DLLVM_TARGETS_TO_BUILD=$LTARGET \
+	-DDEFAULT_SYSROOT=%rootfs \
+	-DOCAMLFIND=NO \
+	-DGO_EXECUTABLE=GO_EXECUTABLE-NOTFOUND \
+	-Wno-dev -G Ninja
+%samu
+samu install
+
+attr -q -s pax.flags -V "em" %tools/bin/lli
+
+clang=$(readlink %tools/bin/clang)
+
+pushd %tools/bin
+	for i in cc c++ clang clang++ cpp; do
+		cp $clang $TARGET-$i
+	done
+
+	cp lld $TARGET-ld
+	cp lld $TARGET-ld.lld
+	cp llvm-ar $TARGET-ar
+	cp llvm-dwp $TARGET-dwp
+	cp llvm-cov $TARGET-gcov
+	cp llvm-nm $TARGET-nm
+	cp llvm-objdump $TARGET-objdump
+	cp llvm-ar $TARGET-ranlib
+
+	rm -f $clang clang clang++ clang-cl clang-cpp lld-link ld.lld ld64.lld ld64.lld.darwinnew wasm-ld lld
+popd

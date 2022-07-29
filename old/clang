@@ -11,15 +11,15 @@ https://github.com/llvm/llvm-project/releases/download/llvmorg-%ver/llvm-%ver.sr
 [build]
 mv clang-tools-extra-%ver.src clang-%ver.src/tools/extra
 cmake -S %name-%ver.src -B build -G Ninja -D LLVM_CCACHE_BUILD=OFF \
-	 -D CMAKE_INSTALL_PREFIX= \
+	 -D CMAKE_INSTALL_PREFIX=%prefix \
 	 -D CMAKE_INSTALL_LIBEXECDIR=lib/clang \
 	 -D CMAKE_BUILD_TYPE=Release \
-	 -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
-	 -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
-	 -D LLVM_MAIN_SRC_DIR="%src/llvm-%ver.src" \
+	 -D CMAKE_C_FLAGS_RELEASE=$CFLAGS \
+	 -D CMAKE_CXX_FLAGS_RELEASE=$CXXFLAGS \
+	 -D LLVM_MAIN_SRC_DIR=%src/llvm-%ver.src \
 	 -D LLVM_EXTERNAL_LIT=/bin/lit \
 	 -D LLVM_TARGETS_TO_BUILD="X86;AMDGPU;BPF;NVPTX;WebAssembly" \
-	 -D LLVM_PARALLEL_COMPILE_JOBS="%threads" \
+	 -D LLVM_PARALLEL_COMPILE_JOBS=%threads \
 	 -Wno-dev
 cmake --build build
-DESTDIR=%dest cmake --install build
+DESTDIR=%tools cmake --install build

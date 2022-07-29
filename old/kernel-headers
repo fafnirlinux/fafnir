@@ -9,6 +9,6 @@ make mrproper
 ARCH=x86 make headers
 
 find usr/include \( -name .install -o -name ..install.cmd \) -exec rm -vf {} \;
-mkdir -p %dest/$TARGET/include
-cp -r usr/include/* %dest/$TARGET/include/
-rm %dest/$TARGET/include/Makefile
+mkdir -p %tools/$TARGET/include
+cp -r usr/include/* %tools/$TARGET/include/
+rm %tools/$TARGET/include/Makefile

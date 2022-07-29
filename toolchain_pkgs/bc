@@ -9,6 +9,6 @@ sed -i 's|#! /bin/sh|#!/usr/bin/env bash|' configure.sh
 PREFIX=%prefix ./configure.sh \
 	--disable-nls
 %make PREFIX=%prefix
-make PREFIX=%prefix DESTDIR=%dest install
+make PREFIX=%prefix DESTDIR=%tools install
 
-rm -rf %dest/share/locale
+rm -rf %tools/share/locale

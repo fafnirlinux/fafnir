@@ -8,10 +8,10 @@ autoreconf -i
 
 HELP2MAN=true \
 ./configure \
-	--prefix=%dest
+	--prefix=%tools
 %make
 
 touch doc/flex.1
 make install
 
-ln -sf flex %dest/bin/lex
+ln -sf flex %tools/bin/lex

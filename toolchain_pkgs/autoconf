@@ -4,6 +4,6 @@ ver=2.71
 https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
 
 [build]
-./configure --prefix=%dest
+./configure --prefix=%tools
 %make
 make install

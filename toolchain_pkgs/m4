@@ -5,7 +5,7 @@ ver=1.4.19
 
 [build]
 ./configure \
-	--prefix=%dest
+	--prefix=%tools
 LDFLAGS="-rtlib=compiler-rt" \
 %make
 make install

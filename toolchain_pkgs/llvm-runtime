@@ -62,10 +62,10 @@ cmake %src/libunwind-%ver.src \
 	-DCMAKE_BUILD_TYPE=MinSizeRel \
 	-DCMAKE_C_COMPILER_TARGET="$XTARGET" \
 	-DCMAKE_ASM_COMPILER_TARGET="$XTARGET" \
-	-DCMAKE_C_COMPILER="%dest/bin/$XTARGET-clang" \
-	-DCMAKE_CXX_COMPILER="%dest/bin/$XTARGET-clang++" \
-	-DCMAKE_AR="%dest/bin/$XTARGET-ar" \
-	-DCMAKE_NM="%dest/bin/$XTARGET-nm" \
+	-DCMAKE_C_COMPILER="%tools/bin/$XTARGET-clang" \
+	-DCMAKE_CXX_COMPILER="%tools/bin/$XTARGET-clang++" \
+	-DCMAKE_AR="%tools/bin/$XTARGET-ar" \
+	-DCMAKE_NM="%tools/bin/$XTARGET-nm" \
 	-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY \
 	-DLLVM_PATH=%src/llvm-%ver.src \
 	-DLIBUNWIND_USE_COMPILER_RT=ON \
@@ -86,10 +86,10 @@ cmake %src/libcxxabi-%ver.src \
 	-DCMAKE_INSTALL_PREFIX=%prefix \
 	-DCMAKE_BUILD_TYPE=MinSizeRel \
 	-DCMAKE_C_COMPILER_TARGET="$XTARGET" \
-	-DCMAKE_C_COMPILER="%dest/bin/$XTARGET-clang" \
-	-DCMAKE_CXX_COMPILER="%dest/bin/$XTARGET-clang++" \
-	-DCMAKE_AR="%dest/bin/$XTARGET-ar" \
-	-DCMAKE_NM="%dest/bin/$XTARGET-nm" \
+	-DCMAKE_C_COMPILER="%tools/bin/$XTARGET-clang" \
+	-DCMAKE_CXX_COMPILER="%tools/bin/$XTARGET-clang++" \
+	-DCMAKE_AR="%tools/bin/$XTARGET-ar" \
+	-DCMAKE_NM="%tools/bin/$XTARGET-nm" \
 	-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY \
 	-DLLVM_PATH=%src/llvm-%ver.src \
 	-DLIBCXXABI_USE_LLVM_UNWINDER=ON \
@@ -111,10 +111,10 @@ cmake %src/libcxx-%ver.src \
 	-DCMAKE_INSTALL_PREFIX=%prefix \
 	-DCMAKE_BUILD_TYPE=MinSizeRel \
 	-DCMAKE_C_COMPILER_TARGET="$XTARGET" \
-	-DCMAKE_C_COMPILER="%dest/bin/$XTARGET-clang" \
-	-DCMAKE_CXX_COMPILER="%dest/bin/$XTARGET-clang++" \
-	-DCMAKE_AR="%dest/bin/$XTARGET-ar" \
-	-DCMAKE_NM="%dest/bin/$XTARGET-nm" \
+	-DCMAKE_C_COMPILER="%tools/bin/$XTARGET-clang" \
+	-DCMAKE_CXX_COMPILER="%tools/bin/$XTARGET-clang++" \
+	-DCMAKE_AR="%tools/bin/$XTARGET-ar" \
+	-DCMAKE_NM="%tools/bin/$XTARGET-nm" \
 	-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY \
 	-DLLVM_PATH=%src/llvm-%ver.src \
 	-DLIBCXX_CXX_ABI=libcxxabi \
@@ -138,13 +138,13 @@ LDFLAGS="" \
 cmake %src/compiler-rt-%ver.src \
 	-DCMAKE_C_COMPILER_TARGET="$XTARGET" \
 	-DCMAKE_ASM_COMPILER_TARGET="$XTARGET" \
-	-DCMAKE_C_COMPILER="%dest/bin/$XTARGET-clang" \
-	-DCMAKE_CXX_COMPILER="%dest/bin/$XTARGET-clang++" \
-	-DCMAKE_AR="%dest/bin/$XTARGET-ar" \
-	-DCMAKE_NM="%dest/bin/$XTARGET-nm" \
-	-DCMAKE_RANLIB="%dest/bin/$XTARGET-ranlib" \
+	-DCMAKE_C_COMPILER="%tools/bin/$XTARGET-clang" \
+	-DCMAKE_CXX_COMPILER="%tools/bin/$XTARGET-clang++" \
+	-DCMAKE_AR="%tools/bin/$XTARGET-ar" \
+	-DCMAKE_NM="%tools/bin/$XTARGET-nm" \
+	-DCMAKE_RANLIB="%tools/bin/$XTARGET-ranlib" \
 	-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY \
-	-DLLVM_CONFIG_PATH="%dest/bin/llvm-config" \
+	-DLLVM_CONFIG_PATH="%tools/bin/llvm-config" \
 	-DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON \
 	-DCOMPILER_RT_BUILD_LIBFUZZER=OFF \
 	-DCOMPILER_RT_HAS_VERSION_SCRIPT=OFF \
@@ -156,7 +156,7 @@ cmake %src/compiler-rt-%ver.src \
 %samu
 
 for i in lib/linux/*; do
-	install -Dm644 "$i" %dest/lib/clang/%ver/lib/linux/$(basename $i)
+	install -Dm644 "$i" %tools/lib/clang/%ver/lib/linux/$(basename $i)
 done
 
 cd %src
@@ -169,12 +169,12 @@ cmake %src/llvm-%ver.src \
 	-DCMAKE_BUILD_TYPE=MinSizeRel \
 	-DCMAKE_C_COMPILER_TARGET="$XTARGET" \
 	-DCMAKE_ASM_COMPILER_TARGET="$XTARGET" \
-	-DCMAKE_C_COMPILER="%dest/bin/$XTARGET-clang" \
-	-DCMAKE_CXX_COMPILER="%dest/bin/$XTARGET-clang++" \
-	-DCMAKE_AR="%dest/bin/$XTARGET-ar" \
-	-DCMAKE_NM="%dest/bin/$XTARGET-nm" \
+	-DCMAKE_C_COMPILER="%tools/bin/$XTARGET-clang" \
+	-DCMAKE_CXX_COMPILER="%tools/bin/$XTARGET-clang++" \
+	-DCMAKE_AR="%tools/bin/$XTARGET-ar" \
+	-DCMAKE_NM="%tools/bin/$XTARGET-nm" \
 	-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY \
-	-DLLVM_CONFIG_PATH="%dest/bin/llvm-config" \
+	-DLLVM_CONFIG_PATH="%tools/bin/llvm-config" \
 	-DLIBCXX_CXX_ABI=libcxxabi \
 	-DLIBCXX_HAS_MUSL_LIBC=ON \
 	-DLIBCXX_USE_COMPILER_RT=ON \

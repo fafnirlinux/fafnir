@@ -5,4 +5,4 @@ https://github.com/sabotage-linux/gettext-tiny/archive/v%ver.tar.gz::%name-%ver
 
 [build]
 sed -i 's,#!/bin/sh,#!/usr/bin/env bash,g' src/autopoint.in
-make prefix=%dest install
+make prefix=%tools install

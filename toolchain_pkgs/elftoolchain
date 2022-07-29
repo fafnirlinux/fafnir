@@ -10,10 +10,10 @@ cp %stuff/include/sys/queue.h common/sys
 
 bmake WITH_TESTS=no
 
-install -m755 cxxfilt/c++filt %dest/bin/$TARGET-c++filt
-install -m755 elfcopy/elfcopy %dest/bin/$TARGET-objcopy
-install -m755 elfcopy/strip %dest/bin/$TARGET-strip
+install -m755 cxxfilt/c++filt %tools/bin/$TARGET-c++filt
+install -m755 elfcopy/elfcopy %tools/bin/$TARGET-objcopy
+install -m755 elfcopy/strip %tools/bin/$TARGET-strip
 
 for i in addr2line readelf size strings; do
-	install -m755 $i/$i %dest/bin/$TARGET-$i
+	install -m755 $i/$i %tools/bin/$TARGET-$i
 done

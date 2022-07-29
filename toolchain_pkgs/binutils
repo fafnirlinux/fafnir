@@ -4,10 +4,12 @@ ver=2.36.1
 http://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
 
 [build]
-mkdir build && cd build
+export acx_cv_cc_gcc_supports_ada=no
 
+mkdir build
+cd build
 ../configure \
-	--prefix=%dest \
+	--prefix=%tools \
 	--build=$XHOST \
 	--host=$XHOST \
 	--target=$TARGET \
@@ -31,6 +33,6 @@ mkdir build && cd build
 %make MAKEINFO="true" all-ld all-gas all-binutils
 make MAKEINFO="true" install-ld install-gas
 
-rm %dest/bin/$TARGET-ld
+rm %tools/bin/$TARGET-ld
 
-install -Dm755 binutils/elfedit %dest/bin/$TARGET-elfedit
+install -Dm755 binutils/elfedit %tools/bin/$TARGET-elfedit
