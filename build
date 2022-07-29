@@ -59,39 +59,21 @@ clone_repo() {
 }
 
 build_toolchain() {
-	#export HOST=($CC -dumpmachine)
-	#export TARGET="x86_64-pc-linux-musl"
+	mkdir -p tools rootfs
 
-	export PATH=$PWD/toolchain/bin:/bin:/usr/bin
+	export PATH=$PWD/tools/bin:$PATH
 
-	export XHOST="$(echo $(clang -dumpmachine) | sed -e 's/-[^-]*/-cross/')"
+	export HOST="$(echo $(clang -dumpmachine) | sed -e 's/-[^-]*/-cross/')"
 	export TARGET="x86_64-linux-musl"
-	export XTARGET=$TARGET
-	export HOST=$XHOST
+	export XHOST=$HOST XTARGET=$TARGET
 
 	export BUILDFLAGS="--build=$XHOST --host=$XTARGET"
 	export TOOLFLAGS="--build=$XHOST --host=$XTARGET --target=$XTARGET"
 	export PERLFLAGS="--target=$XTARGET"
 
-	e="./nya emerge --config config.toolchain"
-
-	$e python
-
-	return
-
-	$e llvm
-	$e clang
-	$e compiler-rt
-	$e lld
-	$e libunwind
-
-	return
-
-	$e kernel-headers
-	$e binutils
-	$e gcc-static
-	$e musl
-	$e gcc
+	for pkg in toolchain_pkgs/*; do
+		./nya build --config config.toolchain $(basename $pkg)
+	done
 }
 
 build_stage0() {
