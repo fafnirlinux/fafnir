@@ -1,7 +1,9 @@
 #!/bin/sh
 
-export CC=gcc
-export CXX=g++
+export CC=clang
+export CXX=clang++
+
+export HOSTCC=$CC HOSTCXX=$CXX
 
 xconfflags=
 

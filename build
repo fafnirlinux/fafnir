@@ -59,7 +59,7 @@ clone_repo() {
 }
 
 build_toolchain() {
-	mkdir -p tools rootfs
+	mkdir -p rootfs tools
 
 	export PATH=$PWD/tools/bin:$PATH
 
@@ -70,6 +70,40 @@ build_toolchain() {
 	export BUILDFLAGS="--build=$XHOST --host=$XTARGET"
 	export TOOLFLAGS="--build=$XHOST --host=$XTARGET --target=$XTARGET"
 	export PERLFLAGS="--target=$XTARGET"
+
+	export xcflags="-D_FORTIFY_SOURCE=2 -g0 -Os -flto -fomit-frame-pointer -fno-asynchronous-unwind-tables -fno-unwind-tables -ffunction-sections -fdata-sections -fstack-protector-strong -fstack-clash-protection -mretpoline --param=ssp-buffer-size=4 -pipe"
+	export xldflags="-Wl,-z,relro,-z,now -Wl,--as-needed -Wl,--gc-sections -Wl,-z,noexecstack -s"
+
+	emerge() {
+		./nya build --config config.toolchain $1
+	}
+
+	emerge gettext-tiny
+	emerge ncurses
+	emerge m4
+	emerge bison
+	emerge flex
+	emerge bc
+	emerge kmod
+	emerge gperf
+	emerge python
+	emerge samurai
+	emerge meson
+	emerge bmake
+	emerge cmake
+	emerge linux-headers
+	emerge musl-headers
+	emerge binutils
+	emerge elftoolchain
+	emerge llvm
+	emerge compiler-rt
+	emerge llvm-runtime
+	emerge slibtool
+	emerge autoconf
+	emerge automake
+	emerge pkgconf
+
+	return
 
 	for pkg in toolchain_pkgs/*; do
 		./nya build --config config.toolchain $(basename $pkg)
@@ -170,7 +204,7 @@ help() {
 main() {
 	export STAGE=0
 
-	case "$1" in
+	case $1 in
 		init) init ;;
 		toolchain) build_toolchain ;;
 		stage0) build_stage0 ;;
