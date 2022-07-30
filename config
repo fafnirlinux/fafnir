@@ -1,5 +1,6 @@
 # settings
 
+prefix=/usr
 rootfs=%pwd/rootfs
 src=%pwd/src
 

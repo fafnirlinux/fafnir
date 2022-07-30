@@ -1,9 +1,0 @@
-ver=2.71
-
-[srcs]
-https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
-
-[build]
-./configure --prefix=%tools
-%make
-make install

@@ -1,7 +1,0 @@
-ver=3.7.6
-
-[srcs]
-https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
-
-[build]
-&autoconf:build

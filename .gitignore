@@ -1,10 +1,11 @@
 /nya
 /nya_src
 /rootfs
-/built
+/built.stage0
+/built.stage1
+/src.stage0
+/src.stage1
 /src
 /iso
 /tools
-/toolchain
-/toolchain_src
 /fafnirlinux.iso

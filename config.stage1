@@ -1,0 +1,16 @@
+# settings
+
+prefix=/usr
+tools=%pwd/tools
+rootfs=%pwd/rootfs
+src=%pwd/src.stage1
+pkgdir=%pwd/pkgs.stage1
+stuff=%pwd/stuff.stage1
+
+no-package=yes
+no-deps=yes
+no-root=yes
+silent=no
+
+# comment for auto-detect
+make_threads=2

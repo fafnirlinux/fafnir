@@ -58,15 +58,22 @@ clone_repo() {
 	cd ..
 }
 
-build_toolchain() {
+build_stage0() {
 	mkdir -p rootfs tools
 
-	[[ ! -f built ]] && touch built
+	[[ ! -f built.stage0 ]] && touch built.stage0
 
 	emerge() {
-		grep -Fxq $1 built && return
-		./nya build --config config.toolchain $1 && echo $1 >> built
+		grep -Fxq $1 built.stage0 && return
+		./nya build --config config.stage0 $1 && echo $1 >> built.stage0
 	}
+
+	export BUILDFLAGS="--build=$XHOST --host=$XTARGET"
+	export TOOLFLAGS="--build=$XHOST --host=$XTARGET --target=$XTARGET"
+	export PERLFLAGS="--target=$XTARGET"
+
+	export xcflags="-D_FORTIFY_SOURCE=2 -g0 -Os -flto -fomit-frame-pointer -fno-asynchronous-unwind-tables -fno-unwind-tables -ffunction-sections -fdata-sections -fstack-protector-strong -fstack-clash-protection -mretpoline --param=ssp-buffer-size=4 -pipe"
+	export xldflags="-Wl,-z,relro,-z,now -Wl,--as-needed -Wl,--gc-sections -Wl,-z,noexecstack -s"
 
 	emerge musl-headers
 	emerge binutils
@@ -75,6 +82,16 @@ build_toolchain() {
 	emerge libgcc-shared
 	emerge linux-headers
 	emerge pkgconf
+}
+
+build_stage1() {
+	[[ ! -f built.stage1 ]] && touch built.stage1
+
+	emerge() {
+		grep -Fxq $1 built.stage1 && return
+		./nya build --config config.stage1 $1 && echo $1 >> built.stage1
+	}
+
 	emerge m4
 	emerge ncurses
 	emerge bash
@@ -89,112 +106,17 @@ build_toolchain() {
 	emerge sed
 	emerge tar
 	emerge xz
-	emerge binutils2
-	emerge gcc2
+	emerge binutils
+	emerge gcc
 }
 
-enter_toolchain() {
+prepare_rootfs() {
 	mkdir -p rootfs/{dev,proc,sys,run}
 
 	mknod -m 600 rootfs/dev/console c 5 1
 	mknod -m 666 rootfs/dev/null c 1 3
 
 	chown -R root:root rootfs/lib64
-}
-
-build_toolchain3() {
-	mkdir -p rootfs tools
-
-	export PATH=$PWD/tools/bin:$PATH
-
-	#export HOST="$(echo $(clang -dumpmachine) | sed -e 's/-[^-]*/-cross/')"
-	export TARGET="x86_64-linux-musl"
-
-	emerge() {
-		./nya build --config config.toolchain $1
-	}
-
-	emerge libstdc++
-
-	return
-
-	emerge binutils
-	emerge gcc
-	emerge linux-headers
-	emerge glibc
-	emerge libstdc++
-}
-
-build_toolchain2() {
-	mkdir -p rootfs tools
-
-	export PATH=$PWD/tools/bin:$PATH
-
-	export HOST="$(echo $(clang -dumpmachine) | sed -e 's/-[^-]*/-cross/')"
-	export TARGET="x86_64-linux-musl"
-	export XHOST=$HOST XTARGET=$TARGET
-
-	export BUILDFLAGS="--build=$XHOST --host=$XTARGET"
-	export TOOLFLAGS="--build=$XHOST --host=$XTARGET --target=$XTARGET"
-	export PERLFLAGS="--target=$XTARGET"
-
-	export xcflags="-D_FORTIFY_SOURCE=2 -g0 -Os -flto -fomit-frame-pointer -fno-asynchronous-unwind-tables -fno-unwind-tables -ffunction-sections -fdata-sections -fstack-protector-strong -fstack-clash-protection -mretpoline --param=ssp-buffer-size=4 -pipe"
-	export xldflags="-Wl,-z,relro,-z,now -Wl,--as-needed -Wl,--gc-sections -Wl,-z,noexecstack -s"
-
-	emerge() {
-		./nya build --config config.toolchain $1
-	}
-
-	emerge gettext-tiny
-	emerge ncurses
-	emerge m4
-	emerge bison
-	emerge flex
-	emerge bc
-	emerge kmod
-	emerge gperf
-	emerge python
-	emerge samurai
-	emerge meson
-	emerge bmake
-	emerge cmake
-	emerge linux-headers
-	emerge musl-headers
-	emerge binutils
-	emerge elftoolchain
-	emerge llvm
-	emerge compiler-rt
-	emerge llvm-runtime
-	emerge slibtool
-	emerge autoconf
-	emerge automake
-	emerge pkgconf
-
-	return
-
-	for pkg in toolchain_pkgs/*; do
-		./nya build --config config.toolchain $(basename $pkg)
-	done
-}
-
-build_stage0() {
-	emerge kernel-headers
-	emerge gcc3
-	emerge make
-	emerge patch
-	emerge musl
-	emerge libedit
-	emerge netbsd-curses
-	emerge bash
-	emerge libz
-	emerge libressl
-	emerge libarchive
-	emerge curl
-	emerge nya
-}
-
-emerge() {
-	./nya emerge $@
 }
 
 create_fs() {
