@@ -7,7 +7,7 @@ https://www.musl-libc.org/releases/musl-%ver.tar.gz
 ARCH=$MARCH \
 CC=$XTARGET-gcc \
 CROSS_COMPILE=$XTARGET- \
-LIBCC="%tools/lib/gcc/$XTARGET/%gcc:ver%/libgcc.a" \
+LIBCC="%tools/lib/gcc/$XTARGET/12.1.0/libgcc.a" \
 ./configure \
 	--host=$XTARGET \
 	--prefix=%prefix

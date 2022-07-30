@@ -72,7 +72,7 @@ build_toolchain() {
 	emerge binutils
 	emerge gcc
 	emerge musl
-	emerge libgcc-shared2
+	emerge libgcc-shared
 	emerge linux-headers
 	emerge pkgconf
 }

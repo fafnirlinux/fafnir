@@ -5,6 +5,7 @@ mpc_ver=1.2.1
 mpfr_ver=4.1.0
 
 workdir=%name-%ver
+force-patch=yes
 
 [srcs]
 https://ftp.gnu.org/gnu/%name/%name-%ver/%name-%ver.tar.xz

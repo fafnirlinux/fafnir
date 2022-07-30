@@ -4,6 +4,8 @@ ver=1.8.0
 https://distfiles.dereferenced.org/%name/%name-%ver.tar.xz
 
 [build]
+mkdir build && cd build
+
 ../configure \
 	--prefix=%tools \
 	--with-sysroot=%rootfs \
