@@ -1,0 +1,48 @@
+ver=12.1.0
+
+gmp_ver=6.2.1
+mpc_ver=1.2.1
+mpfr_ver=4.1.0
+
+workdir=%name-%ver
+
+[srcs]
+https://ftp.gnu.org/gnu/%name/%name-%ver/%name-%ver.tar.xz
+https://ftp.gnu.org/gnu/gmp/gmp-%gmp_ver.tar.xz
+https://ftp.gnu.org/gnu/mpc/mpc-%mpc_ver.tar.gz
+https://www.mpfr.org/mpfr-%mpfr_ver/mpfr-%mpfr_ver.tar.xz
+
+[build]
+mv ../gmp-%gmp_ver gmp
+mv ../mpc-%mpc_ver mpc
+mv ../mpfr-%mpfr_ver mpfr
+
+sed -e '/m64=/s/lib64/lib/' -i.orig gcc/config/i386/t-linux64
+
+mkdir build && cd build
+
+mkdir -p $XTARGET/libgcc
+ln -s ../../../libgcc/gthr-posix.h $XTARGET/libgcc/gthr-default.h
+
+../configure \
+	--build=$(../config.guess) \
+	--host=$XTARGET \
+	--prefix=%prefix \
+	CC_FOR_TARGET=$XTARGET-gcc \
+	--with-build-sysroot=%rootfs \
+	--enable-initfini-array \
+	--disable-nls \
+	--disable-multilib \
+	--disable-decimal-float \
+	--disable-libatomic \
+	--disable-libgomp \
+	--disable-libquadmath \
+	--disable-libssp \
+	--disable-libvtv \
+	--disable-libstdcxx \
+	--enable-languages=c,c++
+
+%make
+make DESTDIR=%rootfs install
+
+ln -sv gcc %rootfs/usr/bin/cc

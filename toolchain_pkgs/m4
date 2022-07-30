@@ -1,0 +1,13 @@
+ver=1.4.19
+
+[srcs]
+https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
+
+[build]
+./configure \
+	--prefix=%prefix \
+	--host=$XTARGET \
+	--build=$(build-aux/config.guess)
+
+%make
+make DESTDIR=%rootfs install

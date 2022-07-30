@@ -1,0 +1,19 @@
+ver=2.38
+
+[srcs]
+https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
+
+[build]
+mkdir build && cd build
+
+../configure \
+	--prefix=%prefix \
+	--build=$(../config.guess) \
+	--host=$XTARGET \
+	--disable-nls \
+	--enable-shared \
+	--disable-werror \
+	--enable-64-bit-bfd
+
+%make
+make DESTDIR=%rootfs install

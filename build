@@ -75,6 +75,31 @@ build_toolchain() {
 	emerge libgcc-shared
 	emerge linux-headers
 	emerge pkgconf
+	emerge m4
+	emerge ncurses
+	emerge bash
+	emerge busybox
+	emerge diffutils
+	emerge file
+	emerge gawk
+	emerge grep
+	emerge gzip
+	emerge make
+	emerge patch
+	emerge sed
+	emerge tar
+	emerge xz
+	emerge binutils2
+	emerge gcc2
+}
+
+enter_toolchain() {
+	mkdir -p rootfs/{dev,proc,sys,run}
+
+	mknod -m 600 rootfs/dev/console c 5 1
+	mknod -m 666 rootfs/dev/null c 1 3
+
+	chown -R root:root rootfs/lib64
 }
 
 build_toolchain3() {

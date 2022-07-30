@@ -1,0 +1,16 @@
+ver=5.1.16
+
+[srcs]
+https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
+
+[build]
+./configure \
+	--prefix=%prefix \
+	--build=$(support/config.guess) \
+	--host=$XTARGET \
+	--without-bash-malloc
+
+%make
+make DESTDIR=%rootfs install
+
+ln -sv bash %rootfs/bin/sh

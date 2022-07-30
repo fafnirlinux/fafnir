@@ -1,0 +1,30 @@
+ver=6.3
+
+[srcs]
+https://invisible-mirror.net/archives/%name/%name-%ver.tar.gz
+
+[build]
+mkdir build
+pushd build
+	../configure
+	%make -C include
+	%make -C progs tic
+popd
+
+./configure \
+	--prefix=%prefix \
+	--host=$XTARGET \
+	--build=$(./config.guess) \
+	--mandir=/usr/share/man \
+	--with-manpage-format=normal \
+	--with-shared \
+	--without-debug \
+	--without-ada \
+	--without-normal \
+	--disable-stripping \
+	--enable-widec
+
+%make
+
+make DESTDIR=%rootfs TIC_PATH=$(pwd)/build/progs/tic install
+echo "INPUT(-lncursesw)" > %rootfs/usr/lib/libncurses.so

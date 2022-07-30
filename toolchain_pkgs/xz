@@ -1,0 +1,15 @@
+ver=5.2.5
+
+[srcs]
+https://tukaani.org/%name/%name-%ver.tar.xz
+
+[build]
+./configure \
+	--prefix=%prefix \
+	--host=$XTARGET \
+	--build=$(build-aux/config.guess) \
+	--disable-static \
+	--docdir=/usr/share/doc/xz-5.2.5
+
+%make
+make DESTDIR=%rootfs install

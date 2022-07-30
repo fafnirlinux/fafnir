@@ -1,0 +1,14 @@
+ver=4.9.0
+
+[srcs]
+https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
+
+[build]
+./configure \
+	--prefix=%prefix \
+	--localstatedir=/var/lib/locate \
+	--host=$XTARGET \
+	--build=$(build-aux/config.guess)
+
+%make
+make DESTDIR=%rootfs install
