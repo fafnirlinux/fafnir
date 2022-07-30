@@ -10,8 +10,8 @@ make \
 	ARCH=$LARCH \
 	mrproper
 
-$MAKE \
+make \
 	O=%src/linux \
 	ARCH=$LARCH \
-	INSTALL_HDR_PATH=%rootfs \
+	INSTALL_HDR_PATH=%rootfs/usr \
 	headers_install

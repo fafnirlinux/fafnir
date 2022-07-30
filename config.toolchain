@@ -1,5 +1,6 @@
 # settings
 
+prefix=/usr
 tools=%pwd/tools
 rootfs=%pwd/rootfs
 src=%pwd/toolchain_src

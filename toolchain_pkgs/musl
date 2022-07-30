@@ -23,4 +23,4 @@ LIBCC="%tools/lib/gcc/$XTARGET/%gcc:ver%/libgcc.a" \
 	install
 
 rm -f %rootfs/lib/ld-musl-$MARCH.so.1
-cp -av %rootfs/lib/libc.so %rootfs/lib/ld-musl-$MARCH.so.1
+cp -av %rootfs/usr/lib/libc.so %rootfs/lib/ld-musl-$MARCH.so.1

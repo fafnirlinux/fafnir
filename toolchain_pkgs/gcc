@@ -30,7 +30,7 @@ mkdir build && cd build
 	--disable-werror \
 	--enable-initfini-array $XGCCARGS
 
-mkdir -p %rootfs/include
+mkdir -p %rootfs/usr/include
 
 %make all-gcc
 make install-strip-gcc

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+export PATH=%tools/bin:$PATH
+
 export CC=gcc
 export CXX=g++
 

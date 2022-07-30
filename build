@@ -61,7 +61,7 @@ clone_repo() {
 build_toolchain() {
 	mkdir -p rootfs tools
 
-	export PATH=$PWD/tools/bin:$PATH
+	[[ ! -f built ]] && touch built
 
 	emerge() {
 		grep -Fxq $1 built && return
