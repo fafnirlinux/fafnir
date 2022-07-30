@@ -1,0 +1,6 @@
+ver=1.2.2
+
+[srcs]
+https://musl.libc.org/releases/%name-%ver.tar.gz
+
+[build]

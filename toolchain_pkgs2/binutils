@@ -8,17 +8,9 @@ mkdir build && cd build
 
 ../configure \
 	--prefix=%tools \
-	--target=$XTARGET \
 	--with-sysroot=%rootfs \
-	--disable-multilib \
+	--target=$TARGET \
+	--disable-nls \
 	--disable-werror
 
-%make \
-	all-binutils \
-	all-gas \
-	all-ld
-
-make \
-	install-strip-binutils \
-	install-strip-gas \
-	install-strip-ld
+%make && make install

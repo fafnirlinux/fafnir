@@ -13,6 +13,6 @@ mkdir build && cd build
 	--disable-multilib \
 	--disable-nls \
 	--disable-libstdcxx-pch \
-	--with-gxx-include-dir=%tools/$TARGET/include/c++/11.2.0
+	--with-gxx-include-dir=$TARGET/include/c++/11.2.0
 
 %make && make DESTDIR=%rootfs install

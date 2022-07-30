@@ -30,15 +30,11 @@ mkdir build && cd build
 	--disable-werror \
 	--enable-initfini-array $XGCCARGS
 
-mkdir -p %rootfs/include
-
-%make all-gcc
-make install-strip-gcc
-
-CFLAGS='-g0 -O0' \
-CXXFLAGS='-g0 -O0' \
 %make \
-	enable_shared=no \
+	enable_shared=yes \
 	all-target-libgcc
+	all-target-libstdc++-v3
 
-make install-strip-target-libgcc
+make \
+	install-strip-target-libgcc \
+	install-strip-target-libstdc++-v3

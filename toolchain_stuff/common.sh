@@ -3,7 +3,19 @@
 export CC=gcc
 export CXX=g++
 
+export CFLAGS=-O2
+export CXXFLAGS=-O2
+
+export XARCH=x86-64
+export LARCH=x86_64
+export MARCH=$LARCH
+export XGCCARGS="--with-arch=$XARCH --with-tune=generic"
+export XPURE64=$XARCH
+export XTARGET=$LARCH-linux-musl
+
 export HOSTCC=$CC HOSTCXX=$CXX
+
+alias make="make INFO_DEPS= infodir= ac_cv_prog_lex_root=lex.yy MAKEINFO=true"
 
 xconfflags=
 
