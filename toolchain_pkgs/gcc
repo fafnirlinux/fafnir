@@ -1,0 +1,45 @@
+ver=11.2.0
+workdir=%name-%ver
+
+[srcs]
+https://ftp.gnu.org/gnu/%name/%name-%ver/%name-%ver.tar.xz
+https://www.mpfr.org/mpfr-4.1.0/mpfr-4.1.0.tar.xz
+https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz
+https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz
+
+[build]
+mv ../mpfr-4.1.0 mpfr
+mv ../gmp-6.2.1 gmp
+mv ../mpc-1.2.1 mpc
+
+sed -e '/m64=/s/lib64/lib/' \
+        -i.orig gcc/config/i386/t-linux64
+
+mkdir build && cd build
+
+../configure \
+	--target=$TARGET \
+	--prefix=%tools \
+	--with-glibc-version=2.35 \
+	--with-sysroot=%rootfs \
+	--with-newlib \
+	--without-headers \
+	--enable-initfini-array \
+	--disable-nls \
+	--disable-shared \
+	--disable-multilib \
+	--disable-decimal-float \
+	--disable-threads \
+	--disable-libatomic \
+	--disable-libgomp \
+	--disable-libquadmath \
+	--disable-libssp \
+	--disable-libvtv \
+	--disable-libstdcxx \
+	--enable-languages=c,c++
+
+%make && make install
+
+cd ..
+cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
+  `dirname $($TARGET-gcc -print-libgcc-file-name)`/install-tools/include/limits.h

@@ -1,7 +1,7 @@
 #!/bin/sh
 
-export CC=clang
-export CXX=clang++
+export CC=gcc
+export CXX=g++
 
 export HOSTCC=$CC HOSTCXX=$CXX
 

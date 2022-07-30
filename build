@@ -63,6 +63,29 @@ build_toolchain() {
 
 	export PATH=$PWD/tools/bin:$PATH
 
+	#export HOST="$(echo $(clang -dumpmachine) | sed -e 's/-[^-]*/-cross/')"
+	export TARGET="x86_64-linux-musl"
+
+	emerge() {
+		./nya build --config config.toolchain $1
+	}
+
+	emerge libstdc++
+
+	return
+
+	emerge binutils
+	emerge gcc
+	emerge linux-headers
+	emerge glibc
+	emerge libstdc++
+}
+
+build_toolchain2() {
+	mkdir -p rootfs tools
+
+	export PATH=$PWD/tools/bin:$PATH
+
 	export HOST="$(echo $(clang -dumpmachine) | sed -e 's/-[^-]*/-cross/')"
 	export TARGET="x86_64-linux-musl"
 	export XHOST=$HOST XTARGET=$TARGET
