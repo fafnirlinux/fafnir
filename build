@@ -195,8 +195,8 @@ main() {
 
 	case $1 in
 		init) init ;;
-		toolchain) build_toolchain ;;
 		stage0) build_stage0 ;;
+		stage1) build_stage1 ;;
 		get-nya) get_nya ;;
 		build-nya) build_nya ;;
 		repo) clone_repo ;;
