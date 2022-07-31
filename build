@@ -108,7 +108,6 @@ build_stage1() {
 	emerge m4
 	emerge ncurses
 	emerge bash
-	emerge busybox
 	emerge diffutils
 	emerge file
 	emerge gawk
@@ -125,6 +124,7 @@ build_stage1() {
 	emerge curl
 	emerge cmake
 	emerge nya
+	emerge coreutils
 	emerge binutils
 	emerge gcc
 }
