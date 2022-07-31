@@ -85,11 +85,14 @@ build_stage0() {
 }
 
 build_stage1() {
-	[[ ! -f built.stage0 ]] && echo "build stage0 first."; return 1
+	if [[ ! -f built.stage0 ]]; then
+		echo "build stage0 first."
+		return 1
+	fi
 
-	if (( $(cat -n built.stage0) != $(ls pkgs.stage0 | wc -l) )); then
+	if (( $(cat -n built.stage0 | wc -l ) != $(ls pkgs.stage0 | wc -l) )); then
 		echo "build stage0 correctly."
-		return
+		return 1
 	fi
 
 	[[ ! -f built.stage1 ]] && touch built.stage1
