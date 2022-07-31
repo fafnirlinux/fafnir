@@ -25,8 +25,9 @@ mkdir -p $XTARGET/libgcc
 ln -s ../../../libgcc/gthr-posix.h $XTARGET/libgcc/gthr-default.h
 
 ../configure \
-	--build=$(../config.guess) \
+	--build=$XHOST \
 	--host=$XTARGET \
+	--target=$XTARGET \
 	--prefix=%prefix \
 	CC_FOR_TARGET=$XTARGET-gcc \
 	--with-build-sysroot=%rootfs \

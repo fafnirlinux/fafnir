@@ -8,8 +8,9 @@ mkdir build && cd build
 
 ../configure \
 	--prefix=%prefix \
-	--build=$(../config.guess) \
+	--target=$XTARGET \
 	--host=$XTARGET \
+	--build=$XHOST \
 	--disable-nls \
 	--enable-shared \
 	--disable-werror \

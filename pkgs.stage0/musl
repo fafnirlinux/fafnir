@@ -10,6 +10,7 @@ CROSS_COMPILE=$XTARGET- \
 LIBCC="%tools/lib/gcc/$XTARGET/12.1.0/libgcc.a" \
 ./configure \
 	--host=$XTARGET \
+	--build=$XHOST \
 	--prefix=%prefix
 
 %make \

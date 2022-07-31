@@ -6,7 +6,6 @@ https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
 [build]
 ./configure \
 	--prefix=%prefix \
-	--build=$(support/config.guess) \
 	--host=$XTARGET \
 	--without-bash-malloc
 

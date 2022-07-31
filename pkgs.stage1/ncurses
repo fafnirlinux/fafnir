@@ -14,7 +14,7 @@ popd
 ./configure \
 	--prefix=%prefix \
 	--host=$XTARGET \
-	--build=$(./config.guess) \
+	--build=$XHOST \
 	--mandir=/usr/share/man \
 	--with-manpage-format=normal \
 	--with-shared \

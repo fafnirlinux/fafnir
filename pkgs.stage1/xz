@@ -7,7 +7,7 @@ https://tukaani.org/%name/%name-%ver.tar.xz
 ./configure \
 	--prefix=%prefix \
 	--host=$XTARGET \
-	--build=$(build-aux/config.guess) \
+	--build=$XHOST \
 	--disable-static \
 	--docdir=/usr/share/doc/xz-5.2.5
 

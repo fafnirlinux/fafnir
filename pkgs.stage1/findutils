@@ -6,9 +6,9 @@ https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
 [build]
 ./configure \
 	--prefix=%prefix \
-	--localstatedir=/var/lib/locate \
 	--host=$XTARGET \
-	--build=$(build-aux/config.guess)
+	--build=$XHOST \
+	--localstatedir=/var/lib/locate
 
 %make
 make DESTDIR=%rootfs install

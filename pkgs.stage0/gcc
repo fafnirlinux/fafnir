@@ -23,6 +23,8 @@ mkdir build && cd build
 ../configure \
 	--prefix=%tools \
 	--target=$XTARGET \
+	--host=$XHOST \
+	--build=$XHOST \
 	--with-sysroot=%rootfs \
 	--enable-languages=c,c++ \
 	--disable-multilib \

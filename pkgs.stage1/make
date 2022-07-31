@@ -8,7 +8,7 @@ https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
 	--prefix=%prefix \
 	--without-guile \
 	--host=$XTARGET \
-	--build=$(build-aux/config.guess)
+	--build=$XHOST
 
 %make
 make DESTDIR=%rootfs install

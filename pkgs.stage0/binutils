@@ -9,6 +9,8 @@ mkdir build && cd build
 ../configure \
 	--prefix=%tools \
 	--target=$XTARGET \
+	--build=$XHOST \
+	--host=$XHOST \
 	--with-sysroot=%rootfs \
 	--disable-multilib \
 	--disable-werror

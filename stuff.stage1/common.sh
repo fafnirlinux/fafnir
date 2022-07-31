@@ -8,6 +8,7 @@ export MARCH=$LARCH
 export XGCCARGS="--with-arch=$XARCH --with-tune=generic"
 export XPURE64=$XARCH
 export XTARGET=$LARCH-linux-musl
+export XHOST=$(gcc -dumpmachine)
 
 export CROSS_COMPILE=$XTARGET-
 export CC=$XTARGET-gcc
@@ -28,6 +29,13 @@ export PKG_CONFIG_PATH="%rootfs/usr/lib/pkgconfig:%rootfs/usr/share/pkgconfig"
 export PKG_CONFIG_SYSROOT_DIR="%rootfs"
 export PKG_CONFIG_SYSTEM_INCLUDE_PATH="%rootfs/usr/include"
 export PKG_CONFIG_SYSTEM_LIBRARY_PATH="%rootfs/usr/lib"
+
+export BUILDFLAGS="--build=$XHOST --host=$XTARGET"
+export TOOLFLAGS="--build=$XHOST --host=$XTARGET --target=$XTARGET"
+export PERLFLAGS="--target=$XTARGET"
+
+export xcflags="-D_FORTIFY_SOURCE=2 -g0 -Os -flto -fomit-frame-pointer -fno-asynchronous-unwind-tables -fno-unwind-tables -ffunction-sections -fdata-sections -fstack-protector-strong -fstack-clash-protection -mretpoline --param=ssp-buffer-size=4 -pipe"
+export xldflags="-Wl,-z,relro,-z,now -Wl,--as-needed -Wl,--gc-sections -Wl,-z,noexecstack -s"
 
 export HOSTCC=$CC HOSTCXX=$CXX
 

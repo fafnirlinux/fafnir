@@ -6,8 +6,11 @@ https://distfiles.dereferenced.org/%name/%name-%ver.tar.xz
 [build]
 mkdir build && cd build
 
+CFLAGS="$CFLAGS -fcommon" \
 ../configure \
 	--prefix=%tools \
+	--host=$XTARGET \
+	--build=$XHOST \
 	--with-sysroot=%rootfs \
 	--with-pkg-config-dir="%rootfs/usr/lib/pkgconfig:%rootfs/usr/share/pkgconfig" \
 	--with-system-libdir="%rootfs/usr/lib" \

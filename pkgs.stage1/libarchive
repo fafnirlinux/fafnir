@@ -7,6 +7,7 @@ http://www.libarchive.org/downloads/%name-%ver.tar.xz
 ./configure \
 	--prefix=%prefix \
 	--host=$XTARGET \
+	--build=$XHOST \
 	--with-pic \
 	--without-openssl \
 	--without-xml2 \

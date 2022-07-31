@@ -6,7 +6,7 @@ https://busybox.net/downloads/%name-%ver.tar.bz2
 [build]
 cp %files/config .config
 %make busybox
-%make \
-  CONFIG_PREFIX=%rootfs \
-  install
+make \
+	CONFIG_PREFIX=%rootfs \
+	install
 rm -f %rootfs/linuxrc
