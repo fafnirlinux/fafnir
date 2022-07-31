@@ -16,7 +16,8 @@ export MARCH=$LARCH
 export XGCCARGS="--with-arch=$XARCH --with-tune=generic"
 export XPURE64=$XARCH
 export XTARGET=$LARCH-linux-musl
-export XHOST="$(echo $(gcc -dumpmachine) | sed -e 's/-[^-]*/-cross/')"
+export XHOST=$(gcc -dumpmachine)
+#export XHOST="$(echo $(gcc -dumpmachine) | sed -e 's/-[^-]*/-cross/')"
 
 export HOSTCC=$CC HOSTCXX=$CXX
 
