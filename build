@@ -65,17 +65,13 @@ build_stage0() {
 
 	emerge() {
 		grep -Fxq $1 built.stage0 && return 0
-		./nya build --config config.stage0
+		./nya build --config config.stage0 $1
 		ret=$?
 		if (( $ret == 0 )); then
 			echo $1 >> built.stage0
 		fi
 		return $ret
 	}
-
-	emerge musl
-
-	return 1
 
 	emerge musl-headers || return 1
 	emerge binutils || return 1
