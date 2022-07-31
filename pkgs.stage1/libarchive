@@ -1,0 +1,19 @@
+ver=3.4.3
+
+[srcs]
+http://www.libarchive.org/downloads/%name-%ver.tar.xz
+
+[build]
+./configure \
+	--prefix=%prefix \
+	--host=$XTARGET \
+	--with-pic \
+	--without-openssl \
+	--without-xml2 \
+	--without-expat \
+	--disable-acl \
+	--enable-shared \
+	--enable-static
+
+%make
+make DESTDIR=%rootfs install

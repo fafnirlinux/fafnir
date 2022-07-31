@@ -106,6 +106,10 @@ build_stage1() {
 	emerge sed
 	emerge tar
 	emerge xz
+	emerge zlib
+	emerge libarchive
+	emerge curl
+	emerge nya
 	emerge binutils
 	emerge gcc
 }

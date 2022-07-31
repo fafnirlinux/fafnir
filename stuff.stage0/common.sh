@@ -19,13 +19,6 @@ export HOSTCC=$CC HOSTCXX=$CXX
 
 alias make="make INFO_DEPS= infodir= ac_cv_prog_lex_root=lex.yy MAKEINFO=true"
 
-xconfflags=
-
-if [[ $STAGE = 0 ]]; then
-	export machine=$($CC -dumpmachine)
-	xconfflags="--host=$machine --target=$machine"
-fi
-
 inst() {
     local action=$@
     if [[ -z $action ]]; then

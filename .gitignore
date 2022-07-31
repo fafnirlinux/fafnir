@@ -3,9 +3,9 @@
 /rootfs
 /built.stage0
 /built.stage1
+/src
 /src.stage0
 /src.stage1
-/src
 /iso
 /tools
 /fafnirlinux.iso

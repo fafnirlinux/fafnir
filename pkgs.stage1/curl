@@ -1,0 +1,17 @@
+ver=7.84.0
+
+[srcs]
+https://curl.haxx.se/download/%name-%ver.tar.xz
+
+[build]
+./configure \
+	--prefix=%prefix \
+	--host=$XTARGET \
+	--without-brotli \
+	--without-libidn2 \
+	--without-libpsl \
+	--without-nghttp2 \
+	--without-librtmp
+
+%make
+make DESTDIR=%dest install
