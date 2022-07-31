@@ -4,7 +4,7 @@ ver=3.4.3
 http://www.libarchive.org/downloads/%name-%ver.tar.xz
 
 [build]
-%conf $BUILDFLAGS \
+%conf $HOSTFLAGS \
 	--with-pic \
 	--without-openssl \
 	--without-xml2 \

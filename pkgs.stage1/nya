@@ -2,7 +2,8 @@
 https://github.com/fafnirlinux/nya
 
 [build]
+export CFLAGS="-D_GNU_SOURCE"
 mkdir build && cd build
-cmake ..
+cmake $CMAKEFLAGS ..
 %make
 cp nya %rootfs/bin

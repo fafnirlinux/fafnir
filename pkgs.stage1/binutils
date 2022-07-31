@@ -6,7 +6,8 @@ https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
 [build]
 mkdir build && cd build
 
-.%conf $TOOLFLAGS \
+.%conf $HOSTFLAGS \
+	--target=$XTARGET \
 	--disable-nls \
 	--enable-shared \
 	--disable-werror \
