@@ -1,6 +1,5 @@
 # settings
 
-prefix=/usr
 tools=%pwd/tools
 rootfs=%pwd/rootfs
 src=%pwd/src.stage0

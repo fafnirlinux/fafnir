@@ -12,9 +12,9 @@ CFLAGS="$CFLAGS -fcommon" \
 	--host=$XTARGET \
 	--build=$XHOST \
 	--with-sysroot=%rootfs \
-	--with-pkg-config-dir="%rootfs/usr/lib/pkgconfig:%rootfs/usr/share/pkgconfig" \
-	--with-system-libdir="%rootfs/usr/lib" \
-	--with-system-includedir="%rootfs/usr/include"
+	--with-pkg-config-dir="%rootfs/lib/pkgconfig:%rootfs/share/pkgconfig" \
+	--with-system-libdir="%rootfs/lib" \
+	--with-system-includedir="%rootfs/include"
 
 %make
 make install-strip

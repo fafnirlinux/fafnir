@@ -7,4 +7,4 @@ https://zlib.net/%name-%ver.tar.xz
 %conf
 %make
 make DESTDIR=%rootfs install
-rm -f %rootfs/usr/lib/libz.a
+rm -f %rootfs/lib/libz.a

@@ -13,5 +13,5 @@ make \
 make \
 	O=%src/linux \
 	ARCH=$LARCH \
-	INSTALL_HDR_PATH=%rootfs/usr \
+	INSTALL_HDR_PATH=%rootfs \
 	headers_install

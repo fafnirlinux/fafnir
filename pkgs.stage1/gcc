@@ -27,6 +27,7 @@ ln -s ../../../libgcc/gthr-posix.h $XTARGET/libgcc/gthr-default.h
 .%conf \
 	--target=$XTARGET \
 	--host=$XTARGET \
+	--build=$XHOST \
 	CC_FOR_TARGET=$XTARGET-gcc \
 	--with-build-sysroot=%rootfs \
 	--enable-initfini-array \
@@ -44,4 +45,4 @@ make DESTDIR=%rootfs \
 	install-strip-target-libgcc \
 	install-strip-target-libstdc++-v3
 
-ln -sv gcc %rootfs/usr/bin/cc
+ln -sf gcc %rootfs/bin/cc

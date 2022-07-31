@@ -12,7 +12,7 @@ pushd build
 popd
 
 %conf $BUILDFLAGS \
-	--mandir=/usr/share/man \
+	--mandir=/share/man \
 	--with-manpage-format=normal \
 	--with-shared \
 	--without-debug \
@@ -24,4 +24,4 @@ popd
 %make
 
 make DESTDIR=%rootfs TIC_PATH=$(pwd)/build/progs/tic install
-echo "INPUT(-lncursesw)" > %rootfs/usr/lib/libncurses.so
+echo "INPUT(-lncursesw)" > %rootfs/lib/libncurses.so

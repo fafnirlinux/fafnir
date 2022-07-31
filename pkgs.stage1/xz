@@ -6,7 +6,7 @@ https://tukaani.org/%name/%name-%ver.tar.xz
 [build]
 %conf $BUILDFLAGS \
 	--disable-static \
-	--docdir=/usr/share/doc/xz-5.2.5
+	--docdir=/share/doc/xz-5.2.5
 
 %make
 make DESTDIR=%rootfs install

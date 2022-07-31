@@ -8,7 +8,7 @@ mkdir build && cd build
 
 .%conf \
 	--with-sysroot=%rootfs \
-	--with-lib-path=%rootfs/usr/lib \
+	--with-lib-path=%rootfs/lib \
 	--build=$XHOST \
 	--host=$XTARGET \
 	--target=$XTARGET \
