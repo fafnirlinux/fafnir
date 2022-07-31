@@ -7,6 +7,7 @@ https://curl.haxx.se/download/%name-%ver.tar.xz
 ./configure \
 	--prefix=%prefix \
 	--host=$XTARGET \
+	--build=$XHOST \
 	--without-brotli \
 	--without-libidn2 \
 	--without-libpsl \
