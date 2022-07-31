@@ -14,7 +14,6 @@ export MARCH=$LARCH
 export XGCCARGS="--with-arch=$XARCH --with-tune=generic"
 export XPURE64=$XARCH
 export XTARGET=$LARCH-linux-musl
-export XHOST=$(gcc -dumpmachine)
 #export XHOST="$(echo $(gcc -dumpmachine) | sed -e 's/-[^-]*/-cross/')"
 
 export CROSS_COMPILE=$XTARGET-
@@ -29,6 +28,8 @@ export STRIP=$XTARGET-strip
 export OBJCOPY=$XTARGET-objcopy
 export OBJDUMP=$XTARGET-objdump
 export SIZE=$XTARGET-size
+
+export XHOST=$($CC -dumpmachine)
 
 export PKG_CONFIG=$XTARGET-pkgconf
 export PKG_CONFIG_LIBDIR="%rootfs/usr/lib/pkgconfig:%rootfs/usr/share/pkgconfig"

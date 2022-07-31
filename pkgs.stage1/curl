@@ -8,6 +8,7 @@ https://curl.haxx.se/download/%name-%ver.tar.xz
 	--prefix=%prefix \
 	--host=$XTARGET \
 	--build=$XHOST \
+	--with-openssl \
 	--without-brotli \
 	--without-libidn2 \
 	--without-libpsl \
