@@ -11,6 +11,7 @@ mkdir build && cd build
 	--with-lib-path=%rootfs/lib \
 	--host=$XTARGET \
 	--target=$XTARGET \
+	--with-pic \
 	--disable-nls \
 	--enable-shared \
 	--disable-werror \
@@ -20,5 +21,14 @@ mkdir build && cd build
 	--enable-targets=x86_64-pep \
 	--enable-default-hash-style=gnu
 
-%make
-make DESTDIR=%rootfs install
+%make \
+	all-binutils \
+	all-gas \
+	all-ld
+
+make DESTDIR=%rootfs \
+	install-strip-binutils \
+	install-strip-gas \
+	install-strip-ld
+
+install -Dm755 binutils/elfedit %rootfs/bin/$XTARGET-elfedit

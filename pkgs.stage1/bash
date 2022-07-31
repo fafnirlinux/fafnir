@@ -10,4 +10,4 @@ https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
 %make
 make DESTDIR=%rootfs install
 
-ln -sv bash %rootfs/bin/sh
+ln -s bash %rootfs/bin/sh
