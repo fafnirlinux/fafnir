@@ -21,7 +21,7 @@ export XHOST=$(gcc -dumpmachine)
 
 export HOSTCC=$CC HOSTCXX=$CXX
 
-alias make="make INFO_DEPS= infodir= ac_cv_prog_lex_root=lex.yy MAKEINFO=true"
+#alias make="make INFO_DEPS= infodir= ac_cv_prog_lex_root=lex.yy MAKEINFO=true"
 
 inst() {
     local action=$@
