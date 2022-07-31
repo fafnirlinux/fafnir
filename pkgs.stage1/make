@@ -4,11 +4,8 @@ ver=4.3
 https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
 
 [build]
-./configure \
-	--prefix=%prefix \
-	--without-guile \
-	--host=$XTARGET \
-	--build=$XHOST
+%conf $BUILDFLAGS \
+	--without-guile
 
 %make
 make DESTDIR=%rootfs install

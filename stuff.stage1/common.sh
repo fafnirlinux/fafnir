@@ -38,9 +38,10 @@ export PKG_CONFIG_SYSROOT_DIR="%rootfs"
 export PKG_CONFIG_SYSTEM_INCLUDE_PATH="%rootfs/usr/include"
 export PKG_CONFIG_SYSTEM_LIBRARY_PATH="%rootfs/usr/lib"
 
-export BUILDFLAGS="--build=$XHOST --host=$XTARGET"
-export TOOLFLAGS="--build=$XHOST --host=$XTARGET --target=$XTARGET"
+export BUILDFLAGS="--build=$XHOST --host=$XTARGET --with-sysroot=%rootfs"
+export TOOLFLAGS="--build=$XHOST --host=$XTARGET --target=$XTARGET --with-sysroot=%rootfs"
 export PERLFLAGS="--target=$XTARGET"
+export CMAKEFLAGS="-DCMAKE_CROSSCOMPILING=ON -DCMAKE_TOOLCHAIN_FILE=%rootfs/share/cmake/cmake.cross"
 
 export xcflags="-D_FORTIFY_SOURCE=2 -g0 -Os -flto -fomit-frame-pointer -fno-asynchronous-unwind-tables -fno-unwind-tables -ffunction-sections -fdata-sections -fstack-protector-strong -fstack-clash-protection -mretpoline --param=ssp-buffer-size=4 -pipe"
 export xldflags="-Wl,-z,relro,-z,now -Wl,--as-needed -Wl,--gc-sections -Wl,-z,noexecstack -s"

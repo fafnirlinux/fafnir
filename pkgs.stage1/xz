@@ -4,10 +4,7 @@ ver=5.2.5
 https://tukaani.org/%name/%name-%ver.tar.xz
 
 [build]
-./configure \
-	--prefix=%prefix \
-	--host=$XTARGET \
-	--build=$XHOST \
+%conf $BUILDFLAGS \
 	--disable-static \
 	--docdir=/usr/share/doc/xz-5.2.5
 

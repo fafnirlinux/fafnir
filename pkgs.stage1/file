@@ -6,9 +6,7 @@ https://astron.com/pub/%name/%name-%ver.tar.gz
 [build]
 mkdir build
 pushd build
-	../configure \
-		--host=$XTARGET \
-		--build=$XHOST \
+	../configure $BUILDFLAGS \
 		--disable-bzlib \
 		--disable-libseccomp \
 		--disable-xzlib \
@@ -16,10 +14,6 @@ pushd build
 	%make
 popd
 
-./configure \
-	--prefix=%prefix \
-	--host=$XTARGET \
-	--build=$XHOST
-
+%conf $BUILDFLAGS
 %make FILE_COMPILE=$(pwd)/build/src/file
 make DESTDIR=%rootfs install

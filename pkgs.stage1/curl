@@ -1,13 +1,12 @@
-ver=7.84.0
+ver=7.75.0
 
 [srcs]
 https://curl.haxx.se/download/%name-%ver.tar.xz
 
 [build]
-./configure \
-	--prefix=%prefix \
+%conf \
+	--target=$XTARGET \
 	--host=$XTARGET \
-	--build=$XHOST \
 	--with-openssl \
 	--without-brotli \
 	--without-libidn2 \
@@ -16,4 +15,4 @@ https://curl.haxx.se/download/%name-%ver.tar.xz
 	--without-librtmp
 
 %make
-make DESTDIR=%dest install
+make DESTDIR=%rootfs install

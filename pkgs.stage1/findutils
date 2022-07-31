@@ -4,10 +4,7 @@ ver=4.9.0
 https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
 
 [build]
-./configure \
-	--prefix=%prefix \
-	--host=$XTARGET \
-	--build=$XHOST \
+%conf $BUILDFLAGS \
 	--localstatedir=/var/lib/locate
 
 %make

@@ -6,17 +6,12 @@ https://invisible-mirror.net/archives/%name/%name-%ver.tar.gz
 [build]
 mkdir build
 pushd build
-	../configure \
-		--host=$XTARGET \
-		--build=$XHOST
+	../configure $BUILDFLAGS
 	%make -C include
 	%make -C progs tic
 popd
 
-./configure \
-	--prefix=%prefix \
-	--host=$XTARGET \
-	--build=$XHOST \
+%conf $BUILDFLAGS \
 	--mandir=/usr/share/man \
 	--with-manpage-format=normal \
 	--with-shared \

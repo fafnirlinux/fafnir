@@ -4,10 +4,6 @@ ver=3.7
 https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
 
 [build]
-./configure \
-	--prefix=%prefix \
-	--host=$XTARGET \
-	--build=$XHOST
-
+%conf $BUILDFLAGS
 %make
 make DESTDIR=%rootfs install

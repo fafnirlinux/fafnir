@@ -1,0 +1,35 @@
+ver=3.20.4
+
+[srcs]
+https://www.cmake.org/files/v%ver/%name-%ver.tar.gz
+
+[build]
+sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
+
+./bootstrap $BUILDFLAGS \
+	--prefix=%prefix \
+	--mandir=/share/man \
+	--docdir=/share/doc/cmake \
+	--no-system-jsoncpp \
+	--no-system-librhash \
+	--no-system-curl \
+	--no-system-libarchive \
+	--no-system-nghttp2 \
+	--no-system-expat \
+	--no-system-zlib \
+	--no-system-zstd \
+	--no-system-libuv
+
+%make
+make DESTDIR=%roofs install
+
+mkdir -p %rootfs/share/cmake
+cat >> %rootfs/share/cmake/cmake.cross <<-EOF
+	set(CMAKE_SYSROOT %rootfs)
+	set(CMAKE_C_COMPILER $CC)
+	set(CMAKE_CXX_COMPILER $CXX)
+	set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+	set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+	set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+	set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+EOF

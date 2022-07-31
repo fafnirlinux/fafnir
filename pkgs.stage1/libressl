@@ -1,0 +1,14 @@
+ver=3.1.5
+
+[srcs]
+http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/%name-%ver.tar.gz
+
+[build]
+%conf $BUILDFLAGS \
+	--disable-hardening \
+	ac_cv_func_getentropy=no
+
+%stuff/libtool.cross.gen --sysroot=%rootfs
+
+%make
+make DESTDIR=%rootfs install

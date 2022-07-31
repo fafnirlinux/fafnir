@@ -4,10 +4,7 @@ ver=5.1.16
 https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
 
 [build]
-./configure \
-	--prefix=%prefix \
-	--host=$XTARGET \
-	--build=$XHOST \
+%conf $BUILDFLAGS \
 	--without-bash-malloc
 
 %make

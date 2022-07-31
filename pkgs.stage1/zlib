@@ -4,7 +4,7 @@ ver=1.2.11
 https://zlib.net/%name-%ver.tar.xz
 
 [build]
-./configure --prefix=%prefix
+%conf
 %make
 make DESTDIR=%rootfs install
 rm -f %rootfs/usr/lib/libz.a
