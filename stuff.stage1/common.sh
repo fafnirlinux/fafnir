@@ -1,5 +1,11 @@
 #!/bin/sh
 
+umask 0022
+unalias -a
+
+pushd() { command pushd "$1" > /dev/null; }
+popd() { command popd "$1" > /dev/null; }
+
 export PATH=%tools/bin:$PATH
 
 export XARCH=x86-64
