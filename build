@@ -121,7 +121,9 @@ build_stage1() {
 	emerge xz
 	emerge libz
 	emerge libarchive
+	emerge libressl
 	emerge curl
+	emerge cmake
 	emerge nya
 	emerge binutils
 	emerge gcc

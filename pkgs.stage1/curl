@@ -4,9 +4,7 @@ ver=7.75.0
 https://curl.haxx.se/download/%name-%ver.tar.xz
 
 [build]
-%conf \
-	--target=$XTARGET \
-	--host=$XTARGET \
+%conf $HOSTFLAGS \
 	--with-openssl \
 	--without-brotli \
 	--without-libidn2 \

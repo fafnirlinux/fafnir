@@ -4,7 +4,7 @@ ver=3.1.5
 http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/%name-%ver.tar.gz
 
 [build]
-%conf $BUILDFLAGS \
+%conf $HOSTFLAGS \
 	--disable-hardening \
 	ac_cv_func_getentropy=no
 
