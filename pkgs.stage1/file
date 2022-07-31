@@ -7,6 +7,8 @@ https://astron.com/pub/%name/%name-%ver.tar.gz
 mkdir build
 pushd build
 	../configure \
+		--host=$XTARGET \
+		--build=$XHOST \
 		--disable-bzlib \
 		--disable-libseccomp \
 		--disable-xzlib \

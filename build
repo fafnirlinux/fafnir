@@ -73,10 +73,6 @@ build_stage0() {
 		fi
 	}
 
-	emerge gcc
-
-	return 0
-
 	emerge musl-headers
 	emerge binutils
 	emerge gcc
@@ -123,7 +119,7 @@ build_stage1() {
 	emerge sed
 	emerge tar
 	emerge xz
-	emerge zlib
+	emerge libz
 	emerge libarchive
 	emerge curl
 	emerge nya

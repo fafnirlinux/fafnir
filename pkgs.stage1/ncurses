@@ -6,7 +6,9 @@ https://invisible-mirror.net/archives/%name/%name-%ver.tar.gz
 [build]
 mkdir build
 pushd build
-	../configure
+	../configure \
+		--host=$XTARGET \
+		--build=$XHOST
 	%make -C include
 	%make -C progs tic
 popd

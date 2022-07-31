@@ -1,16 +1,13 @@
-ver=5.1.16
+ver=1.2.8.2015.12.26
 
 [srcs]
-https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
+https://sortix.org/libz/release/%name-%ver.tar.gz
 
 [build]
 ./configure \
 	--prefix=%prefix \
 	--host=$XTARGET \
 	--build=$XHOST \
-	--without-bash-malloc
 
 %make
 make DESTDIR=%rootfs install
-
-ln -sv bash %rootfs/bin/sh
