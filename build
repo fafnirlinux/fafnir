@@ -73,6 +73,10 @@ build_stage0() {
 		fi
 	}
 
+	emerge gcc
+
+	return 0
+
 	emerge musl-headers
 	emerge binutils
 	emerge gcc
