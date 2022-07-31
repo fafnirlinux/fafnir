@@ -66,20 +66,20 @@ build_stage0() {
 	emerge() {
 		grep -Fxq $1 built.stage0 && return 0
 		./nya build --config config.stage0 $1
-		ret=$?
-		if (( $ret == 0 )); then
+		if (( $? == 0 )); then
 			echo $1 >> built.stage0
+		else
+			exit 1
 		fi
-		return $ret
 	}
 
-	emerge musl-headers || return 1
-	emerge binutils || return 1
-	emerge gcc || return 1
-	emerge musl || return 1
-	emerge libgcc-shared || return 1
-	emerge linux-headers || return 1
-	emerge pkgconf || return 1
+	emerge musl-headers
+	emerge binutils
+	emerge gcc
+	emerge musl
+	emerge libgcc-shared
+	emerge linux-headers
+	emerge pkgconf
 }
 
 build_stage1() {
@@ -98,33 +98,33 @@ build_stage1() {
 	emerge() {
 		grep -Fxq $1 built.stage1 && return 0
 		./nya build --config config.stage1 $1
-		ret=$?
-		if (( $ret == 0 )); then
+		if (( $? == 0 )); then
 			echo $1 >> built.stage1
+		else
+			exit 1
 		fi
-		return $ret
 	}
 
-	emerge m4 || return 1
-	emerge ncurses || return 1
-	emerge bash || return 1
-	emerge busybox || return 1
-	emerge diffutils || return 1
-	emerge file || return 1
-	emerge gawk || return 1
-	emerge grep || return 1
-	emerge gzip || return 1
-	emerge make || return 1
-	emerge patch || return 1
-	emerge sed || return 1
-	emerge tar || return 1
-	emerge xz || return 1
-	emerge zlib || return 1
-	emerge libarchive || return 1
-	emerge curl || return 1
-	emerge nya || return 1
-	emerge binutils || return 1
-	emerge gcc || return 1
+	emerge m4
+	emerge ncurses
+	emerge bash
+	emerge busybox
+	emerge diffutils
+	emerge file
+	emerge gawk
+	emerge grep
+	emerge gzip
+	emerge make
+	emerge patch
+	emerge sed
+	emerge tar
+	emerge xz
+	emerge zlib
+	emerge libarchive
+	emerge curl
+	emerge nya
+	emerge binutils
+	emerge gcc
 }
 
 prepare_rootfs() {
