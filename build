@@ -85,6 +85,13 @@ build_stage0() {
 }
 
 build_stage1() {
+	[[ ! -f built.stage0 ]] && echo "build stage0 first."; return 1
+
+	if (( $(cat -n built.stage0) != $(ls pkgs.stage0 | wc -l) )); then
+		echo "build stage0 correctly."
+		return
+	fi
+
 	[[ ! -f built.stage1 ]] && touch built.stage1
 
 	emerge() {
