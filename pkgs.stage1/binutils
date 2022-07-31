@@ -6,12 +6,20 @@ https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
 [build]
 mkdir build && cd build
 
-.%conf $HOSTFLAGS \
+.%conf \
+	--with-sysroot=%rootfs \
+	--with-lib-path=%rootfs/usr/lib \
+	--build=$XHOST \
+	--host=$XTARGET \
 	--target=$XTARGET \
 	--disable-nls \
 	--enable-shared \
 	--disable-werror \
-	--enable-64-bit-bfd
+	--enable-64-bit-bfd \
+	--disable-multilib \
+	--enable-threads \
+	--enable-targets=x86_64-pep \
+	--enable-default-hash-style=gnu
 
 %make
 make DESTDIR=%rootfs install
