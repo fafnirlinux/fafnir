@@ -7,3 +7,4 @@ https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
 %conf $BUILDFLAGS
 %make
 make DESTDIR=%rootfs install
+ln -sf awk %rootfs/bin/gawk

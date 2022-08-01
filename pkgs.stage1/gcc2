@@ -5,7 +5,6 @@ mpc_ver=1.2.1
 mpfr_ver=4.1.0
 
 workdir=%name-%ver
-force-patch=yes
 
 [srcs]
 https://ftp.gnu.org/gnu/%name/%name-%ver/%name-%ver.tar.xz
@@ -18,26 +17,22 @@ mv ../gmp-%gmp_ver gmp
 mv ../mpc-%mpc_ver mpc
 mv ../mpfr-%mpfr_ver mpfr
 
+sed -e '/m64=/s/lib64/lib/' -i.orig gcc/config/i386/t-linux64
+
 mkdir build && cd build
 
-../configure \
-	--prefix=%prefix \
+mkdir -p $XTARGET/libgcc
+ln -s ../../../libgcc/gthr-posix.h $XTARGET/libgcc/gthr-default.h
+
+.%conf \
 	--target=$XTARGET \
 	--host=$XTARGET \
 	--with-sysroot=%rootfs \
-	--enable-languages=c,c++ \
+	CC_FOR_TARGET=$XTARGET-gcc \
+	--with-build-sysroot=%rootfs \
+	--enable-initfini-array \
 	--disable-multilib \
-	--disable-bootstrap \
-	--disable-libsanitizer \
-	--disable-symvers \
-	--disable-werror \
-	--disable-libstdcxx-pch \
-	--disable-libquadmath \
-	--disable-libgomp \
-	--disable-libitm \
-	--disable-libssp \
-	--disable-libvtv \
-	--enable-initfini-array $XGCCARGS
+	--enable-languages=c,c++ $XGCCARGS
 
 %make \
 	enable_shared=yes \

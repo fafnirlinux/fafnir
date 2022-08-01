@@ -1,0 +1,7 @@
+ver=7.1.0
+
+[srcs]
+https://github.com/dylanaraps/neofetch/archive/%ver/%name-%ver.tar.gz
+
+[build]
+make DESTDIR=%rootfs PREFIX=%prefix install

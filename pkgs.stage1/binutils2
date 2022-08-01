@@ -1,0 +1,35 @@
+ver=2.38
+
+[srcs]
+https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
+
+[build]
+mkdir build && cd build
+
+.%conf \
+	--with-sysroot=%rootfs \
+	--host=$XTARGET \
+	--target=$XTARGET \
+	--without-isl \
+	--with-pic \
+	--disable-nls \
+	--enable-shared \
+	--disable-werror \
+	--enable-64-bit-bfd \
+	--disable-multilib \
+	--disable-static \
+	--enable-threads \
+	--enable-targets=x86_64-pep \
+	--enable-default-hash-style=gnu
+
+%make \
+	all-binutils \
+	all-gas \
+	all-ld
+
+make DESTDIR=%rootfs \
+	install-strip-binutils \
+	install-strip-gas \
+	install-strip-ld
+
+install -Dm755 binutils/elfedit %rootfs/bin/$XTARGET-elfedit
