@@ -1,0 +1,47 @@
+ver=12.1.0
+
+gmp_ver=6.2.1
+mpc_ver=1.2.1
+mpfr_ver=4.1.0
+
+workdir=%name-%ver
+force-patch=yes
+
+[srcs]
+https://ftp.gnu.org/gnu/%name/%name-%ver/%name-%ver.tar.xz
+https://ftp.gnu.org/gnu/gmp/gmp-%gmp_ver.tar.xz
+https://ftp.gnu.org/gnu/mpc/mpc-%mpc_ver.tar.gz
+https://www.mpfr.org/mpfr-%mpfr_ver/mpfr-%mpfr_ver.tar.xz
+
+[build]
+mv ../gmp-%gmp_ver gmp
+mv ../mpc-%mpc_ver mpc
+mv ../mpfr-%mpfr_ver mpfr
+
+mkdir build && cd build
+
+../configure \
+	--prefix=%tools \
+	--target=$XTARGET \
+	--host=$XHOST \
+	--build=$XHOST \
+	--with-sysroot=%rootfs \
+	--enable-languages=c,c++ \
+	--disable-multilib \
+	--disable-bootstrap \
+	--disable-libsanitizer \
+	--disable-werror \
+	--enable-initfini-array $XGCCARGS
+
+mkdir -p %rootfs/include
+
+%make all-gcc
+make install-strip-gcc
+
+CFLAGS='-g0 -O0' \
+CXXFLAGS='-g0 -O0' \
+%make \
+	enable_shared=no \
+	all-target-libgcc
+
+make install-strip-target-libgcc

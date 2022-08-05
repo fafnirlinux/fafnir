@@ -1,0 +1,17 @@
+ver=5.17.7
+
+[srcs]
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-%ver.tar.xz
+
+[build]
+mkdir %src/linux
+
+make \
+	ARCH=$LARCH \
+	mrproper
+
+make \
+	O=%src/linux \
+	ARCH=$LARCH \
+	INSTALL_HDR_PATH=%rootfs \
+	headers_install

@@ -13,8 +13,8 @@ export CXX=g++
 export HOSTLD=ld
 export HOSTAR=ar
 
-export CFLAGS=-O2
-export CXXFLAGS=-O2
+#export CFLAGS=-O2
+#export CXXFLAGS=-O2
 
 export XARCH=x86-64
 export LARCH=x86_64
