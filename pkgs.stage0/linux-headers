@@ -1,16 +1,17 @@
-ver=5.12.10
+ver=5.17.7
 
 [srcs]
 https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-%ver.tar.xz
 
 [build]
-make mrproper
+mkdir %src/linux
 
-make prefix=%prefix ARCH="x86_64" headers
-mkdir -p %tools/include
+make \
+	ARCH=$LARCH \
+	mrproper
 
-find include -name '.*' -delete
-rm include/Makefile
-cp -a include/* %tools/include
-
-find %tools \( -name .install -o -name ..install.cmd \) -print0 | xargs -0 rm -rf
+make \
+	O=%src/linux \
+	ARCH=$LARCH \
+	INSTALL_HDR_PATH=%rootfs \
+	headers_install

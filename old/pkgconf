@@ -9,7 +9,7 @@ mkdir build && cd build
 CFLAGS="$CFLAGS -fcommon" \
 ../configure \
 	--prefix=%tools \
-	--host=$XTARGET \
+	--host=$XHOST \
 	--build=$XHOST \
 	--with-sysroot=%rootfs \
 	--with-pkg-config-dir="%rootfs/lib/pkgconfig:%rootfs/share/pkgconfig" \

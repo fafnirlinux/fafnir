@@ -1,21 +1,25 @@
-ver=1.2.2
+ver=1.2.3
 
 [srcs]
-https://musl.libc.org/releases/%name-%ver.tar.gz
+https://www.musl-libc.org/releases/musl-%ver.tar.gz
 
 [build]
-./configure \
-	CROSS_COMPILE=$XTARGET- \
-	--prefix=/ \
-	--target=$XTARGET
+ARCH=$MARCH \
+CC=$XTARGET-gcc \
+CROSS_COMPILE=$XTARGET- \
+LIBCC="%tools/lib/gcc/$XTARGET/12.1.0/libgcc.a" \
+%conf \
+	--host=$XTARGET \
+	--build=$XHOST
 
-%make && make DESTDIR=%tools install
+%make \
+	AR=$XTARGET-ar \
+	RANLIB=$XTARGET-ranlib
 
-mkdir -p %tools/usr
-ln -s ../include %tools/usr/include
-rm -f %tools/lib/ld-musl*
-ln -s libc.so /cross-tools/lib/ld-musl-$ARCH.so.1
-ln -s ../lib/libc.so %tools/bin/ldd
-mkdir -p %tools/etc
-printf "%tools/lib \n" >> /cross-tools/etc/ld-musl-$ARCH.path
-#printf "%tools/lib \n" >> /cross-tools/etc/ld-musl-$ARCH.path
+%make \
+	AR=$XTARGET-ar \
+	RANLIB=$XTARGET-ranlib \
+	DESTDIR=%rootfs \
+	install
+
+ln -sf %rootfs/lib/libc.so ld-musl-$MARCH.so.1
