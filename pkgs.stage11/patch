@@ -1,9 +1,0 @@
-ver=2.7.6
-
-[srcs]
-https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
-
-[build]
-%conf $BUILDFLAGS
-%make
-make DESTDIR=%rootfs install

@@ -9,18 +9,10 @@ mkdir build && cd build
 ../configure \
 	--prefix=%tools \
 	--target=$XTARGET \
-	--build=$XHOST \
-	--host=$XHOST \
 	--with-sysroot=%rootfs \
 	--disable-multilib \
-	--disable-werror
+	--disable-werror \
+	--disable-compressed-debug-sections \
+	--disable-nls
 
-%make \
-	all-binutils \
-	all-gas \
-	all-ld
-
-make \
-	install-strip-binutils \
-	install-strip-gas \
-	install-strip-ld
+%make && make install

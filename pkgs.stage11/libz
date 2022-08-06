@@ -1,9 +1,0 @@
-ver=1.2.8.2015.12.26
-
-[srcs]
-https://sortix.org/libz/release/%name-%ver.tar.gz
-
-[build]
-%conf --host=$XTARGET
-%make
-make DESTDIR=%rootfs install
