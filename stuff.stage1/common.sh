@@ -8,48 +8,37 @@ popd() { command popd "$1" > /dev/null; }
 
 export PATH=%tools/bin:$PATH
 
-export XARCH=x86-64
-export LARCH=x86_64
-export MARCH=$LARCH
-export XGCCARGS="--with-arch=$XARCH --with-tune=generic"
-export XPURE64=$XARCH
-export XTARGET=$LARCH-linux-musl
-#export XHOST="$(echo $(gcc -dumpmachine) | sed -e 's/-[^-]*/-cross/')"
+export GCCARCH=x86-64
+export ARCH=x86_64
+export GCCARGS="--with-arch=$GCCARCH --with-tune=generic"
+export TARGET=$ARCH-linux-musl
+export HOST=$(gcc -dumpmachine)
 
-export CROSS_COMPILE=$XTARGET-
-export CC=$XTARGET-gcc
-export CXX=$XTARGET-g++
-export AR=$XTARGET-ar
-export AS=$XTARGET-as
-export RANLIB=$XTARGET-ranlib
-export LD=$XTARGET-ld
-export NM=$XTARGET-nm
-export STRIP=$XTARGET-strip
-export OBJCOPY=$XTARGET-objcopy
-export OBJDUMP=$XTARGET-objdump
-export SIZE=$XTARGET-size
+export CROSS_COMPILE=$TARGET-
+export CC=$TARGET-gcc
+export CXX=$TARGET-g++
+export AR=$TARGET-ar
+export AS=$TARGET-as
+export RANLIB=$TARGET-ranlib
+export LD=$TARGET-ld
+export NM=$TARGET-nm
+export STRIP=$TARGET-strip
+export OBJCOPY=$TARGET-objcopy
+export OBJDUMP=$TARGET-objdump
+export SIZE=$TARGET-size
 
-export XHOST=$($CC -dumpmachine)
-
-export PKG_CONFIG=$XTARGET-pkgconf
+export PKG_CONFIG=$TARGET-pkgconf
 export PKG_CONFIG_LIBDIR="%rootfs/usr/lib/pkgconfig:%rootfs/usr/share/pkgconfig"
 export PKG_CONFIG_PATH="%rootfs/usr/lib/pkgconfig:%rootfs/usr/share/pkgconfig"
 export PKG_CONFIG_SYSROOT_DIR="%rootfs"
 export PKG_CONFIG_SYSTEM_INCLUDE_PATH="%rootfs/usr/include"
 export PKG_CONFIG_SYSTEM_LIBRARY_PATH="%rootfs/usr/lib"
 
-export HOSTFLAGS="--host=$XTARGET --with-sysroot=%rootfs"
-export BUILDFLAGS="--build=$XHOST $HOSTFLAGS"
-export TOOLFLAGS="--build=$XHOST --host=$XTARGET --target=$XTARGET --with-sysroot=%rootfs"
-export PERLFLAGS="--target=$XTARGET"
+export HOSTFLAGS="--host=$TARGET --with-sysroot=%rootfs"
+export BUILDFLAGS="--build=$HOST $HOSTFLAGS"
+export TOOLFLAGS="--build=$HOST --host=$TARGET --target=$TARGET --with-sysroot=%rootfs"
+export PERLFLAGS="--target=$TARGET"
 export CMAKEFLAGS="-DCMAKE_CROSSCOMPILING=ON -DCMAKE_TOOLCHAIN_FILE=%rootfs/share/cmake/cmake.cross"
-
-export xcflags="-D_FORTIFY_SOURCE=2 -g0 -Os -flto -fomit-frame-pointer -fno-asynchronous-unwind-tables -fno-unwind-tables -ffunction-sections -fdata-sections -fstack-protector-strong -fstack-clash-protection -mretpoline --param=ssp-buffer-size=4 -pipe"
-export xldflags="-Wl,-z,relro,-z,now -Wl,--as-needed -Wl,--gc-sections -Wl,-z,noexecstack -s"
-
-export HOSTCC=$CC HOSTCXX=$CXX
-
-#alias make="make INFO_DEPS= infodir= ac_cv_prog_lex_root=lex.yy MAKEINFO=true"
 
 inst() {
     local action=$@

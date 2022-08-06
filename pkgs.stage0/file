@@ -1,6 +1,0 @@
-[srcs]
-https://astron.com/pub/file/file-5.40.tar.gz
-
-[build]
-./configure --prefix=%cross-tools --disable-libseccomp
-%make && make install

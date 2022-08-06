@@ -1,18 +1,27 @@
+ver=1.2.3
+
 [srcs]
-https://musl.libc.org/releases/musl-1.2.2.tar.gz
+https://www.musl-libc.org/releases/musl-%ver.tar.gz
 
 [build]
-./configure \
-	CROSS_COMPILE=${XTARGET}- \
-	--prefix=/ \
-	--target=$XTARGET
+ARCH=$ARCH \
+CC=${TARGET}-gcc \
+CROSS_COMPILE=${TARGET}- \
+LIBCC="%tools/lib/gcc/$TARGET/12.1.0/libgcc.a" \
+%conf \
+	--host=$TARGET \
+	--build=$HOST
 
-%make && DESTDIR=%cross-tools make install
-mkdir -p %cross-tools/usr
-ln -s ../include %cross-tools/usr/include
-rm -f %cross-tools/lib/ld-musl*
-ln -s libc.so %cross-tools/lib/ld-musl-$LARCH.so.1
-ln -s ../lib/libc.so %cross-tools/bin/ldd
-mkdir -p %cross-tools/etc
-printf "%cross-tools/lib \n" >> %cross-tools/etc/ld-musl-$LARCH.path
-printf "%tools/lib \n" >> %cross-tools/etc/ld-musl-$LARCH.path
+%make \
+	AR=${TARGET}-ar \
+	RANLIB=${TARGET}-ranlib
+
+%make \
+	AR=${TARGET}-ar \
+	RANLIB=${TARGET}-ranlib \
+	DESTDIR=%rootfs \
+	install
+
+rm -f %rootfs/lib/ld-musl-$ARCH.so.1
+cp -a %rootfs/lib/libc.so ld-musl-$ARCH.so.1
+#ln -sf %rootfs/lib/libc.so ld-musl-$ARCH.so.1

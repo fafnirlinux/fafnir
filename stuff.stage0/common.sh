@@ -6,20 +6,13 @@ unalias -a
 pushd() { command pushd "$1" > /dev/null; }
 popd() { command popd "$1" > /dev/null; }
 
-export PATH=%cross-tools/bin:$PATH
+export PATH=%tools/bin:$PATH
 
-export XARCH=x86-64
-export LARCH=x86_64
-export MARCH=$LARCH
-export XGCCARGS="--with-arch=$XARCH --with-tune=generic"
-export XPURE64=$XARCH
-export XTARGET=$LARCH-linux-musl
-export XHOST=$(gcc -dumpmachine)
-#export XHOST="$(echo $(gcc -dumpmachine) | sed -e 's/-[^-]*/-cross/')"
-
-export HOSTCC=$CC HOSTCXX=$CXX
-
-#alias make="make INFO_DEPS= infodir= ac_cv_prog_lex_root=lex.yy MAKEINFO=true"
+export GCCARCH=x86-64
+export ARCH=x86_64
+export GCCARGS="--with-arch=$GCCARCH --with-tune=generic"
+export TARGET=$ARCH-linux-musl
+export HOST=$(gcc -dumpmachine)
 
 inst() {
     local action=$@

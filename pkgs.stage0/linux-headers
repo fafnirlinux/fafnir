@@ -1,9 +1,19 @@
+ver=5.17.7
+
 [srcs]
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.7.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-%ver.tar.xz
 
 [build]
-%make mrproper
-%make headers
-mkdir -p %cross-tools/$XTARGET/include
-cp -r usr/include/* %cross-tools/$XTARGET/include
-rm %cross-tools/$XTARGET/include/Makefile
+mkdir %src/linux
+
+make \
+	ARCH=$ARCH \
+	mrproper
+
+mkdir -p %rootfs/usr
+
+make \
+	O=%src/linux \
+	ARCH=$ARCH \
+	INSTALL_HDR_PATH=%rootfs/usr \
+	headers_install
