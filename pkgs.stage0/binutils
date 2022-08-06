@@ -9,8 +9,6 @@ mkdir build && cd build
 ../configure \
 	--prefix=%tools \
 	--with-sysroot=%rootfs \
-	--build=$HOST \
-	--host=$HOST \
 	--target=$TARGET \
 	--disable-nls \
 	--disable-multilib \

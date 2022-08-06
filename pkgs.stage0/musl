@@ -9,8 +9,7 @@ CC=${TARGET}-gcc \
 CROSS_COMPILE=${TARGET}- \
 LIBCC="%tools/lib/gcc/$TARGET/12.1.0/libgcc.a" \
 %conf \
-	--host=$TARGET \
-	--build=$HOST
+	--host=$TARGET
 
 %make \
 	AR=${TARGET}-ar \

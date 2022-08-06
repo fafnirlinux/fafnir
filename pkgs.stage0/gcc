@@ -27,8 +27,6 @@ mkdir build && cd build
 	--prefix=%tools \
 	--with-sysroot=%rootfs \
 	--target=$TARGET \
-	--host=$HOST \
-	--build=$HOST \
 	--enable-languages=c,c++ \
 	--disable-multilib \
 	--disable-bootstrap \
