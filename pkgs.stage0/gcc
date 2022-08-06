@@ -27,7 +27,6 @@ CXXFLAGS='-g0 -O0' \
 	--host=$XHOST \
 	--target=$XTARGET \
 	--with-sysroot=%cross-tools/$XTARGET \
-	--with-arch=$XARCH \
 	--with-newlib \
 	--disable-nls \
 	--disable-libvtv \
@@ -44,7 +43,7 @@ CXXFLAGS='-g0 -O0' \
 	--disable-libsanitizer \
 	--disable-decimal-float \
 	--enable-clocale=generic \
-	--enable-languages=c
+	--enable-languages=c $XGCCARGS
 
 %make all-gcc all-target-libgcc
 make install-gcc install-target-libgcc

@@ -2,6 +2,7 @@
 
 prefix=/usr
 cross-tools=%pwd/cross-tools
+tools=%pwd/tools
 rootfs=%pwd/rootfs
 src=%pwd/src.stage0
 pkgdir=%pwd/pkgs.stage0

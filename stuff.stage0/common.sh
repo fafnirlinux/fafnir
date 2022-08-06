@@ -6,15 +6,7 @@ unalias -a
 pushd() { command pushd "$1" > /dev/null; }
 popd() { command popd "$1" > /dev/null; }
 
-export PATH=%tools/bin:$PATH
-
-export CC=gcc
-export CXX=g++
-export HOSTLD=ld
-export HOSTAR=ar
-
-#export CFLAGS=-O2
-#export CXXFLAGS=-O2
+export PATH=%cross-tools/bin:$PATH
 
 export XARCH=x86-64
 export LARCH=x86_64
