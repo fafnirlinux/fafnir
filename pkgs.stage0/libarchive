@@ -5,5 +5,4 @@ https://libarchive.org/downloads/%name-%ver.tar.xz
 
 [build]
 ./configure --prefix=%tools --without-xml2
-%make
-make install
+%make && make install

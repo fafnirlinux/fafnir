@@ -5,5 +5,4 @@ https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
 
 [build]
 ./configure --prefix=%tools --without-guile
-%make
-make install
+%make && make install

@@ -18,8 +18,7 @@ echo "slibdir=%tools/lib32" > configparms
 	CC="$TARGET-gcc -m32" \
 	CXX="$TARGET-g++ -m32"
 
-%make
-make install
+%make && make install
 
 cd ..
 
@@ -32,5 +31,4 @@ mkdir build && cd build
 	--enable-kernel=3.2 \
 	--with-headers=%tools/include
 
-%make
-make install
+%make && make install

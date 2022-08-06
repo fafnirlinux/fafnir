@@ -11,5 +11,4 @@ https://curl.haxx.se/download/%name-%ver.tar.xz
 	--with-openssl \
 	--with-ca-bundle=%tools/etc/ssl/cert.pem
 
-%make
-make install
+%make && make install

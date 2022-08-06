@@ -5,5 +5,4 @@ https://tukaani.org/xz/xz-%ver.tar.xz
 
 [build]
 ./configure --prefix=%tools
-%make
-make install
+%make && make install

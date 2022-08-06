@@ -52,6 +52,5 @@ RANLIB=$TARGET-ranlib \
 	--disable-libgomp \
 	--with-multilib-list=m32,m64
 
-%make
-make install
+%make && make install
 ln -s gcc %tools/bin/cc

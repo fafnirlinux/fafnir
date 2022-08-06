@@ -11,7 +11,8 @@ export PATH=%tools/bin:$PATH
 export GCCARCH=x86-64
 export ARCH=x86_64
 export GCCARGS="--with-arch=$GCCARCH --with-tune=generic"
-export TARGET=$ARCH-linux-musl
+export TARGET=$ARCH-pc-linux-gnu
+export TARGET32=i686-pc-linux-gnu
 export HOST=$(gcc -dumpmachine)
 
 inst() {

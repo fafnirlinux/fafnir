@@ -57,3 +57,5 @@ mkdir build && cd build
 	--disable-libstdcxx \
 	--enable-languages=c,c++ \
 	--with-multilib-list=m32,m64
+
+%make && make install
