@@ -1,6 +1,7 @@
 # settings
 
-tools=%pwd/tools
+prefix=/usr
+cross-tools=%pwd/cross-tools
 rootfs=%pwd/rootfs
 src=%pwd/src.stage0
 pkgdir=%pwd/pkgs.stage0

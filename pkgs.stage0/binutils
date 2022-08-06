@@ -1,18 +1,18 @@
-ver=2.38
-
 [srcs]
-https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
+https://ftp.gnu.org/gnu/binutils/binutils-2.37.tar.xz
 
 [build]
 mkdir build && cd build
 
 ../configure \
-	--prefix=%tools \
+	--prefix=%cross-tools \
 	--target=$XTARGET \
-	--with-sysroot=%rootfs \
+	--with-sysroot=%cross-tools/$XTARGET \
+	--disable-nls \
 	--disable-multilib \
 	--disable-werror \
-	--disable-compressed-debug-sections \
-	--disable-nls
+	--enable-deterministic-archives \
+	--disable-compressed-debug-sections
 
+%make configure-host
 %make && make install

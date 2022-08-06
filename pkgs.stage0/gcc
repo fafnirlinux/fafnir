@@ -1,4 +1,4 @@
-ver=11.1.0
+ver=11.2.0
 
 gmp_ver=6.2.1
 mpc_ver=1.2.1
@@ -17,29 +17,34 @@ mv ../gmp* gmp
 mv ../mpc* mpc
 mv ../mpfr* mpfr
 
-sed -e '/m64=/s/lib64/lib/' \
-        -i.orig gcc/config/i386/t-linux64
-
 mkdir build && cd build
 
+CFLAGS='-g0 -O0' \
+CXXFLAGS='-g0 -O0' \
 ../configure \
-	--prefix=%tools \
+	--prefix=%cross-tools \
+	--build=$XHOST \
+	--host=$XHOST \
 	--target=$XTARGET \
-	--with-sysroot=%rootfs \
+	--with-sysroot=%cross-tools/$XTARGET \
+	--with-arch=$XARCH \
 	--with-newlib \
-	--without-headers \
-	--enable-initfini-array \
 	--disable-nls \
-	--disable-shared \
-	--disable-multilib \
-	--disable-decimal-float \
-	--disable-threads \
-	--disable-libatomic \
-	--disable-libgomp \
-	--disable-libquadmath \
-	--disable-libssp \
 	--disable-libvtv \
+	--disable-libitm \
+	--disable-libssp \
+	--disable-shared \
+	--disable-libgomp \
+	--without-headers \
+	--disable-threads \
+	--disable-multilib \
+	--disable-libatomic \
 	--disable-libstdcxx \
-	--enable-languages=c,c++
+	--disable-libquadmath \
+	--disable-libsanitizer \
+	--disable-decimal-float \
+	--enable-clocale=generic \
+	--enable-languages=c
 
-%make && make install
+%make all-gcc all-target-libgcc
+make install-gcc install-target-libgcc

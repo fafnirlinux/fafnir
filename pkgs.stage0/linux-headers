@@ -1,11 +1,9 @@
-ver=5.17.7
-
 [srcs]
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-%ver.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.7.tar.xz
 
 [build]
 %make mrproper
 %make headers
-find usr/include -name '.*' -delete
-rm usr/include/Makefile
-cp -r usr/include %rootfs
+mkdir -p %cross-tools/$XTARGET/include
+cp -r usr/include/* %cross-tools/$XTARGET/include
+rm %cross-tools/$XTARGET/include/Makefile
