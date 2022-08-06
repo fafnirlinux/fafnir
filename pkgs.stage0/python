@@ -1,0 +1,9 @@
+ver=3.10.4
+
+[srcs]
+https://www.python.org/ftp/python/%ver/Python-%ver.tar.xz
+
+[build]
+./configure --prefix=%tools --without-ensurepip
+%make
+make install

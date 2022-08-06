@@ -1,0 +1,9 @@
+ver=4.3
+
+[srcs]
+https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
+
+[build]
+./configure --prefix=%tools --without-guile
+%make
+make install

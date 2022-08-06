@@ -1,0 +1,7 @@
+ver=2020-12-08
+
+[srcs]
+https://curl.se/ca/cacert-%ver.pem
+
+[build]
+install -Dm644 cacert-%ver.pem %tools/etc/ssl/cert.pem

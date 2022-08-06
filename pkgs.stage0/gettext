@@ -1,0 +1,12 @@
+ver=0.21
+
+[srcs]
+https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
+
+[build]
+./configure --disable-shared
+make
+cp gettext-tools/src/msgfmt \
+	gettext-tools/src/msgmerge \
+	gettext-tools/src/xgettext \
+	%tools/bin

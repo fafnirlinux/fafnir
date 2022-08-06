@@ -1,0 +1,38 @@
+ver=11.2.0
+
+[srcs]
+https://ftp.gnu.org/gnu/gcc/gcc-%ver/gcc-%ver.tar.xz
+
+[build]
+mkdir build32 && cd build32
+
+../libstdc++-v3/configure \
+	--prefix=%tools \
+	--host=$TARGET32 \
+	--libdir=%tools/lib32 \
+	--disable-multilib \
+	--disable-nls \
+	--disable-libstdcxx-threads \
+	--disable-libstdcxx-pch \
+	--with-gxx-include-dir=%tools/$TARGET/include/c++/%ver \
+	CC="$TARGET-gcc -m32" \
+	CXX="$TARGET-g++ -m32"
+
+%make
+make install
+
+cd ..
+
+mkdir build && cd build
+
+../libstdc++-v3/configure \
+	--prefix=%tools \
+	--host=%TARGET \
+	--disable-multilib \
+	--disable-nls \
+	--disable-libstdcxx-threads \
+	--disable-libstdcxx-pch \
+	--with-gxx-include-dir=%tools/$TARGET/include/c++/%ver
+
+%make
+make install

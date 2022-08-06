@@ -73,12 +73,43 @@ build_stage0() {
 		fi
 	}
 
+	emerge binutils1
+	emerge gcc1
+
 	emerge linux-headers
-	emerge musl-headers
-	emerge binutils
-	emerge gcc
-	emerge musl
-	emerge libgcc-shared
+	emerge glibc
+	emerge libstdc++
+
+	emerge binutils2
+	emerge gcc2
+
+	emerge m4
+	emerge ncurses
+	emerge bash
+	emerge bison
+	emerge bzip2
+	emerge coreutils
+	emerge diffutils
+	emerge file
+	emerge findutils
+	emerge gawk
+	emerge gettext
+	emerge grep
+	emerge gzip
+	emerge make
+	emerge patch
+	emerge perl
+	emerge python
+	emerge sed
+	emerge tar
+	emerge texinfo
+	emerge xz
+	emerge openssl
+	emerge certs
+	emerge curl
+	emerge libarchive
+
+	#emerge clean
 }
 
 build_stage1() {

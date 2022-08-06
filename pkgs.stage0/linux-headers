@@ -1,19 +1,12 @@
-ver=5.17.7
+ver=5.17.1
 
 [srcs]
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-%ver.tar.xz
+https://www.kernel.org/pub/linux/kernel/v5.x/linux-%ver.tar.xz
 
 [build]
-mkdir %src/linux
-
-make \
-	ARCH=$ARCH \
-	mrproper
-
-mkdir -p %rootfs/usr
-
-make \
-	O=%src/linux \
-	ARCH=$ARCH \
-	INSTALL_HDR_PATH=%rootfs/usr \
-	headers_install
+%make mrproper
+%make headers
+find usr/include -name '.*' -delete
+rm usr/include/Makefile
+mkdir -p %tools/include
+cp -r usr/include/* %tools/include

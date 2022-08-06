@@ -1,0 +1,15 @@
+ver=1.1.1n
+
+[srcs]
+https://openssl.org/source/openssl-%ver.tar.gz
+
+[build]
+./config \
+	--prefix=%tools \
+	--openssldir=%tools/etc/ssl \
+	--libdir=lib \
+	shared \
+	no-ssl3-method
+
+%make
+make MANDIR=%tools/share/man MANSUFFIX=ssl install

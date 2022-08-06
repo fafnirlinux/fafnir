@@ -1,0 +1,15 @@
+ver=7.82.0
+
+[srcs]
+https://curl.haxx.se/download/%name-%ver.tar.xz
+
+[build]
+./configure \
+	--prefix=%tools \
+	--disable-static \
+	--enable-threaded-resolver \
+	--with-openssl \
+	--with-ca-bundle=%tools/etc/ssl/cert.pem
+
+%make
+make install

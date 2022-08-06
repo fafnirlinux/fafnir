@@ -1,0 +1,11 @@
+ver=5.34.1
+
+[srcs]
+https://www.cpan.org/src/5.0/%name-%ver.tar.xz
+
+[build]
+sh Configure -des -Dprefix=%tools -Dlibs=-lm
+%make
+cp perl cpan/podlators/scripts/pod2man %tools/bin
+mkdir -p %tools/lib/perl5/%ver
+cp -r lib/* %tools/lib/perl5/%ver
