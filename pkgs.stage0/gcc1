@@ -37,12 +37,12 @@ mkdir build && cd build
 
 ../configure \
 	--prefix=%tools \
+	--with-local-prefix=%tools \
 	--target=$TARGET \
 	--with-glibc-version=2.11 \
 	--with-sysroot=%rootfs \
 	--with-newlib \
 	--without-headers \
-	--with-local-prefix=%tools \
 	--with-native-system-header-dir=%tools/include \
 	--disable-nls \
 	--disable-shared \

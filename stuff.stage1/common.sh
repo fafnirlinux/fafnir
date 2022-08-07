@@ -6,7 +6,7 @@ unalias -a
 pushd() { command pushd "$1" > /dev/null; }
 popd() { command popd "$1" > /dev/null; }
 
-export PATH=%tools/bin:$PATH
+export PATH=%tools/bin:/bin:/usr/bin
 
 export GCCARCH=x86-64
 export ARCH=x86_64
