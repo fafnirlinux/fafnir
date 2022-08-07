@@ -4,7 +4,6 @@ ver=7.84.0
 https://curl.haxx.se/download/%name-%ver.tar.xz
 
 [build]
-autoreconf -vfi
 %conf \
 	--host=$XTARGET \
 	--with-sysroot=%rootfs \
@@ -16,6 +15,9 @@ autoreconf -vfi
 	--without-nghttp2 \
 	--without-librtmp \
 	--enable-threaded-resolver \
+	--with-random="/dev/urandom" \
 	--with-ca-bundle=%rootfs/etc/ssl/cert.pem
+
+sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
 
 %make && make DESTDIR=%rootfs install
