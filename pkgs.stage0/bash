@@ -1,9 +1,0 @@
-ver=5.1.16
-
-[srcs]
-https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
-
-[build]
-./configure --prefix=%tools --without-bash-malloc
-make && make install
-ln -s bash %tools/bin/sh

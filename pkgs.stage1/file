@@ -4,5 +4,5 @@ ver=5.41
 ftp://ftp.astron.com/pub/%name/%name-%ver.tar.gz
 
 [build]
-./configure --prefix=%tools
-%make && make install
+%conf --host=$XTARGET
+%make && make DESTDIR=%rootfs install

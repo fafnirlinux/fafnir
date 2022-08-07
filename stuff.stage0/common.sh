@@ -8,18 +8,12 @@ popd() { command popd "$1" > /dev/null; }
 
 export PATH=%tools/bin:/bin:/usr/bin
 
-export CFLAGS="-O2 -march=x86-64 -pipe"
-export LC_ALL=C
-
 export XARCH=x86-64
 export LARCH=x86_64
 export MARCH=$LARCH
 export GCCARGS="--with-arch=$XARCH --with-tune=generic"
-export XTARGET=$LARCH-fafnir-linux-gnu
-export XTARGET32=i686-fafnir-linux-gnu
+export XTARGET=$LARCH-pc-linux-musl
 export XHOST=$(gcc -dumpmachine)
-
-unset LD_LIBRARY_PATH
 
 inst() {
     local action=$@

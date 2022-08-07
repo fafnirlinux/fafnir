@@ -1,0 +1,13 @@
+ver=5.1.16
+
+[srcs]
+https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
+
+[build]
+%conf \
+	--host=$XTARGET \
+	--without-bash-malloc
+
+make && make DESTDIR=%rootfs install
+
+ln -s bash %rootfs/bin/sh

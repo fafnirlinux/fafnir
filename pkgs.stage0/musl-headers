@@ -1,0 +1,11 @@
+ver=1.2.3
+
+[srcs]
+https://www.musl-libc.org/releases/musl-%ver.tar.gz
+
+[build]
+%make \
+	ARCH=$LARCH \
+	prefix=%prefix \
+	DESTDIR=%rootfs \
+	install-headers

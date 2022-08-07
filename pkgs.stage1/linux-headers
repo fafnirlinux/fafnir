@@ -1,0 +1,12 @@
+ver=5.17.1
+
+[srcs]
+https://www.kernel.org/pub/linux/kernel/v5.x/linux-%ver.tar.xz
+
+[build]
+%make mrproper
+%make headers
+find usr/include -name '.*' -delete
+rm usr/include/Makefile
+mkdir -p %tools/include
+cp -r usr/include/* %tools/include

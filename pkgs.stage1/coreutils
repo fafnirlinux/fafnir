@@ -1,0 +1,11 @@
+ver=9.0
+
+[srcs]
+https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
+
+[build]
+%conf \
+	--host=$XTARGET \
+	--enable-install-program=hostname
+
+%make && make DESTDIR=%rootfs install

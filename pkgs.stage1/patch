@@ -4,5 +4,5 @@ ver=2.7.6
 https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
 
 [build]
-./configure --prefix=%tools
-%make && make install
+%conf --host=$XTARGET
+%make && make DESTDIR=%rootfs install

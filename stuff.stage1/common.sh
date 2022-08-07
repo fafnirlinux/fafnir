@@ -8,37 +8,38 @@ popd() { command popd "$1" > /dev/null; }
 
 export PATH=%tools/bin:/bin:/usr/bin
 
-export GCCARCH=x86-64
-export ARCH=x86_64
-export GCCARGS="--with-arch=$GCCARCH --with-tune=generic"
-export TARGET=$ARCH-linux-musl
-export HOST=$(gcc -dumpmachine)
+export XARCH=x86-64
+export LARCH=x86_64
+export MARCH=$LARCH
+export GCCARGS="--with-arch=$XARCH --with-tune=generic"
+export XTARGET=$LARCH-pc-linux-musl
+export XHOST=$(gcc -dumpmachine)
 
-export CROSS_COMPILE=$TARGET-
-export CC=$TARGET-gcc
-export CXX=$TARGET-g++
-export AR=$TARGET-ar
-export AS=$TARGET-as
-export RANLIB=$TARGET-ranlib
-export LD=$TARGET-ld
-export NM=$TARGET-nm
-export STRIP=$TARGET-strip
-export OBJCOPY=$TARGET-objcopy
-export OBJDUMP=$TARGET-objdump
-export SIZE=$TARGET-size
+export CROSS_COMPILE=$XTARGET-
+export CC=$XTARGET-gcc
+export CXX=$XTARGET-g++
+export AR=$XTARGET-ar
+export AS=$XTARGET-as
+export RANLIB=$XTARGET-ranlib
+export LD=$XTARGET-ld
+export NM=$XTARGET-nm
+export STRIP=$XTARGET-strip
+export OBJCOPY=$XTARGET-objcopy
+export OBJDUMP=$XTARGET-objdump
+export SIZE=$XTARGET-size
 
-export PKG_CONFIG=$TARGET-pkgconf
-export PKG_CONFIG_LIBDIR="%rootfs/usr/lib/pkgconfig:%rootfs/usr/share/pkgconfig"
-export PKG_CONFIG_PATH="%rootfs/usr/lib/pkgconfig:%rootfs/usr/share/pkgconfig"
-export PKG_CONFIG_SYSROOT_DIR="%rootfs"
-export PKG_CONFIG_SYSTEM_INCLUDE_PATH="%rootfs/usr/include"
-export PKG_CONFIG_SYSTEM_LIBRARY_PATH="%rootfs/usr/lib"
+#export PKG_CONFIG=$XTARGET-pkgconf
+#export PKG_CONFIG_LIBDIR="%tools/usr/lib/pkgconfig:%tools/usr/share/pkgconfig"
+#export PKG_CONFIG_PATH="%tools/usr/lib/pkgconfig:%tools/usr/share/pkgconfig"
+#export PKG_CONFIG_SYSROOT_DIR="%rootfs"
+#export PKG_CONFIG_SYSTEM_INCLUDE_PATH="%rootfs/usr/include"
+#export PKG_CONFIG_SYSTEM_LIBRARY_PATH="%rootfs/usr/lib"
 
-export HOSTFLAGS="--host=$TARGET --with-sysroot=%rootfs"
-export BUILDFLAGS="--build=$HOST $HOSTFLAGS"
-export TOOLFLAGS="--build=$HOST --host=$TARGET --target=$TARGET --with-sysroot=%rootfs"
-export PERLFLAGS="--target=$TARGET"
-export CMAKEFLAGS="-DCMAKE_CROSSCOMPILING=ON -DCMAKE_TOOLCHAIN_FILE=%rootfs/share/cmake/cmake.cross"
+export HOSTFLAGS="--host=$XTARGET --with-sysroot=%rootfs"
+export BUILDFLAGS="--build=$XHOST $HOSTFLAGS"
+export TOOLFLAGS="--build=$XHOST --host=$XTARGET --target=$XTARGET --with-sysroot=%rootfs"
+export PERLFLAGS="--target=$XTARGET"
+export CMAKEFLAGS="-DCMAKE_CROSSCOMPILING=ON -DCMAKE_TOOLCHAIN_FILE=%tools/share/cmake/cmake.cross"
 
 inst() {
     local action=$@

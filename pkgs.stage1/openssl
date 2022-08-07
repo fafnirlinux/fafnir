@@ -5,11 +5,12 @@ https://openssl.org/source/openssl-%ver.tar.gz
 
 [build]
 ./config \
-	--prefix=%tools \
+	--prefix=%prefix \
+	--host=$XHOST \
 	--openssldir=%tools/etc/ssl \
 	--libdir=lib \
 	shared \
 	no-ssl3-method
 
 %make
-make MANDIR=%tools/share/man MANSUFFIX=ssl install
+make DESTDIR=%rootfs MANDIR=%rootfs/share/man MANSUFFIX=ssl install

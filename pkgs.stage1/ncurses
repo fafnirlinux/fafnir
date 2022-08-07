@@ -1,4 +1,4 @@
-version=6.3
+ver=6.3
 
 [srcs]
 https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
@@ -6,14 +6,14 @@ https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
 [build]
 sed -i s/mawk// configure
 
-./configure \
-	--prefix=%tools \
+%conf \
+	--host=$XTARGET \
 	--with-shared \
 	--without-debug \
 	--without-ada \
 	--enable-widec \
 	--enable-overwrite
 
-%make && make install
+%make && make DESTDIR=%rootfs install
 
-ln -s libncursesw.so %tools/lib/libncurses.so
+ln -s libncursesw.so %rootfs/lib/libncurses.so

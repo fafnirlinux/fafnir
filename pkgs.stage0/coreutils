@@ -1,8 +1,0 @@
-ver=9.0
-
-[srcs]
-https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
-
-[build]
-./configure --prefix=%tools --enable-install-program=hostname
-%make && make install

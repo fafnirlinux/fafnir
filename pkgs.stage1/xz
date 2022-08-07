@@ -4,5 +4,5 @@ ver=5.2.5
 https://tukaani.org/xz/xz-%ver.tar.xz
 
 [build]
-./configure --prefix=%tools
-%make && make install
+%conf --host=$XTARGET
+%make && make DESTDIR=%rootfs install

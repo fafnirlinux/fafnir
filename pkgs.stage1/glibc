@@ -4,6 +4,8 @@ ver=2.35
 https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
 
 [build]
+unset LD_LIBRARY_PATH
+
 mkdir build32 && cd build32
 
 echo "slibdir=%tools/lib32" > configparms
