@@ -1,13 +1,21 @@
-ver=7.75.0
+ver=7.84.0
 
 [srcs]
 https://curl.haxx.se/download/%name-%ver.tar.xz
 
 [build]
+autoreconf -vfi
 %conf \
 	--host=$XTARGET \
+	--with-sysroot=%rootfs \
 	--with-ssl \
+	--disable-ldap{,s} \
+	--without-brotli \
+	--without-libidn2 \
+	--without-libpsl \
+	--without-nghttp2 \
 	--without-librtmp \
+	--enable-threaded-resolver \
 	--with-ca-bundle=%rootfs/etc/ssl/cert.pem
 
 %make && make DESTDIR=%rootfs install

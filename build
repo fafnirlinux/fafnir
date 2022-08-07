@@ -80,6 +80,7 @@ build_stage0() {
 	emerge libgcc-shared
 	emerge libstdc++
 	emerge linux-headers
+	emerge pkgconf
 
 	return
 

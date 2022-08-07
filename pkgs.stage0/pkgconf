@@ -1,0 +1,24 @@
+ver=1.8.0
+
+[srcs]
+https://distfiles.dereferenced.org/%name/%name-%ver.tar.xz
+
+[build]
+mkdir build && cd build
+
+CFLAGS="$CFLAGS -fcommon" \
+../configure \
+	--prefix=%tools \
+	--host=$XHOST \
+	--build=$XHOST \
+	--with-sysroot=%rootfs \
+	--with-pkg-config-dir="%rootfs/usr/lib/pkgconfig:%rootfs/usr/share/pkgconfig" \
+	--with-system-libdir="%rootfs/usr/lib" \
+	--with-system-includedir="%rootfs/usr/include"
+
+%make
+make install-strip
+
+ln -s pkgconf %tools/bin/pkg-config
+ln -s pkgconf %tools/bin/$XTARGET-pkgconf
+ln -s pkgconf %tools/bin/$XTARGET-pkg-config

@@ -2,6 +2,7 @@
 
 umask 0022
 unalias -a
+set -e
 
 pushd() { command pushd "$1" > /dev/null; }
 popd() { command popd "$1" > /dev/null; }
@@ -28,12 +29,12 @@ export OBJCOPY=$XTARGET-objcopy
 export OBJDUMP=$XTARGET-objdump
 export SIZE=$XTARGET-size
 
-#export PKG_CONFIG=$XTARGET-pkgconf
-#export PKG_CONFIG_LIBDIR="%tools/usr/lib/pkgconfig:%tools/usr/share/pkgconfig"
-#export PKG_CONFIG_PATH="%tools/usr/lib/pkgconfig:%tools/usr/share/pkgconfig"
-#export PKG_CONFIG_SYSROOT_DIR="%rootfs"
-#export PKG_CONFIG_SYSTEM_INCLUDE_PATH="%rootfs/usr/include"
-#export PKG_CONFIG_SYSTEM_LIBRARY_PATH="%rootfs/usr/lib"
+export PKG_CONFIG=$XTARGET-pkgconf
+export PKG_CONFIG_LIBDIR="%rootfs/usr/lib/pkgconfig:%rootfs/usr/share/pkgconfig"
+export PKG_CONFIG_PATH="%rootfs/usr/lib/pkgconfig:%rootfs/usr/share/pkgconfig"
+export PKG_CONFIG_SYSROOT_DIR="%rootfs"
+export PKG_CONFIG_SYSTEM_INCLUDE_PATH="%rootfs/usr/include"
+export PKG_CONFIG_SYSTEM_LIBRARY_PATH="%rootfs/usr/lib"
 
 export HOSTFLAGS="--host=$XTARGET --with-sysroot=%rootfs"
 export BUILDFLAGS="--build=$XHOST $HOSTFLAGS"

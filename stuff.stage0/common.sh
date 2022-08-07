@@ -2,6 +2,7 @@
 
 umask 0022
 unalias -a
+set -e
 
 pushd() { command pushd "$1" > /dev/null; }
 popd() { command popd "$1" > /dev/null; }
