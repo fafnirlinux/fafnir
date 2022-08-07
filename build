@@ -173,6 +173,7 @@ build_stage1() {
 
 	emerge binutils
 	emerge gcc
+	emerge gcc1
 
 	#emerge nya
 }
