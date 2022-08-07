@@ -15,7 +15,7 @@ export XARCH=x86-64
 export LARCH=x86_64
 export MARCH=$LARCH
 export GCCARGS="--with-arch=$XARCH --with-tune=generic"
-export XTARGET=$ARCH-fafnir-linux-gnu
+export XTARGET=$LARCH-fafnir-linux-gnu
 export XTARGET32=i686-fafnir-linux-gnu
 export XHOST=$(gcc -dumpmachine)
 

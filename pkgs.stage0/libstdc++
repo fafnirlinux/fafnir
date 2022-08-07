@@ -9,6 +9,7 @@ mkdir build32 && cd build32
 ../libstdc++-v3/configure \
 	--prefix=%tools \
 	--host=$XTARGET32 \
+	--build=$(../scripts/config.guess) \
 	--libdir=%tools/lib32 \
 	--disable-multilib \
 	--disable-nls \
