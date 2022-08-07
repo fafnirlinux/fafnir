@@ -149,10 +149,9 @@ build_stage1() {
 	emerge ncurses
 	emerge bash
 	emerge bison
-	#emerge bzip2
+	emerge bzip2
 	emerge coreutils
 	emerge diffutils
-	return
 	emerge file
 	emerge findutils
 	emerge gawk
@@ -161,7 +160,7 @@ build_stage1() {
 	emerge gzip
 	emerge make
 	emerge patch
-	#emerge perl
+	emerge perl
 	emerge python
 	emerge sed
 	emerge tar
@@ -171,6 +170,11 @@ build_stage1() {
 	emerge certs
 	emerge curl
 	emerge libarchive
+
+	emerge binutils
+	emerge gcc
+
+	#emerge nya
 }
 
 prepare_rootfs() {

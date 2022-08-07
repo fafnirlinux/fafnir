@@ -19,10 +19,10 @@ mv ../mpfr* mpfr
 
 mkdir build && cd build
 
-LDFLAGS="-Wl,-rpath,%tools/lib" \
-%conf \
-	--with-sysroot=%rootfs \
+.%conf \
+	--host=$XTARGET \
 	--target=$XTARGET \
+	--build=$XHOST \
 	--enable-languages=c,c++ \
 	--disable-multilib \
 	--disable-bootstrap \
@@ -30,15 +30,14 @@ LDFLAGS="-Wl,-rpath,%tools/lib" \
 	--disable-werror \
 	--enable-initfini-array $GCCARGS
 
-mkdir -p %rootfs/usr/include
-
 %make all-gcc
 make DESTDIR=%rootfs install-strip-gcc
 
-CFLAGS='-g0 -O0' \
-CXXFLAGS='-g0 -O0' \
 %make \
-	enable_shared=no \
+	enable_shared=yes \
 	all-target-libgcc
 
 make DESTDIR=%rootfs install-strip-target-libgcc
+
+%make all-target-libstdc++-v3
+make DESTDIR=%rootfs install-strip-target-libstdc++-v3

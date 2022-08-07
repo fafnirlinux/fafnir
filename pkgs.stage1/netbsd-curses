@@ -1,0 +1,18 @@
+ver=0.3.1
+
+[srcs]
+https://ftp.barfooze.de/pub/sabotage/tarballs/%name-%ver.tar.xz
+
+[build]
+cat << EOF > config.mak
+CC=$CC
+HOSTCC=$CC
+AR=${CROSS_COMPILE}ar
+RANLIB=${CROSS_COMPILE}ranlib
+CFLAGS=-fPIC
+LDFLAGS=""
+PREFIX=%prefix
+DESTDIR=%rootfs
+EOF
+
+%make && make install

@@ -1,7 +1,7 @@
 ver=5.2.5
 
 [srcs]
-https://tukaani.org/xz/xz-%ver.tar.xz
+https://tukaani.org/%name/%name-%ver.tar.xz
 
 [build]
 %conf --host=$XTARGET

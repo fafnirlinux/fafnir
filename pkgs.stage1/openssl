@@ -6,7 +6,6 @@ https://openssl.org/source/openssl-%ver.tar.gz
 [build]
 ./config \
 	--prefix=%prefix \
-	--host=$XHOST \
 	--openssldir=%tools/etc/ssl \
 	--libdir=lib \
 	shared \

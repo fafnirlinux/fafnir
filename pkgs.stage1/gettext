@@ -1,12 +1,8 @@
-ver=0.21
+ver=0.3.2
 
 [srcs]
-https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
+https://ftp.barfooze.de/pub/sabotage/tarballs/%name-tiny-%ver.tar.xz
 
 [build]
-./configure --disable-shared
-make
-cp gettext-tools/src/msgfmt \
-	gettext-tools/src/msgmerge \
-	gettext-tools/src/xgettext \
-	%tools/bin
+make LIBINTL=MUSL DESTDIR=%rootfs prefix=%prefix
+cp autopoint msgfmt msgmerge xgettext %rootfs/usr/bin

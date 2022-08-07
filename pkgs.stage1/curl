@@ -4,11 +4,12 @@ ver=7.82.0
 https://curl.haxx.se/download/%name-%ver.tar.xz
 
 [build]
-./configure \
-	--prefix=%tools \
+%conf \
+	--host=$XTARGET \
+	--build=$XHOST \
 	--disable-static \
 	--enable-threaded-resolver \
 	--with-openssl \
-	--with-ca-bundle=%tools/etc/ssl/cert.pem
+	--with-ca-bundle=%rootfs/etc/ssl/cert.pem
 
-%make && make install
+%make && make DESTDIR=%rootfs install

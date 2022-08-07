@@ -1,8 +1,0 @@
-[build]
-cd %build/gcc/gcc-12.1.0/build
-
-%make \
-	all-target-libstdc++-v3
-
-make \
-	install-strip-target-libstdc++-v3

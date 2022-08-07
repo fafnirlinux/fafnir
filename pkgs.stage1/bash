@@ -6,7 +6,9 @@ https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
 [build]
 %conf \
 	--host=$XTARGET \
-	--without-bash-malloc
+	--build=$XHOST \
+	--without-bash-malloc \
+	--with-curses
 
 make && make DESTDIR=%rootfs install
 

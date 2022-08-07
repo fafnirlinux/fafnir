@@ -1,0 +1,12 @@
+ver=3.2.1
+
+[srcs]
+https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/%name-%ver.tar.gz
+
+[build]
+%conf \
+	--host=$XTARGET \
+	--disable-hardening \
+	ac_cv_func_getentropy=no
+
+%make && make install

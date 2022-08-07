@@ -4,8 +4,6 @@ ver=6.3
 https://ftp.gnu.org/gnu/%name/%name-%ver.tar.gz
 
 [build]
-sed -i s/mawk// configure
-
 %conf \
 	--host=$XTARGET \
 	--with-shared \
@@ -16,4 +14,5 @@ sed -i s/mawk// configure
 
 %make && make DESTDIR=%rootfs install
 
-ln -s libncursesw.so %rootfs/lib/libncurses.so
+ln -s libncursesw.so %rootfs/usr/lib/libncurses.so
+ln -s libncursesw.so %rootfs/usr/lib/libcurses.so.6.2

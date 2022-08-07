@@ -6,12 +6,12 @@ https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
 [build]
 mkdir build && cd build
 
-../configure \
-	--prefix=%tools \
-	--with-sysroot=%rootfs \
+.%conf \
+	--host=$XTARGET \
 	--target=$XTARGET \
+	--build=$XHOST \
+	--with-lib-path=%rootfs/lib \
 	--disable-nls \
-	--disable-multilib \
 	--disable-werror
 
 %make \
@@ -19,7 +19,7 @@ mkdir build && cd build
 	all-gas \
 	all-ld
 
-make \
+make DESTDIR=%rootfs \
 	install-strip-binutils \
 	install-strip-gas \
 	install-strip-ld
