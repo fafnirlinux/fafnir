@@ -38,10 +38,10 @@ echo "MULTILIB_OSDIRNAMES = m64=../lib m32=../lib32 mx32=../libx32" >> gcc/confi
 
 mkdir build && cd build
 
-CC=$TARGET-gcc \
-CXX=$TARGET-g++ \
-AR=$TARGET-ar \
-RANLIB=$TARGET-ranlib \
+CC=$XTARGET-gcc \
+CXX=$XTARGET-g++ \
+AR=$XTARGET-ar \
+RANLIB=$XTARGET-ranlib \
 ../configure \
 	--prefix=%tools \
 	--with-local-prefix=%tools \

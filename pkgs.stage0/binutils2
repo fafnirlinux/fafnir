@@ -6,9 +6,9 @@ https://ftp.gnu.org/gnu/binutils/binutils-%ver.tar.xz
 [build]
 mkdir build && cd build
 
-CC=$TARGET-gcc \
-AR=$TARGET-ar \
-RANLIB=$TARGET-ranlib \
+CC=$XTARGET-gcc \
+AR=$XTARGET-ar \
+RANLIB=$XTARGET-ranlib \
 ../configure \
 	--prefix=%tools \
 	--disable-nls \

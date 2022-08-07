@@ -38,7 +38,7 @@ mkdir build && cd build
 ../configure \
 	--prefix=%tools \
 	--with-local-prefix=%tools \
-	--target=$TARGET \
+	--target=$XTARGET \
 	--with-glibc-version=2.11 \
 	--with-sysroot=%rootfs \
 	--with-newlib \

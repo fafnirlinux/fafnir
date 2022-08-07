@@ -11,12 +11,15 @@ export PATH=%tools/bin:/bin:/usr/bin
 export CFLAGS="-O2 -march=x86-64 -pipe"
 export LC_ALL=C
 
-export GCCARCH=x86-64
-export ARCH=x86_64
-export GCCARGS="--with-arch=$GCCARCH --with-tune=generic"
-export TARGET=$ARCH-fafnir-linux-gnu
-export TARGET32=i686-fafnir-linux-gnu
-export HOST=$(gcc -dumpmachine)
+export XARCH=x86-64
+export LARCH=x86_64
+export MARCH=$LARCH
+export GCCARGS="--with-arch=$XARCH --with-tune=generic"
+export XTARGET=$ARCH-fafnir-linux-gnu
+export XTARGET32=i686-fafnir-linux-gnu
+export XHOST=$(gcc -dumpmachine)
+
+unset LD_LIBRARY_PATH
 
 inst() {
     local action=$@
