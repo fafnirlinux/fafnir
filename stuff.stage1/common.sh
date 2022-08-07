@@ -39,7 +39,7 @@ export HOSTFLAGS="--host=$XTARGET --with-sysroot=%rootfs"
 export BUILDFLAGS="--build=$XHOST $HOSTFLAGS"
 export TOOLFLAGS="--build=$XHOST --host=$XTARGET --target=$XTARGET --with-sysroot=%rootfs"
 export PERLFLAGS="--target=$XTARGET"
-export CMAKEFLAGS="-DCMAKE_CROSSCOMPILING=ON -DCMAKE_TOOLCHAIN_FILE=%tools/share/cmake/cmake.cross"
+export CMAKEFLAGS="-DCMAKE_CROSSCOMPILING=ON -DCMAKE_TOOLCHAIN_FILE=%rootfs/share/cmake/cmake.cross"
 
 inst() {
     local action=$@

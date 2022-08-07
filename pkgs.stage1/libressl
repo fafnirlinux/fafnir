@@ -6,7 +6,10 @@ https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/%name-%ver.tar.gz
 [build]
 %conf \
 	--host=$XTARGET \
+	--sysconfdir=/etc \
 	--disable-hardening \
+	--mandir=/usr/share/man \
+	--localstatedir=/var \
 	ac_cv_func_getentropy=no
 
-%make && make install
+%make && make DESTDIR=%rootfs install

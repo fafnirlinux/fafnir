@@ -1,0 +1,50 @@
+ver=3.20.4
+
+[srcs]
+https://www.cmake.org/files/v3.20/%name-%ver.tar.gz
+
+[build]
+mkdir build && cd build
+for i in ar ld nm objcopy objdump strip ; do
+printf '#!/bin/sh\n%s%s "$@"\n' "$CROSS_COMPILE" "$i" > "$CROSS_COMPILE""$i"
+chmod +x "$CROSS_COMPILE""$i"
+done
+xconfflags="
+-DCMAKE_FIND_ROOT_PATH=%rootfs \
+-DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+-DCMAKE_AR="$CROSS_COMPILE"ar \
+-DCMAKE_LD="$CROSS_COMPILE"ld \
+-DCMAKE_NM="$CROSS_COMPILE"nm \
+-DCMAKE_OBJCOPY="$CROSS_COMPILE"objcopy \
+-DCMAKE_OBJDUMP="$CROSS_COMPILE"objdump \
+-DCMAKE_STRIP="$CROSS_COMPILE"strip \
+"
+sed -i 's@macro(ADD_DOCS target dependency)@macro(ADD_DOCS target dependency)\nendmacro()\nmacro(ADD_FUCKS target dependency)@' ../Utilities/CMakeLists.txt || { echo sed err ; exit 1 ; }
+sed -i 's@^  COMMAND \${CMD}@  COMMAND true@' ../Utilities/CMakeLists.txt || { echo sed err ; exit 1 ; }
+cmake $xconfflags \
+  -DCMAKE_INSTALL_PREFIX=%prefix \
+  -DCMAKE_VERBOSE_MAKEFILE=OFF \
+  -DCMAKE_USE_SYSTEM_BZIP2=OFF \
+  -DCMAKE_USE_SYSTEM_LIBARCHIVE=OFF \
+  -DCMAKE_USE_SYSTEM_CURL=OFF \
+  -DCMAKE_USE_SYSTEM_ZLIB=OFF \
+  -DCMAKE_USE_SYSTEM_EXPAT=OFF \
+  -DCTEST_TEST_CPACK=OFF \
+  ..
+
+%make
+sed -i 's@^[\t ]*bin/cmake@\tcmake@g' Makefile
+make DESTDIR=%rootfs install
+
+mkdir -p %rootfs/share/cmake
+cat >> %rootfs/share/cmake/cmake.cross <<-EOF
+	set(CMAKE_SYSROOT %rootfs)
+	set(CMAKE_C_COMPILER $CC)
+	set(CMAKE_CXX_COMPILER $CXX)
+	set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+	set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+	set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+	set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+EOF

@@ -166,16 +166,18 @@ build_stage1() {
 	emerge tar
 	emerge texinfo
 	emerge xz
-	emerge openssl
+	emerge libz
+	emerge libressl
 	emerge certs
 	emerge curl
 	emerge libarchive
+	emerge cmake
+	emerge musl
 
 	emerge binutils
 	emerge gcc
-	emerge gcc1
 
-	#emerge nya
+	emerge nya
 }
 
 prepare_rootfs() {

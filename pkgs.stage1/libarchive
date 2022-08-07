@@ -6,6 +6,13 @@ https://libarchive.org/downloads/%name-%ver.tar.xz
 [build]
 %conf \
 	--host=$XTARGET \
-	--without-xml2
+	--with-sysroot=%rootfs \
+	--with-pic \
+	--without-openssl \
+	--without-xml2 \
+	--without-expat \
+	--disable-acl \
+	--enable-shared \
+	--enable-static
 
 %make && make DESTDIR=%rootfs install
