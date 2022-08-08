@@ -6,7 +6,11 @@ https://curl.haxx.se/download/%name-%ver.tar.xz
 [build]
 %conf \
 	--host=$XTARGET \
+	--build=$XHOST \
 	--with-openssl \
+	--disable-static \
+	--with-sysroot=%rootfs \
+	--libdir=%rootfs/usr/lib \
 	--disable-ldap{,s} \
 	--without-brotli \
 	--without-libidn2 \
@@ -16,7 +20,5 @@ https://curl.haxx.se/download/%name-%ver.tar.xz
 	--enable-threaded-resolver \
 	--with-random="/dev/urandom" \
 	--with-ca-bundle=%rootfs/etc/ssl/cert.pem
-
-sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
 
 %make && make DESTDIR=%rootfs install

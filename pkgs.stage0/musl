@@ -21,6 +21,6 @@ LIBCC="%tools/lib/gcc/$XTARGET/12.1.0/libgcc.a" \
 	DESTDIR=%rootfs \
 	install
 
-rm -f %rootfs/lib/ld-musl-$ARCH.so.1
-cp -a %rootfs/lib/libc.so ld-musl-$ARCH.so.1
-#ln -sf %rootfs/lib/libc.so ld-musl-$ARCH.so.1
+printf "%rootfs/lib" >> %tools/etc/ld-musl-$LARCH.path
+
+ln -sf %rootfs/usr/lib/libc.so ld-musl-$LARCH.so.1

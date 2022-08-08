@@ -81,6 +81,7 @@ build_stage0() {
 	emerge libstdc++
 	emerge linux-headers
 	emerge pkgconf
+	#emerge slibtool
 
 	return
 
@@ -168,7 +169,8 @@ build_stage1() {
 	emerge texinfo
 	emerge xz
 	emerge libz
-	emerge libressl
+	#emerge libressl
+	emerge openssl
 	emerge certs
 	emerge curl
 	emerge libarchive
