@@ -6,8 +6,7 @@ https://curl.haxx.se/download/%name-%ver.tar.xz
 [build]
 %conf \
 	--host=$XTARGET \
-	--with-sysroot=%rootfs \
-	--with-ssl \
+	--with-openssl \
 	--disable-ldap{,s} \
 	--without-brotli \
 	--without-libidn2 \
