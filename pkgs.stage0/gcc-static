@@ -4,6 +4,8 @@ mpc_ver=1.2.1
 mpfr_ver=4.1.0
 isl_ver=0.24
 
+workdir=gcc-11-20220429
+
 [srcs]
 https://gcc.gnu.org/pub/gcc/snapshots/11-20220429/gcc-11-20220429.tar.xz
 https://ftp.gnu.org/gnu/gmp/gmp-%gmp_ver.tar.xz

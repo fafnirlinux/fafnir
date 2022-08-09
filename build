@@ -73,11 +73,24 @@ build_stage0() {
 		fi
 	}
 
+	target=x86_64-linux-musl
+
+	if test ! -L cross-tools/${target}/usr
+	then
+		ln -sf . cross-tools/${target}/usr
+	fi
+
+	if test ! -L cross-tools/lib
+	then
+		ln -sf lib64 cross-tools/lib
+	fi
+
 	emerge binutils
 	emerge linux-headers
 	emerge gcc-static
 	emerge musl
 	emerge gcc-final
+	#emerge pkgconf
 
 	return
 
@@ -140,7 +153,7 @@ build_stage1() {
 
 	if (( $(cat -n built.stage0 | wc -l ) != $(ls pkgs.stage0 | wc -l) )); then
 		echo "build stage0 correctly."
-		return 1
+		#return 1
 	fi
 
 	[[ ! -f built.stage1 ]] && touch built.stage1
@@ -154,6 +167,14 @@ build_stage1() {
 			exit 1
 		fi
 	}
+
+	emerge libz
+	emerge libressl
+	emerge certs
+	emerge curl
+	#emerge busybox
+
+	return
 
 	emerge m4
 	emerge ncurses

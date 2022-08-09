@@ -2,23 +2,30 @@
 
 umask 0022
 unalias -a
-set -e
+#set -e
 
 pushd() { command pushd "$1" > /dev/null; }
 popd() { command popd "$1" > /dev/null; }
 
-export PATH=%tools/bin:/bin:/usr/bin
+export PATH=%cross-tools/bin:$PATH
 
 export XARCH=x86-64
 export LARCH=x86_64
 export MARCH=$LARCH
-export GCCARGS="--with-arch=$XARCH --with-tune=generic"
-export XTARGET=$LARCH-pc-linux-musl
+
 export XHOST=$(gcc -dumpmachine)
+export XTARGET=$LARCH-linux-musl
+
+host=$XHOST
+target=$XTARGET
+
+libSuffix=64
 
 export CROSS_COMPILE=$XTARGET-
 export CC=$XTARGET-gcc
 export CXX=$XTARGET-g++
+#export CC="$XTARGET-gcc -static --static"
+#export CXX="$XTARGET-g++ -static --static"
 export AR=$XTARGET-ar
 export AS=$XTARGET-as
 export RANLIB=$XTARGET-ranlib
@@ -30,9 +37,9 @@ export OBJDUMP=$XTARGET-objdump
 export SIZE=$XTARGET-size
 
 export PKG_CONFIG=$XTARGET-pkgconf
-#export PKG_CONFIG_LIBDIR="%rootfs/usr/lib/pkgconfig:%rootfs/usr/share/pkgconfig"
+export PKG_CONFIG_LIBDIR="%rootfs/usr/lib/pkgconfig:%rootfs/usr/share/pkgconfig"
 export PKG_CONFIG_PATH="%rootfs/usr/lib/pkgconfig:%rootfs/usr/share/pkgconfig"
-#export PKG_CONFIG_SYSROOT_DIR="%rootfs"
+export PKG_CONFIG_SYSROOT_DIR="%rootfs"
 export PKG_CONFIG_SYSTEM_INCLUDE_PATH="%rootfs/usr/include"
 export PKG_CONFIG_SYSTEM_LIBRARY_PATH="%rootfs/usr/lib"
 

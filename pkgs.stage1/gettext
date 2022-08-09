@@ -1,8 +1,0 @@
-ver=0.3.2
-
-[srcs]
-https://ftp.barfooze.de/pub/sabotage/tarballs/%name-tiny-%ver.tar.xz
-
-[build]
-make LIBINTL=MUSL DESTDIR=%rootfs prefix=%prefix
-cp autopoint msgfmt msgmerge xgettext %rootfs/usr/bin

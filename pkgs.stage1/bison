@@ -1,8 +1,0 @@
-ver=3.8.2
-
-[srcs]
-https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
-
-[build]
-%conf --host=$XTARGET
-%make && make DESTDIR=%rootfs install

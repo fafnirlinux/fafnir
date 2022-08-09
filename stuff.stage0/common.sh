@@ -38,6 +38,7 @@ inst() {
 apply_patch() {
     echo "applying patch $(basename $1)"
     patch -p1 < $1
+    return 0
 }
 
 apply_patches() {
