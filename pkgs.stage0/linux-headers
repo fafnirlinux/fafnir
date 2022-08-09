@@ -1,8 +1,7 @@
 ver=5.16.20
-workdir=linux-%ver
 
 [srcs]
-https://linux-libre.fsfla.org/pub/linux-libre/releases/5.16.20-gnu/linux-libre-5.16.20-gnu.tar.lz
+https://linux-libre.fsfla.org/pub/linux-libre/releases/5.16.20-gnu/linux-libre-5.16.20-gnu.tar.lz::linux-%ver
 
 [build]
 make mrproper
