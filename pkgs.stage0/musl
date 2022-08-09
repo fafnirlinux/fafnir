@@ -1,26 +1,22 @@
 ver=1.2.3
 
 [srcs]
-https://www.musl-libc.org/releases/musl-%ver.tar.gz
+https://musl.libc.org/releases/musl-%ver.tar.gz
 
 [build]
-ARCH=$LARCH \
-CC=${XTARGET}-gcc \
-CROSS_COMPILE=${XTARGET}- \
-LIBCC="%tools/lib/gcc/$XTARGET/12.1.0/libgcc.a" \
-%conf \
-	--host=$XTARGET
+./configure CC="${target}-gcc" CROSS_COMPILE="${target}-" \
+	--prefix= \
+	--syslibdir=/lib \
+	--enable-optimize \
+	--enable-debug
 
-%make \
-	AR=${XTARGET}-ar \
-	RANLIB=${XTARGET}-ranlib
+%make
+%make DESTDIR=%cross-tools/$target install
 
-%make \
-	AR=${XTARGET}-ar \
-	RANLIB=${XTARGET}-ranlib \
-	DESTDIR=%rootfs \
-	install
+${target}-gcc \
+	-c %stuff/gcc/__stack_chk_fail_local.c \
+	-o __stack_chk_fail_local.o
 
-printf "%rootfs/lib" >> %tools/etc/ld-musl-$LARCH.path
-
-ln -sf %rootfs/usr/lib/libc.so ld-musl-$LARCH.so.1
+${target}-ar rc libssp_nonshared.a __stack_chk_fail_local.o
+${target}-ranlib libssp_nonshared.a
+cp -p libssp_nonshared.a %cross-tools/$target/lib

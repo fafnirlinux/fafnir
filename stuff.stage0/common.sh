@@ -2,19 +2,30 @@
 
 umask 0022
 unalias -a
-set -e
+#set -e
 
 pushd() { command pushd "$1" > /dev/null; }
 popd() { command popd "$1" > /dev/null; }
 
-export PATH=%tools/bin:/bin:/usr/bin
+export PATH=%cross-tools/bin:$PATH
 
 export XARCH=x86-64
 export LARCH=x86_64
 export MARCH=$LARCH
-export GCCARGS="--with-arch=$XARCH --with-tune=generic"
-export XTARGET=$LARCH-pc-linux-musl
+
 export XHOST=$(gcc -dumpmachine)
+export XTARGET=$LARCH-linux-musl
+
+host=$XHOST
+target=$XTARGET
+
+libSuffix=64
+
+multilib_options="--with-multilib-list=m64"
+gcc_options="--with-arch=$XARCH --with-tune=generic"
+
+export CFLAGS="-O2"
+export CXXFLAGS=$CFLAGS
 
 inst() {
     local action=$@

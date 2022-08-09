@@ -1,0 +1,72 @@
+ver=11-20220429
+gmp_ver=6.2.1
+mpc_ver=1.2.1
+mpfr_ver=4.1.0
+isl_ver=0.24
+
+[srcs]
+https://gcc.gnu.org/pub/gcc/snapshots/11-20220429/gcc-11-20220429.tar.xz
+https://ftp.gnu.org/gnu/gmp/gmp-%gmp_ver.tar.xz
+https://ftp.gnu.org/gnu/mpc/mpc-%mpc_ver.tar.gz
+https://www.mpfr.org/mpfr-%mpfr_ver/mpfr-%mpfr_ver.tar.xz
+https://libisl.sourceforge.io/isl-%isl_ver.tar.bz2
+
+[build]
+mv ../gmp* gmp
+mv ../mpc* mpc
+mv ../mpfr* mpfr
+mv ../isl* isl
+
+(
+	cd mpfr || exit 1
+
+	apply_patches %stuff/mpfr/patches
+)
+
+cp -f %stuff/config.guess gmp/configfsf.guess
+cp -f %stuff/config.sub gmp/config.sub
+
+cp -f %stuff/config.guess isl/config.guess
+cp -f %stuff/config.sub isl/config.sub
+
+apply_patches %stuff/gcc/patches/11
+apply_patch %stuff/gcc/0008-Disable-ssp-on-nostdlib-nodefaultlibs-and-ffreestand.patch
+
+mkdir build && cd build
+
+../configure \
+	--prefix=%cross-tools \
+	--libdir=%cross-tools/lib${libSuffix} \
+	--with-sysroot=%cross-tools/$target \
+	--build=$host \
+	--host=$host \
+	--target=$target \
+	--enable-languages=c,c++ \
+	--enable-clocale=generic \
+	--enable-initfini-array \
+	--enable-tls \
+	--enable-libstdcxx-time \
+	--enable-checking=release \
+	--enable-fully-dynamic-string \
+	--enable-libssp \
+	--disable-symvers \
+	--disable-gnu-indirect-function \
+	--disable-libsanitizer \
+	--disable-libmpx \
+	--disable-nls \
+	$multilib_options \
+	$gcc_options
+
+%make all \
+	AS_FOR_TARGET=${target}-as \
+	LD_FOR_TARGET=${target}-ld
+
+%make install
+
+${target}-gcc \
+	-c %stuff/gcc/__stack_chk_fail_local.c \
+	-o __stack_chk_fail_local.o
+
+${target}-ar rc libssp_nonshared.a __stack_chk_fail_local.o
+${target}-ranlib libssp_nonshared.a
+cp -p libssp_nonshared.a %cross-tools/$target/lib

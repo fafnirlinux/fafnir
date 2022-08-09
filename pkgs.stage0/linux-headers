@@ -1,19 +1,12 @@
-ver=5.17.7
+ver=5.16.20
 
 [srcs]
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-%ver.tar.xz
+https://linux-libre.fsfla.org/pub/linux-libre/releases/5.16.20-gnu/linux-libre-5.16.20-gnu.tar.lz
 
 [build]
-mkdir %src/linux
-
-make \
-	ARCH=$LARCH \
-	mrproper
-
-mkdir -p %rootfs/usr
-
-make \
-	O=%src/linux \
-	ARCH=$LARCH \
-	INSTALL_HDR_PATH=%rootfs/usr \
-	headers_install
+make mrproper
+make headers ARCH=$LARCH
+mkdir -p -- %cross-tools/$target/include
+cp -Rp usr/include/* %cross-tools/$target/include
+find %cross-tools/$target/include -name '.*' -exec rm -rf {} +
+rm -f %cross-tools/$target/include/Makefile

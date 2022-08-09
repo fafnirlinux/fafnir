@@ -7,19 +7,18 @@ https://ftp.gnu.org/gnu/%name/%name-%ver.tar.xz
 mkdir build && cd build
 
 ../configure \
-	--prefix=%tools \
-	--with-sysroot=%rootfs \
-	--target=$XTARGET \
+	--prefix=%cross-tools \
+	--libdir=%cross-tools/lib${libSuffix} \
+	--with-sysroot=%cross-tools/$target \
+	--host=$host \
+	--target=$target \
+	--enable-deterministic-archives \
+	--enable-separate-code \
+	--disable-compressed-debug-sections \
+	--disable-generate-build-notes \
+	--disable-werror \
 	--disable-nls \
-	--disable-multilib \
-	--disable-werror
+	--disable-ppl-version-check \
+	--disable-cloog-version-check
 
-%make \
-	all-binutils \
-	all-gas \
-	all-ld
-
-make \
-	install-strip-binutils \
-	install-strip-gas \
-	install-strip-ld
+%make && make install

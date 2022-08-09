@@ -1,0 +1,22 @@
+#! /bin/sh -
+#
+# Script borrowed from Fedora, slightly adapted
+# for Dragora GNU/Linux-Libre.
+#
+default_flag="-std=c89"
+
+for option in "$@"
+do
+    case $option in
+    -ansi | -std=c89 | -std=iso9899:1990 )
+        default_flag=""
+        ;;
+    -std=*)
+        echo "`basename -- "$0"` called with non ANSI/ISO C option $option" 1>&2
+        exit 1
+        ;;
+    esac
+done
+
+exec gcc $default_flag ${1+"$@"}
+

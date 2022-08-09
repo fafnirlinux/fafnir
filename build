@@ -59,7 +59,7 @@ clone_repo() {
 }
 
 build_stage0() {
-	mkdir -p tools rootfs
+	mkdir -p cross-tools tools rootfs
 
 	[[ ! -f built.stage0 ]] && touch built.stage0
 
@@ -72,6 +72,14 @@ build_stage0() {
 			exit 1
 		fi
 	}
+
+	emerge binutils
+	emerge linux-headers
+	emerge gcc-static
+	emerge musl
+	emerge gcc-final
+
+	return
 
 	emerge musl-headers
 	emerge binutils

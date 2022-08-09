@@ -1,0 +1,10 @@
+--- gcc-9-20190720/gcc/gcc.c.orig	2019-08-18 22:39:28.072718205 -0300
++++ gcc-9-20190720/gcc/gcc.c	2019-08-18 22:44:44.951554115 -0300
+@@ -1042,6 +1042,7 @@
+    "%{flto|flto=*:%<fcompare-debug*} \
+     %{flto} %{fno-lto} %{flto=*} %l " LINK_PIE_SPEC \
+    "%{fuse-ld=*:-fuse-ld=%*} " LINK_COMPRESS_DEBUG_SPEC \
++   "-z relro -z now " \
+    "%X %{o*} %{e*} %{N} %{n} %{r}\
+     %{s} %{t} %{u*} %{z} %{Z} %{!nostdlib:%{!r:%{!nostartfiles:%S}}} \
+     %{static|no-pie|static-pie:} %@{L*} %(mfwrap) %(link_libgcc) " \
