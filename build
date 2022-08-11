@@ -168,6 +168,11 @@ build_stage1() {
 		fi
 	}
 
+	emerge openssl
+	emerge curl
+
+	return
+
 	emerge libz
 	emerge libressl
 	emerge certs
